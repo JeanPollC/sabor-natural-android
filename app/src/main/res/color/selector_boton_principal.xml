@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fondo del botón principal: verde bosque habilitado, gris cuando está deshabilitado -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/gris_suave" android:state_enabled="false" />
+    <item android:color="@color/verde_bosque" />
+</selector>

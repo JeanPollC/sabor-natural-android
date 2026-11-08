@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tema de la aplicación, basado en Material Design 3 (documento técnico, sección 5.1).
+    Se reemplazan los colores, las formas, la tipografía y el estilo por defecto de cada
+    componente, de modo que ninguna pantalla use la apariencia que trae Android Studio.
+-->
+<resources>
+
+    <style name="Theme.SaborNatural" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Roles de color de Material 3 mapeados a la paleta de la marca -->
+        <item name="colorPrimary">@color/verde_bosque</item>
+        <item name="colorOnPrimary">@color/blanco</item>
+        <item name="colorPrimaryContainer">@color/verde_claro</item>
+        <item name="colorOnPrimaryContainer">@color/verde_bosque_oscuro</item>
+        <item name="colorSecondary">@color/lima</item>
+        <item name="colorOnSecondary">@color/blanco</item>
+        <item name="colorSecondaryContainer">@color/verde_claro</item>
+        <item name="colorOnSecondaryContainer">@color/verde_bosque</item>
+        <item name="colorTertiary">@color/dorado_tierra</item>
+        <item name="colorOnTertiary">@color/blanco</item>
+        <item name="colorTertiaryContainer">@color/dorado_claro</item>
+        <item name="colorError">@color/rojo</item>
+        <item name="colorOnError">@color/blanco</item>
+        <item name="colorErrorContainer">@color/rojo_claro</item>
+        <item name="android:colorBackground">@color/fondo_pantalla</item>
+        <item name="colorOnBackground">@color/texto_principal</item>
+        <item name="colorSurface">@color/superficie</item>
+        <item name="colorOnSurface">@color/texto_principal</item>
+        <item name="colorOnSurfaceVariant">@color/texto_secundario</item>
+        <item name="colorOutline">@color/borde</item>
+        <item name="colorOutlineVariant">@color/borde</item>
+        <item name="colorSurfaceContainerLowest">@color/blanco</item>
+        <item name="colorSurfaceContainerLow">@color/blanco</item>
+        <item name="colorSurfaceContainer">@color/crema</item>
+        <item name="colorSurfaceContainerHigh">@color/crema_oscuro</item>
+        <item name="colorSurfaceContainerHighest">@color/crema_oscuro</item>
+
+        <!-- Ventana -->
+        <item name="android:windowBackground">@color/fondo_pantalla</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Formas: esquinas redondeadas propias en lugar de las de Material -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SaborNatural.Pequena</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SaborNatural.Mediana</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SaborNatural.Grande</item>
+        <item name="shapeAppearanceCornerSmall">@style/ShapeAppearance.SaborNatural.Pequena</item>
+        <item name="shapeAppearanceCornerMedium">@style/ShapeAppearance.SaborNatural.Mediana</item>
+        <item name="shapeAppearanceCornerLarge">@style/ShapeAppearance.SaborNatural.Grande</item>
+
+        <!-- Tipografía -->
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.SaborNatural.Titulo</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.SaborNatural.Titulo</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.SaborNatural.Subtitulo</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.SaborNatural.Cuerpo</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.SaborNatural.Secundario</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.SaborNatural.Boton</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.SaborNatural.Etiqueta</item>
+
+        <!-- Estilo por defecto de cada componente -->
+        <item name="materialButtonStyle">@style/Widget.SaborNatural.Boton</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.SaborNatural.Boton.Contorno</item>
+        <item name="borderlessButtonStyle">@style/Widget.SaborNatural.Boton.Texto</item>
+        <item name="textInputStyle">@style/Widget.SaborNatural.Campo</item>
+        <item name="materialCardViewStyle">@style/Widget.SaborNatural.Tarjeta</item>
+        <item name="chipStyle">@style/Widget.SaborNatural.Ficha</item>
+        <item name="bottomNavigationStyle">@style/Widget.SaborNatural.BarraInferior</item>
+        <item name="toolbarStyle">@style/Widget.SaborNatural.BarraSuperior</item>
+        <item name="floatingActionButtonStyle">@style/Widget.SaborNatural.BotonFlotante</item>
+        <item name="extendedFloatingActionButtonStyle">@style/Widget.SaborNatural.BotonFlotanteExtendido</item>
+        <item name="materialSwitchStyle">@style/Widget.SaborNatural.Interruptor</item>
+    </style>
+
+    <!--
+        Tema de la pantalla de bienvenida del sistema (API SplashScreen de AndroidX).
+        Se muestra mientras arranca el proceso y luego cede el paso a Theme.SaborNatural.
+    -->
+    <style name="Theme.SaborNatural.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/verde_bosque</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.SaborNatural</item>
+    </style>
+
+</resources>

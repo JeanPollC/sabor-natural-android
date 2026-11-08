@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Superficie blanca con borde fino y esquinas de 20 dp, para bloques que no son MaterialCardView. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/superficie" />
+    <stroke
+        android:width="@dimen/borde_fino"
+        android:color="@color/borde" />
+    <corners android:radius="@dimen/radio_l" />
+</shape>

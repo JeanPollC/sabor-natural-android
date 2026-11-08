@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Paleta de Sabor Natural (documento técnico, Tabla 17).
+    Primero los tonos de marca; después los colores semánticos que usan los layouts.
+    Los layouts nunca usan un código hexadecimal directo: siempre un color de este archivo.
+-->
+<resources>
+    <!-- Tonos de marca -->
+    <color name="verde_bosque">#1F4D2E</color>
+    <color name="verde_bosque_oscuro">#143620</color>
+    <color name="verde_hoja">#2F6B41</color>
+    <color name="verde_claro">#DCEBD9</color>
+    <color name="lima">#7CB342</color>
+    <color name="lima_claro">#EDF5E1</color>
+    <color name="dorado_tierra">#C9A24B</color>
+    <color name="dorado_claro">#F6EDD6</color>
+    <color name="crema">#F7F5EF</color>
+    <color name="crema_oscuro">#EFEBE0</color>
+    <color name="blanco">#FFFFFF</color>
+    <color name="rojo">#C62828</color>
+    <color name="rojo_claro">#FBE9E7</color>
+    <color name="ambar">#E8A33D</color>
+    <color name="ambar_oscuro">#9A6512</color>
+    <color name="ambar_claro">#FFF3DF</color>
+    <color name="gris_carbon">#2A2A2A</color>
+    <color name="gris_medio">#6B6B66</color>
+    <color name="gris_suave">#A3A39B</color>
+    <color name="gris_borde">#E2DED3</color>
+
+    <!-- Colores semánticos -->
+    <color name="fondo_pantalla">@color/crema</color>
+    <color name="superficie">@color/blanco</color>
+    <color name="texto_principal">@color/gris_carbon</color>
+    <color name="texto_secundario">@color/gris_medio</color>
+    <color name="texto_sobre_marca">@color/blanco</color>
+    <color name="borde">@color/gris_borde</color>
+    <color name="calificacion">@color/dorado_tierra</color>
+
+    <!-- Estados (etiquetas de pedidos, productos y cuentas) -->
+    <color name="estado_exito_fondo">@color/lima_claro</color>
+    <color name="estado_exito_texto">@color/verde_hoja</color>
+    <color name="estado_pendiente_fondo">@color/ambar_claro</color>
+    <color name="estado_pendiente_texto">@color/ambar_oscuro</color>
+    <color name="estado_error_fondo">@color/rojo_claro</color>
+    <color name="estado_error_texto">@color/rojo</color>
+    <color name="estado_info_fondo">@color/verde_claro</color>
+    <color name="estado_info_texto">@color/verde_bosque</color>
+
+    <!-- Ícono de la aplicación -->
+    <color name="ic_launcher_fondo">@color/verde_bosque</color>
+</resources>

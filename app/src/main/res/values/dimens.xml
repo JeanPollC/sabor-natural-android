@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Medidas de la interfaz. dp para dimensiones y sp para texto, como indica Android
+    (el tamaño en sp respeta la escala de fuente que el usuario elige en su teléfono).
+-->
+<resources>
+    <!-- Espaciado (escala de 4 dp) -->
+    <dimen name="espacio_xxs">2dp</dimen>
+    <dimen name="espacio_xs">4dp</dimen>
+    <dimen name="espacio_s">8dp</dimen>
+    <dimen name="espacio_m">12dp</dimen>
+    <dimen name="espacio_l">16dp</dimen>
+    <dimen name="espacio_xl">24dp</dimen>
+    <dimen name="espacio_xxl">32dp</dimen>
+    <dimen name="margen_pantalla">20dp</dimen>
+
+    <!-- Radios de las esquinas -->
+    <dimen name="radio_s">8dp</dimen>
+    <dimen name="radio_m">14dp</dimen>
+    <dimen name="radio_l">20dp</dimen>
+    <dimen name="radio_xl">28dp</dimen>
+
+    <!-- Componentes -->
+    <dimen name="alto_boton">52dp</dimen>
+    <dimen name="alto_campo_busqueda">48dp</dimen>
+    <dimen name="tamano_icono">24dp</dimen>
+    <dimen name="tamano_icono_grande">40dp</dimen>
+    <dimen name="tamano_avatar">64dp</dimen>
+    <dimen name="tamano_logo">96dp</dimen>
+    <dimen name="elevacion_tarjeta">1dp</dimen>
+    <dimen name="borde_fino">1dp</dimen>
+    <dimen name="alto_encabezado">168dp</dimen>
+
+    <!-- Tipografía (Roboto, la fuente del sistema): títulos 20-22, cuerpo 14-16, etiquetas 11-12 -->
+    <dimen name="texto_marca">30sp</dimen>
+    <dimen name="texto_titulo">22sp</dimen>
+    <dimen name="texto_subtitulo">18sp</dimen>
+    <dimen name="texto_cuerpo">15sp</dimen>
+    <dimen name="texto_secundario">14sp</dimen>
+    <dimen name="texto_etiqueta">12sp</dimen>
+    <dimen name="texto_mini">11sp</dimen>
+</resources>

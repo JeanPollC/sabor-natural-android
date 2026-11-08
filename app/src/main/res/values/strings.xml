@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Todos los textos visibles de la aplicación. Ningún layout ni clase escribe un texto fijo. -->
+<resources>
+    <string name="app_name">Sabor Natural</string>
+    <string name="eslogan">Natural y vegano, directo del productor</string>
+    <string name="descripcion_logo">Logotipo de Sabor Natural</string>
+
+    <!-- Comunes -->
+    <string name="accion_continuar">Continuar</string>
+    <string name="accion_cancelar">Cancelar</string>
+    <string name="accion_guardar">Guardar</string>
+    <string name="accion_eliminar">Eliminar</string>
+    <string name="accion_buscar">Buscar productos</string>
+    <string name="accion_agregar_carrito">Agregar al carrito</string>
+
+    <!-- Barra de navegación inferior -->
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_catalogo">Catálogo</string>
+    <string name="nav_carrito">Carrito</string>
+    <string name="nav_perfil">Perfil</string>
+
+    <!-- Fichas de categoría -->
+    <string name="categoria_todos">Todos</string>
+    <string name="categoria_bebidas">Bebidas</string>
+    <string name="categoria_panaderia">Panadería</string>
+    <string name="categoria_semillas">Semillas</string>
+
+    <!-- Guía de estilos (pantalla de referencia de la fase 1) -->
+    <string name="guia_titulo">Guía de estilos</string>
+    <string name="guia_subtitulo">Colores, tipografía y componentes de Sabor Natural</string>
+    <string name="guia_seccion_colores">Paleta de color</string>
+    <string name="guia_seccion_botones">Botones</string>
+    <string name="guia_seccion_campos">Campos de texto</string>
+    <string name="guia_seccion_estados">Etiquetas de estado</string>
+    <string name="guia_seccion_tarjeta">Tarjeta de producto</string>
+    <string name="guia_boton_primario">Acción principal</string>
+    <string name="guia_boton_secundario">Acción secundaria</string>
+    <string name="guia_boton_texto">Acción de texto</string>
+    <string name="guia_boton_peligro">Eliminar</string>
+    <string name="guia_campo_correo">Correo electrónico</string>
+    <string name="guia_campo_correo_ayuda">Ejemplo: nombre@correo.com</string>
+    <string name="guia_campo_clave">Contraseña</string>
+    <string name="guia_estado_publicado">Publicado</string>
+    <string name="guia_estado_revision">En revisión</string>
+    <string name="guia_estado_rechazado">Rechazado</string>
+    <string name="guia_estado_nuevo">Nuevo</string>
+    <string name="guia_producto_nombre">Bebida de almendras 1 L</string>
+    <string name="guia_producto_vendedor">Huerta La Montaña</string>
+    <string name="guia_producto_precio">$ 14.900</string>
+    <string name="guia_producto_calificacion">4,8</string>
+    <string name="guia_color_principal">Verde bosque</string>
+    <string name="guia_color_claro">Verde claro</string>
+    <string name="guia_color_lima">Lima</string>
+    <string name="guia_color_dorado">Dorado</string>
+    <string name="guia_color_crema">Crema</string>
+    <string name="guia_color_rojo">Rojo</string>
+    <string name="guia_color_ambar">Ámbar</string>
+    <string name="guia_color_carbon">Carbón</string>
+</resources>
