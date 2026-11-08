@@ -1,6 +1,7 @@
 package com.sabornatural.tienda.ui.estilos
 
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.widget.GridLayout
 import androidx.activity.SystemBarStyle
@@ -58,7 +59,15 @@ class GuiaEstilosActivity : AppCompatActivity() {
     private fun llenarPaleta() {
         paleta.forEach { muestra ->
             val item = ItemMuestraColorBinding.inflate(layoutInflater, binding.grillaPaleta, false)
-            item.muestra.backgroundTintList = ContextCompat.getColorStateList(this, muestra.color)
+            // Relleno del color y borde gris: así los tonos claros (crema) se distinguen del fondo
+            item.muestra.background = GradientDrawable().apply {
+                cornerRadius = resources.getDimension(R.dimen.radio_m)
+                setColor(ContextCompat.getColor(this@GuiaEstilosActivity, muestra.color))
+                setStroke(
+                    resources.getDimensionPixelSize(R.dimen.borde_fino),
+                    ContextCompat.getColor(this@GuiaEstilosActivity, R.color.borde),
+                )
+            }
             item.nombre.setText(muestra.nombre)
 
             // Cada celda ocupa una columna con el mismo peso, para repartir el ancho por igual

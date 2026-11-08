@@ -35,6 +35,12 @@
         <item name="colorSurfaceContainerHigh">@color/crema_oscuro</item>
         <item name="colorSurfaceContainerHighest">@color/crema_oscuro</item>
 
+        <!--
+            Material 3 tiñe de color primario las superficies con elevación (tarjetas, barra inferior).
+            Se desactiva para que las superficies se vean blancas, como en los mockups.
+        -->
+        <item name="elevationOverlayEnabled">false</item>
+
         <!-- Ventana -->
         <item name="android:windowBackground">@color/fondo_pantalla</item>
         <item name="android:windowLightStatusBar">false</item>

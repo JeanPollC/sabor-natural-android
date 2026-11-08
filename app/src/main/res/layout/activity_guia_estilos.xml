@@ -23,7 +23,7 @@
         android:paddingStart="@dimen/margen_pantalla"
         android:paddingTop="@dimen/espacio_xl"
         android:paddingEnd="@dimen/margen_pantalla"
-        android:paddingBottom="@dimen/espacio_xl">
+        android:paddingBottom="@dimen/espacio_xxl">
 
         <ImageView
             android:id="@+id/logo"
@@ -69,7 +69,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/espacio_xl">
+        android:paddingBottom="@dimen/espacio_xxl">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -305,13 +305,13 @@
                         app:layout_constraintBottom_toBottomOf="@id/fotoProducto"
                         app:layout_constraintStart_toStartOf="@id/nombreProducto" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/agregarProducto"
+                        style="@style/Widget.SaborNatural.BotonIcono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/accion_agregar_carrito"
-                        android:src="@drawable/ic_agregar"
-                        app:fabSize="mini"
+                        app:icon="@drawable/ic_agregar"
                         app:layout_constraintBottom_toBottomOf="@id/fotoProducto"
                         app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
