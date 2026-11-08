@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Lector de huella para el ingreso biométrico (RF-AUT-05) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -9,12 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SaborNatural">
 
-        <!--
-            Fase 1: la guía de estilos es la pantalla de arranque provisional.
-            En la fase 2 el intent-filter MAIN/LAUNCHER pasa a la SplashActivity.
-        -->
+        <!-- Punto de entrada: el splash decide a dónde ir según la sesión guardada -->
         <activity
-            android:name=".ui.estilos.GuiaEstilosActivity"
+            android:name=".ui.inicio.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.SaborNatural.Splash">
             <intent-filter>
@@ -22,6 +22,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Pantallas comunes y de autenticación (no se pueden abrir desde otras apps) -->
+        <activity
+            android:name=".ui.inicio.BienvenidaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.IngresoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.auth.RecuperarClaveActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.auth.RegistroActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Paneles por rol -->
+        <activity
+            android:name=".ui.panel.PanelProvisionalActivity"
+            android:exported="false" />
+
+        <!-- Herramienta de desarrollo: guía de estilos (mantener presionado el logo en la bienvenida) -->
+        <activity
+            android:name=".ui.estilos.GuiaEstilosActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

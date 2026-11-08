@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Recuperación de la contraseña (RF-AUT-06). Dos estados en la misma pantalla:
+      - formulario: el usuario escribe su correo;
+      - confirmación: se informa que se envió el enlace.
+    La respuesta es la misma exista o no la cuenta, para no revelar qué correos están registrados.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.auth.RecuperarClaveActivity">
+
+    <include
+        android:id="@+id/encabezado"
+        layout="@layout/include_encabezado_formulario" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/espacio_l">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margen_pantalla"
+            android:paddingTop="@dimen/espacio_xl"
+            android:paddingEnd="@dimen/margen_pantalla">
+
+            <!-- Estado 1: formulario -->
+            <LinearLayout
+                android:id="@+id/formulario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/ingreso_correo"
+                    app:startIconDrawable="@drawable/ic_correo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="emailAddress"
+                        android:imeOptions="actionDone"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonEnviar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xl"
+                    android:text="@string/recuperar_boton"
+                    app:icon="@drawable/ic_correo" />
+            </LinearLayout>
+
+            <!-- Estado 2: confirmación (oculto hasta enviar) -->
+            <LinearLayout
+                android:id="@+id/confirmacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:background="@drawable/bg_circulo_suave">
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_check_circulo"
+                        app:tint="@color/verde_bosque" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_l"
+                    android:text="@string/recuperar_enviado_titulo"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Titulo" />
+
+                <TextView
+                    android:id="@+id/textoConfirmacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    tools:text="@string/recuperar_enviado_texto" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonVolverIngreso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xl"
+                    android:text="@string/recuperar_volver" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonReenviar"
+                    style="@style/Widget.SaborNatural.Boton.Texto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xs"
+                    android:text="@string/recuperar_reenviar" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

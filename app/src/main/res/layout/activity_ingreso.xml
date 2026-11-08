@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Ingreso (mockups C-02 y C-03): correo y contraseña, recuperación de la contraseña e
+    ingreso con huella (RF-AUT-03, RF-AUT-05, RF-AUT-06).
+    LinearLayout vertical: encabezado fijo arriba y formulario desplazable debajo.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.auth.IngresoActivity">
+
+    <include
+        android:id="@+id/encabezado"
+        layout="@layout/include_encabezado_formulario" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/espacio_l">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margen_pantalla"
+            android:paddingTop="@dimen/espacio_xl"
+            android:paddingEnd="@dimen/margen_pantalla">
+
+            <!-- Aviso de error general (credenciales, bloqueo, cuenta pendiente) -->
+            <TextView
+                android:id="@+id/aviso"
+                style="@style/Widget.SaborNatural.Aviso.Error"
+                android:layout_marginBottom="@dimen/espacio_l"
+                android:visibility="gone"
+                tools:text="@string/ingreso_error_credenciales"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ingreso_correo"
+                app:startIconDrawable="@drawable/ic_correo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="emailAddress"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:hint="@string/ingreso_clave"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/ic_candado">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textoClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonOlvideClave"
+                style="@style/Widget.SaborNatural.Boton.Texto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/ingreso_olvide_clave" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonIngresar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_s"
+                android:text="@string/ingreso_boton" />
+
+            <!-- Separador "o": dos líneas con el texto en medio -->
+            <LinearLayout
+                android:id="@+id/separador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_l"
+                android:layout_marginBottom="@dimen/espacio_l"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/borde_fino"
+                    android:layout_weight="1"
+                    android:background="@color/borde" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/espacio_m"
+                    android:paddingEnd="@dimen/espacio_m"
+                    android:text="@string/ingreso_separador"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/borde_fino"
+                    android:layout_weight="1"
+                    android:background="@color/borde" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonHuella"
+                style="@style/Widget.SaborNatural.Boton.Contorno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ingreso_con_huella"
+                app:icon="@drawable/ic_huella"
+                app:iconGravity="textStart" />
+
+            <!-- Empuja el enlace de registro al final cuando sobra espacio -->
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/espacio_xl" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ingreso_sin_cuenta"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonCrearCuenta"
+                    style="@style/Widget.SaborNatural.Boton.Texto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ingreso_crear_cuenta" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

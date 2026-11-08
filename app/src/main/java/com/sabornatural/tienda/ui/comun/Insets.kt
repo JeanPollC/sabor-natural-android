@@ -19,12 +19,37 @@ fun View.rellenarBarraDeEstado() {
     }
 }
 
-/** Igual que [rellenarBarraDeEstado], pero para la barra de navegación del sistema (abajo). */
+/** Da a la vista exactamente el alto de la barra de estado (franja de color fija detrás de ella). */
+fun View.igualarAltoBarraDeEstado() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { vista, insets ->
+        vista.layoutParams = vista.layoutParams.apply {
+            height = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+        }
+        insets
+    }
+}
+
+/** Combina las dos anteriores para pantallas de fondo completo (splash, bienvenida). */
+fun View.rellenarBarrasDelSistema() {
+    val arribaOriginal = paddingTop
+    val abajoOriginal = paddingBottom
+    ViewCompat.setOnApplyWindowInsetsListener(this) { vista, insets ->
+        val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        vista.updatePadding(top = arribaOriginal + barras.top, bottom = abajoOriginal + barras.bottom)
+        insets
+    }
+}
+
+/**
+ * Suma al relleno inferior la barra de navegación del sistema o, si está abierto, el teclado
+ * (el mayor de los dos). Así los botones del final de un formulario nunca quedan tapados.
+ */
 fun View.rellenarBarraDeNavegacion() {
     val rellenoOriginal = paddingBottom
     ViewCompat.setOnApplyWindowInsetsListener(this) { vista, insets ->
         val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-        vista.updatePadding(bottom = rellenoOriginal + barras.bottom)
+        val teclado = insets.getInsets(WindowInsetsCompat.Type.ime())
+        vista.updatePadding(bottom = rellenoOriginal + maxOf(barras.bottom, teclado.bottom))
         insets
     }
 }

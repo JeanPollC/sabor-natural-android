@@ -1,27 +1,24 @@
 package com.sabornatural.tienda.ui.estilos
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.widget.GridLayout
-import androidx.activity.SystemBarStyle
-import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.sabornatural.tienda.R
 import com.sabornatural.tienda.databinding.ActivityGuiaEstilosBinding
 import com.sabornatural.tienda.databinding.ItemMuestraColorBinding
+import com.sabornatural.tienda.ui.comun.PantallaBase
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeEstado
 
 /**
  * Pantalla de referencia del sistema de diseño (fase 1).
  * Muestra la paleta, los botones, los campos, las etiquetas y una tarjeta de producto
  * con los estilos definidos en res/values, para validarlos en el emulador.
+ * Se abre manteniendo presionado el logo de la bienvenida.
  */
-class GuiaEstilosActivity : AppCompatActivity() {
+class GuiaEstilosActivity : PantallaBase() {
 
     private lateinit var binding: ActivityGuiaEstilosBinding
 
@@ -38,16 +35,7 @@ class GuiaEstilosActivity : AppCompatActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // La pantalla de bienvenida del sistema debe instalarse antes de super.onCreate()
-        installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        // Borde a borde: barra de estado transparente con íconos claros sobre el encabezado verde
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.light(Color.WHITE, Color.WHITE),
-        )
-
         binding = ActivityGuiaEstilosBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.encabezado.rellenarBarraDeEstado()

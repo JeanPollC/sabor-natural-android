@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Encabezado verde con esquinas curvas para las pantallas de formulario (ingreso, registro,
+    recuperar contraseña). Se reutiliza con <include> y cada pantalla le pone su título.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contenedor"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_encabezado_curvo"
+    android:paddingStart="@dimen/espacio_s"
+    android:paddingTop="@dimen/espacio_s"
+    android:paddingEnd="@dimen/margen_pantalla"
+    android:paddingBottom="@dimen/espacio_xl">
+
+    <ImageButton
+        android:id="@+id/botonVolver"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/accion_volver"
+        android:src="@drawable/ic_flecha_atras"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/blanco" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/espacio_m"
+        android:layout_marginTop="@dimen/espacio_s"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_logo_marca"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/botonVolver" />
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_l"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Marca"
+        android:textColor="@color/blanco"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/logo"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        tools:text="@string/ingreso_titulo" />
+
+    <TextView
+        android:id="@+id/subtitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_xs"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+        android:textColor="@color/verde_claro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/titulo"
+        app:layout_constraintTop_toBottomOf="@id/titulo"
+        tools:text="@string/ingreso_subtitulo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

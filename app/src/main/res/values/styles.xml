@@ -120,6 +120,37 @@
         <item name="shapeAppearance">@style/ShapeAppearance.SaborNatural.Pildora</item>
     </style>
 
+    <!-- Claro: botón blanco con texto verde, para fondos verdes (bienvenida) -->
+    <style name="Widget.SaborNatural.Boton.Claro">
+        <item name="backgroundTint">@color/blanco</item>
+        <item name="android:textColor">@color/verde_bosque</item>
+        <item name="iconTint">@color/verde_bosque</item>
+    </style>
+
+    <!-- Contorno claro: borde y texto blancos, para fondos verdes -->
+    <style name="Widget.SaborNatural.Boton.ContornoClaro" parent="Widget.SaborNatural.Boton.Contorno">
+        <item name="strokeColor">@color/blanco</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="iconTint">@color/blanco</item>
+    </style>
+
+    <!-- Texto claro: enlace blanco sobre fondo verde -->
+    <style name="Widget.SaborNatural.Boton.TextoClaro" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Boton</item>
+        <item name="android:textColor">@color/verde_claro</item>
+    </style>
+
+    <!-- Opción de un grupo de selección (por ejemplo, comprador o vendedor en el registro) -->
+    <style name="Widget.SaborNatural.BotonAlternar" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/alto_boton</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Boton</item>
+        <item name="backgroundTint">@color/selector_ficha_fondo</item>
+        <item name="android:textColor">@color/selector_ficha_texto</item>
+        <item name="iconTint">@color/selector_ficha_texto</item>
+        <item name="strokeColor">@color/borde</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
     <!-- Texto: enlaces como "¿Olvidaste tu contraseña?" -->
     <style name="Widget.SaborNatural.Boton.Texto" parent="Widget.Material3.Button.TextButton">
         <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Boton</item>
@@ -248,6 +279,53 @@
     <style name="Widget.SaborNatural.Etiqueta.Info">
         <item name="android:backgroundTint">@color/estado_info_fondo</item>
         <item name="android:textColor">@color/estado_info_texto</item>
+    </style>
+
+    <!-- Aviso dentro de un formulario: bloque redondeado de color con texto -->
+    <style name="Widget.SaborNatural.Aviso" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_aviso</item>
+        <item name="android:padding">@dimen/espacio_m</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Secundario</item>
+        <item name="android:drawablePadding">@dimen/espacio_s</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Widget.SaborNatural.Aviso.Error">
+        <item name="android:backgroundTint">@color/estado_error_fondo</item>
+        <item name="android:textColor">@color/estado_error_texto</item>
+    </style>
+
+    <style name="Widget.SaborNatural.Aviso.Pendiente">
+        <item name="android:backgroundTint">@color/estado_pendiente_fondo</item>
+        <item name="android:textColor">@color/estado_pendiente_texto</item>
+    </style>
+
+    <style name="Widget.SaborNatural.Aviso.Info">
+        <item name="android:backgroundTint">@color/estado_info_fondo</item>
+        <item name="android:textColor">@color/estado_info_texto</item>
+    </style>
+
+    <!-- Casilla de verificación (autorizaciones del registro) -->
+    <style name="Widget.SaborNatural.Casilla" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Secundario</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="buttonTint">@color/selector_casilla</item>
+        <item name="android:paddingStart">@dimen/espacio_xs</item>
+    </style>
+
+    <!-- Fila de beneficio: ícono a la izquierda y texto blanco (bienvenida) -->
+    <style name="Widget.SaborNatural.Beneficio" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/espacio_m</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Cuerpo</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="drawableTint">@color/lima</item>
     </style>
 
     <!-- Título de sección dentro de una pantalla larga -->

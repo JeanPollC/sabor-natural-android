@@ -46,6 +46,10 @@
     <color name="estado_info_fondo">@color/verde_claro</color>
     <color name="estado_info_texto">@color/verde_bosque</color>
 
+    <!-- Superficies sobre el degradado verde (bienvenida) -->
+    <color name="blanco_translucido">#1AFFFFFF</color>
+    <color name="borde_translucido">#33FFFFFF</color>
+
     <!-- Ícono de la aplicación -->
     <color name="ic_launcher_fondo">@color/verde_bosque</color>
 </resources>

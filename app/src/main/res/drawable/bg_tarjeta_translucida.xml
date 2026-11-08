@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta blanca al 10 % de opacidad con borde sutil: deja ver el degradado verde detrás. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/blanco_translucido" />
+    <stroke
+        android:width="@dimen/borde_fino"
+        android:color="@color/borde_translucido" />
+    <corners android:radius="@dimen/radio_l" />
+</shape>

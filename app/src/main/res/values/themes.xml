@@ -74,6 +74,31 @@
         <item name="floatingActionButtonStyle">@style/Widget.SaborNatural.BotonFlotante</item>
         <item name="extendedFloatingActionButtonStyle">@style/Widget.SaborNatural.BotonFlotanteExtendido</item>
         <item name="materialSwitchStyle">@style/Widget.SaborNatural.Interruptor</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.SaborNatural.Dialogo</item>
+    </style>
+
+    <!-- Diálogos: superficie blanca, ícono verde y botones de texto de la marca -->
+    <style name="ThemeOverlay.SaborNatural.Dialogo" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/blanco</item>
+        <item name="colorSurfaceContainerHigh">@color/blanco</item>
+        <item name="colorSecondary">@color/verde_bosque</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.SaborNatural.Titulo</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.SaborNatural.Dialogo.BotonPrincipal</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.SaborNatural.Dialogo.BotonSecundario</item>
+    </style>
+
+    <style name="MaterialAlertDialog.SaborNatural.Titulo" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Subtitulo</item>
+    </style>
+
+    <style name="Widget.SaborNatural.Dialogo.BotonPrincipal" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/verde_bosque</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.SaborNatural.Dialogo.BotonSecundario" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/texto_secundario</item>
     </style>
 
     <!--

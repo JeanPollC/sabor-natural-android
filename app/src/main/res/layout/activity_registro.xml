@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Crear cuenta (mockup C-04, RF-AUT-01 y RF-AUT-02).
+    - Grupo de selección para elegir comprador o vendedor.
+    - Indicador de seguridad de la contraseña.
+    - Cuatro autorizaciones separadas y sin premarcar (Ley 1581 de 2012); solo promociones es opcional.
+-->
+<!-- FrameLayout: el formulario desplazable y, encima, una franja verde detrás de la barra de estado -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.auth.RegistroActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/espacio_l">
+
+        <!-- El encabezado va dentro del desplazamiento: en un formulario largo se va con el contenido -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/encabezado"
+                layout="@layout/include_encabezado_formulario" />
+
+            <LinearLayout
+                android:id="@+id/formulario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingTop="@dimen/espacio_l"
+                android:paddingEnd="@dimen/margen_pantalla">
+
+                <!-- Tipo de cuenta -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/registro_pregunta_rol"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+                    android:textSize="@dimen/texto_cuerpo" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/grupoRol"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    app:checkedButton="@id/opcionComprador"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/opcionComprador"
+                        style="@style/Widget.SaborNatural.BotonAlternar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/registro_rol_comprador"
+                        app:icon="@drawable/ic_carrito" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/opcionVendedor"
+                        style="@style/Widget.SaborNatural.BotonAlternar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/registro_rol_vendedor"
+                        app:icon="@drawable/ic_tienda" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <TextView
+                    android:id="@+id/avisoVendedor"
+                    style="@style/Widget.SaborNatural.Aviso.Pendiente"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:text="@string/registro_aviso_vendedor"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <!-- Datos personales: nombre y apellido lado a lado -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_l"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/campoNombre"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/espacio_s"
+                        android:layout_weight="1"
+                        android:hint="@string/registro_nombre">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="personGivenName"
+                            android:inputType="textPersonName|textCapWords"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/campoApellido"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/registro_apellido">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="personFamilyName"
+                            android:inputType="textPersonName|textCapWords"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:hint="@string/ingreso_correo"
+                    app:startIconDrawable="@drawable/ic_correo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="emailAddress"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoTelefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:hint="@string/registro_telefono"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="10"
+                    app:startIconDrawable="@drawable/ic_telefono">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="phoneNational"
+                        android:inputType="phone"
+                        android:maxLength="10" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xs"
+                    android:hint="@string/ingreso_clave"
+                    app:endIconMode="password_toggle"
+                    app:helperText="@string/error_clave_debil"
+                    app:startIconDrawable="@drawable/ic_candado">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textoClave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="newPassword"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Indicador de seguridad: barra de 4 niveles y etiqueta -->
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/indicadorFortaleza"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:max="4"
+                    app:trackColor="@color/crema_oscuro"
+                    app:trackStopIndicatorSize="0dp"
+                    app:trackCornerRadius="4dp"
+                    app:trackThickness="6dp" />
+
+                <TextView
+                    android:id="@+id/etiquetaFortaleza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xs"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Etiqueta"
+                    android:textColor="@color/texto_secundario"
+                    tools:text="Seguridad de la contraseña: media" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoConfirmarClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:hint="@string/registro_confirmar_clave"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_candado">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="newPassword"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Autorizaciones -->
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:layout_marginBottom="@dimen/espacio_xs"
+                    android:text="@string/registro_consentimientos"
+                    android:textSize="@dimen/texto_cuerpo" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/casillaTerminos"
+                    style="@style/Widget.SaborNatural.Casilla"
+                    android:text="@string/registro_acepto_terminos" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/casillaDatos"
+                    style="@style/Widget.SaborNatural.Casilla"
+                    android:text="@string/registro_acepto_datos" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/casillaMayorEdad"
+                    style="@style/Widget.SaborNatural.Casilla"
+                    android:text="@string/registro_mayor_edad" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/casillaPromociones"
+                    style="@style/Widget.SaborNatural.Casilla"
+                    android:text="@string/registro_acepto_promociones" />
+
+                <TextView
+                    android:id="@+id/avisoConsentimientos"
+                    style="@style/Widget.SaborNatural.Aviso.Error"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:text="@string/error_consentimientos"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonCrear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_l"
+                    android:text="@string/registro_boton" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonYaTengoCuenta"
+                    style="@style/Widget.SaborNatural.Boton.Texto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/registro_ya_tengo_cuenta" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Protege la barra de estado cuando el encabezado sale de la pantalla; su alto se fija desde Kotlin -->
+    <View
+        android:id="@+id/franjaBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/verde_bosque_oscuro" />
+</FrameLayout>

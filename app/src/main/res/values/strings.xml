@@ -12,6 +12,7 @@
     <string name="accion_eliminar">Eliminar</string>
     <string name="accion_buscar">Buscar productos</string>
     <string name="accion_agregar_carrito">Agregar al carrito</string>
+    <string name="accion_volver">Volver</string>
 
     <!-- Barra de navegación inferior -->
     <string name="nav_inicio">Inicio</string>
@@ -56,4 +57,108 @@
     <string name="guia_color_rojo">Rojo</string>
     <string name="guia_color_ambar">Ámbar</string>
     <string name="guia_color_carbon">Carbón</string>
+
+    <!-- Roles y estados de cuenta -->
+    <string name="rol_comprador">Comprador</string>
+    <string name="rol_vendedor">Vendedor</string>
+    <string name="rol_administrador">Administrador</string>
+    <string name="estado_activo">Activa</string>
+    <string name="estado_pendiente">Pendiente</string>
+    <string name="estado_suspendido">Suspendida</string>
+
+    <!-- Splash -->
+    <string name="splash_version">Versión %1$s</string>
+
+    <!-- Bienvenida (C-01) -->
+    <string name="bienvenida_titulo">Lo natural, directo\na tu mesa</string>
+    <string name="bienvenida_beneficio_productores">Productores locales verificados</string>
+    <string name="bienvenida_beneficio_pago">Pago seguro con PSE, Nequi o tarjeta</string>
+    <string name="bienvenida_beneficio_envio">Entrega a domicilio en Ibagué</string>
+    <string name="bienvenida_ingresar">Ingresar</string>
+    <string name="bienvenida_crear_cuenta">Crear cuenta</string>
+    <string name="bienvenida_explorar">Explorar sin cuenta</string>
+    <string name="bienvenida_explorar_pronto">El catálogo público llega en la fase 3</string>
+
+    <!-- Ingreso (C-02) -->
+    <string name="ingreso_titulo">Hola de nuevo</string>
+    <string name="ingreso_subtitulo">Ingresa para comprar, vender o administrar</string>
+    <string name="ingreso_correo">Correo electrónico</string>
+    <string name="ingreso_clave">Contraseña</string>
+    <string name="ingreso_olvide_clave">¿Olvidaste tu contraseña?</string>
+    <string name="ingreso_boton">Ingresar</string>
+    <string name="ingreso_separador">o</string>
+    <string name="ingreso_con_huella">Ingresar con huella</string>
+    <string name="ingreso_sin_cuenta">¿No tienes cuenta?</string>
+    <string name="ingreso_crear_cuenta">Crear cuenta</string>
+    <string name="ingreso_error_credenciales">Correo o contraseña incorrectos</string>
+    <!-- Plural: Android elige "segundo" o "segundos" según la cantidad -->
+    <plurals name="ingreso_bloqueado">
+        <item quantity="one">Demasiados intentos fallidos. Intenta de nuevo en %1$d segundo.</item>
+        <item quantity="other">Demasiados intentos fallidos. Intenta de nuevo en %1$d segundos.</item>
+    </plurals>
+    <string name="ingreso_cuenta_pendiente">Tu solicitud de vendedor está en revisión. Te avisaremos por correo cuando el administrador la apruebe.</string>
+    <string name="ingreso_cuenta_suspendida">Esta cuenta está suspendida. Comunícate con soporte.</string>
+    <string name="ingreso_huella_desbloquear">Desbloquea tu sesión con tu huella</string>
+    <string name="ingreso_activar_huella_titulo">¿Activar ingreso con huella?</string>
+    <string name="ingreso_activar_huella_texto">La próxima vez podrás entrar con tu huella sin escribir la contraseña. La huella la verifica tu teléfono y nunca sale de él.</string>
+    <string name="ingreso_activar_huella_si">Activar</string>
+    <string name="ingreso_activar_huella_no">Ahora no</string>
+    <string name="ingreso_huella_activada">Ingreso con huella activado</string>
+
+    <!-- Huella (diálogo del sistema) -->
+    <string name="huella_titulo">Ingreso con huella</string>
+    <string name="huella_subtitulo">Toca el sensor para entrar a Sabor Natural</string>
+    <string name="huella_usar_clave">Usar contraseña</string>
+
+    <!-- Validaciones -->
+    <string name="error_campo_obligatorio">Este campo es obligatorio</string>
+    <string name="error_correo_invalido">Escribe un correo válido, por ejemplo nombre@correo.com</string>
+    <string name="error_telefono_invalido">Escribe un celular de 10 dígitos que empiece por 3</string>
+    <string name="error_clave_debil">Mínimo 8 caracteres, con una mayúscula y un número</string>
+    <string name="error_claves_distintas">Las contraseñas no coinciden</string>
+    <string name="error_correo_registrado">Ya existe una cuenta con este correo</string>
+    <string name="error_consentimientos">Debes aceptar los términos, la política de datos y confirmar tu mayoría de edad</string>
+
+    <!-- Recuperar contraseña -->
+    <string name="recuperar_titulo_barra">Recuperar contraseña</string>
+    <string name="recuperar_titulo">¿Olvidaste tu contraseña?</string>
+    <string name="recuperar_texto">Escribe el correo con el que te registraste y te enviaremos un enlace para crear una nueva.</string>
+    <string name="recuperar_boton">Enviar enlace</string>
+    <string name="recuperar_enviado_titulo">Revisa tu correo</string>
+    <string name="recuperar_enviado_texto">Si %1$s tiene una cuenta en Sabor Natural, recibirás un enlace para crear una contraseña nueva. El enlace vence en 30 minutos y solo sirve una vez.</string>
+    <string name="recuperar_volver">Volver a ingresar</string>
+    <string name="recuperar_reenviar">No me llegó, reenviar</string>
+    <string name="recuperar_reenviado">Enlace reenviado</string>
+
+    <!-- Registro (C-04) -->
+    <string name="registro_titulo_barra">Crear cuenta</string>
+    <string name="registro_pregunta_rol">¿Cómo quieres usar Sabor Natural?</string>
+    <string name="registro_rol_comprador">Quiero comprar</string>
+    <string name="registro_rol_vendedor">Quiero vender</string>
+    <string name="registro_aviso_vendedor">Tu cuenta de vendedor quedará pendiente hasta que un administrador verifique tu comercio.</string>
+    <string name="registro_nombre">Nombre</string>
+    <string name="registro_apellido">Apellido</string>
+    <string name="registro_telefono">Celular</string>
+    <string name="registro_confirmar_clave">Confirmar contraseña</string>
+    <string name="registro_fortaleza">Seguridad de la contraseña: %1$s</string>
+    <string name="registro_fortaleza_debil">débil</string>
+    <string name="registro_fortaleza_media">media</string>
+    <string name="registro_fortaleza_fuerte">fuerte</string>
+    <string name="registro_consentimientos">Autorizaciones</string>
+    <string name="registro_acepto_terminos">Acepto los términos y condiciones</string>
+    <string name="registro_acepto_datos">Autorizo el tratamiento de mis datos personales según la política de privacidad (Ley 1581 de 2012)</string>
+    <string name="registro_mayor_edad">Declaro que soy mayor de edad</string>
+    <string name="registro_acepto_promociones">Quiero recibir promociones (opcional)</string>
+    <string name="registro_boton">Crear cuenta</string>
+    <string name="registro_ya_tengo_cuenta">Ya tengo cuenta</string>
+    <string name="registro_vendedor_enviado_titulo">Solicitud enviada</string>
+    <string name="registro_vendedor_enviado_texto">Recibimos tu solicitud de vendedor. Un administrador la revisará y te avisaremos por correo.</string>
+    <string name="registro_entendido">Entendido</string>
+
+    <!-- Panel provisional -->
+    <string name="panel_titulo">Panel de %1$s</string>
+    <string name="panel_saludo">Hola, %1$s</string>
+    <string name="panel_texto">Ingresaste como %1$s. Las pantallas de este rol se construyen en la fase %2$d del plan.</string>
+    <string name="panel_cerrar_sesion">Cerrar sesión</string>
+    <string name="panel_cerrar_sesion_confirmar">¿Cerrar sesión? Tendrás que ingresar de nuevo con tu correo y contraseña.</string>
 </resources>
