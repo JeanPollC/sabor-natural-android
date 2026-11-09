@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Menú lateral (Drawer) del admin: los mismos destinos y cerrar sesión. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/panelAdminFragment"
+            android:icon="@drawable/ic_panel"
+            android:title="@string/nav_panel" />
+        <item
+            android:id="@+id/usuariosFragment"
+            android:icon="@drawable/ic_usuarios"
+            android:title="@string/nav_usuarios" />
+        <item
+            android:id="@+id/productosAdminFragment"
+            android:icon="@drawable/ic_inventario"
+            android:title="@string/nav_productos" />
+        <item
+            android:id="@+id/reporteVentasFragment"
+            android:icon="@drawable/ic_grafico"
+            android:title="@string/nav_ventas" />
+        <item
+            android:id="@+id/perfilFragment"
+            android:icon="@drawable/ic_perfil"
+            android:title="@string/nav_perfil" />
+    </group>
+    <group android:id="@+id/grupoCuenta">
+        <item
+            android:id="@+id/menu_cerrar_sesion"
+            android:icon="@drawable/ic_salir"
+            android:title="@string/panel_cerrar_sesion" />
+    </group>
+</menu>

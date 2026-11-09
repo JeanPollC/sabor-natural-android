@@ -77,7 +77,6 @@
     <string name="bienvenida_ingresar">Ingresar</string>
     <string name="bienvenida_crear_cuenta">Crear cuenta</string>
     <string name="bienvenida_explorar">Explorar sin cuenta</string>
-    <string name="bienvenida_explorar_pronto">El catálogo público llega en la fase 3</string>
 
     <!-- Ingreso (C-02) -->
     <string name="ingreso_titulo">Hola de nuevo</string>
@@ -156,9 +155,6 @@
     <string name="registro_entendido">Entendido</string>
 
     <!-- Panel provisional -->
-    <string name="panel_titulo">Panel de %1$s</string>
-    <string name="panel_saludo">Hola, %1$s</string>
-    <string name="panel_texto">Ingresaste como %1$s. Las pantallas de este rol se construyen en la fase %2$d del plan.</string>
     <string name="panel_cerrar_sesion">Cerrar sesión</string>
     <string name="panel_cerrar_sesion_confirmar">¿Cerrar sesión? Tendrás que ingresar de nuevo con tu correo y contraseña.</string>
 </resources>

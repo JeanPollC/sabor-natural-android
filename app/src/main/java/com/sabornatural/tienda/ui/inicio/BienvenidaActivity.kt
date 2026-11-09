@@ -2,11 +2,10 @@ package com.sabornatural.tienda.ui.inicio
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import com.sabornatural.tienda.R
 import com.sabornatural.tienda.databinding.ActivityBienvenidaBinding
 import com.sabornatural.tienda.ui.auth.IngresoActivity
 import com.sabornatural.tienda.ui.auth.RegistroActivity
+import com.sabornatural.tienda.ui.comun.Navegador
 import com.sabornatural.tienda.ui.comun.PantallaBase
 import com.sabornatural.tienda.ui.comun.rellenarBarrasDelSistema
 import com.sabornatural.tienda.ui.estilos.GuiaEstilosActivity
@@ -30,9 +29,8 @@ class BienvenidaActivity : PantallaBase() {
         binding.botonCrearCuenta.setOnClickListener {
             startActivity(Intent(this, RegistroActivity::class.java))
         }
-        binding.botonExplorar.setOnClickListener {
-            Snackbar.make(binding.root, R.string.bienvenida_explorar_pronto, Snackbar.LENGTH_SHORT).show()
-        }
+        // Explorar sin cuenta: catálogo del comprador como invitado (RF-INI-02)
+        binding.botonExplorar.setOnClickListener { Navegador.explorarComoInvitado(this) }
 
         // Acceso de desarrollo: mantener presionado el logo abre la guía de estilos
         binding.logo.setOnLongClickListener {

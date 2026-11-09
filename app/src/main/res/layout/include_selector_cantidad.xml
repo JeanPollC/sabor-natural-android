@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Selector de cantidad: botón −, número y botón + (detalle del producto y carrito). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonMenos"
+        style="@style/Widget.SaborNatural.BotonCantidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/accion_disminuir"
+        app:icon="@drawable/ic_quitar" />
+
+    <TextView
+        android:id="@+id/cantidad"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+        android:textSize="@dimen/texto_cuerpo"
+        tools:text="1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botonMas"
+        style="@style/Widget.SaborNatural.BotonCantidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/accion_aumentar"
+        app:icon="@drawable/ic_agregar" />
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Producto dentro del detalle del pedido: "2 × Nombre" a la izquierda y el subtotal a la derecha. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/espacio_xs"
+    android:paddingBottom="@dimen/espacio_xs">
+
+    <TextView
+        android:id="@+id/descripcion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+        tools:text="2 × Bebida de almendras sin azúcar" />
+
+    <TextView
+        android:id="@+id/subtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espacio_m"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+        tools:text="$ 29.800" />
+</LinearLayout>

@@ -2,9 +2,12 @@ package com.sabornatural.tienda.ui.comun
 
 import android.app.Activity
 import android.content.Intent
+import com.sabornatural.tienda.datos.modelo.Rol
 import com.sabornatural.tienda.datos.modelo.Usuario
+import com.sabornatural.tienda.ui.admin.AdminActivity
+import com.sabornatural.tienda.ui.comprador.CompradorActivity
 import com.sabornatural.tienda.ui.inicio.BienvenidaActivity
-import com.sabornatural.tienda.ui.panel.PanelProvisionalActivity
+import com.sabornatural.tienda.ui.vendedor.VendedorActivity
 
 /**
  * Punto único de navegación entre los grandes bloques de la app. Cuando la sesión es válida,
@@ -12,12 +15,19 @@ import com.sabornatural.tienda.ui.panel.PanelProvisionalActivity
  */
 object Navegador {
 
-    /** Abre el panel que corresponde al rol y borra la pila: "atrás" no regresa al ingreso. */
+    /** Abre las pantallas del rol y borra la pila: "atrás" no regresa al ingreso. */
     fun abrirPanel(origen: Activity, usuario: Usuario) {
-        // Fases 3 a 5: cada rol tendrá su propia Activity con barra inferior.
-        val intent = Intent(origen, PanelProvisionalActivity::class.java)
-            .putExtra(PanelProvisionalActivity.EXTRA_USUARIO_ID, usuario.id)
-        iniciarLimpio(origen, intent)
+        val destino = when (usuario.rol) {
+            Rol.COMPRADOR -> CompradorActivity::class.java
+            Rol.VENDEDOR -> VendedorActivity::class.java
+            Rol.ADMINISTRADOR -> AdminActivity::class.java
+        }
+        iniciarLimpio(origen, Intent(origen, destino))
+    }
+
+    /** "Explorar sin cuenta": el catálogo del comprador, sin sesión. */
+    fun explorarComoInvitado(origen: Activity) {
+        origen.startActivity(Intent(origen, CompradorActivity::class.java))
     }
 
     /** Vuelve a la bienvenida después de cerrar sesión. */

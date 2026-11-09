@@ -31,6 +31,13 @@
     <dimen name="borde_fino">1dp</dimen>
     <dimen name="alto_encabezado">168dp</dimen>
 
+    <dimen name="tamano_avatar_grande">88dp</dimen>
+    <dimen name="ancho_tarjeta_horizontal">164dp</dimen>
+    <dimen name="alto_imagen_tarjeta">118dp</dimen>
+    <dimen name="tamano_imagen_lista">64dp</dimen>
+    <dimen name="alto_imagen_detalle">300dp</dimen>
+    <dimen name="tamano_categoria">60dp</dimen>
+
     <!-- Tipografía (Roboto, la fuente del sistema): títulos 20-22, cuerpo 14-16, etiquetas 11-12 -->
     <dimen name="texto_marca">30sp</dimen>
     <dimen name="texto_titulo">22sp</dimen>

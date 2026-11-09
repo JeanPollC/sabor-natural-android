@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Encabezado del menú lateral (NavigationView): avatar, nombre, correo y rol sobre el degradado. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_degradado_marca"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/espacio_xl"
+    android:paddingTop="@dimen/espacio_xxl"
+    android:paddingEnd="@dimen/espacio_l"
+    android:paddingBottom="@dimen/espacio_xl">
+
+    <TextView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/tamano_avatar"
+        android:layout_height="@dimen/tamano_avatar"
+        android:background="@drawable/bg_circulo_suave"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Titulo"
+        android:textColor="@color/verde_bosque"
+        tools:text="AR" />
+
+    <TextView
+        android:id="@+id/nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_m"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+        android:textColor="@color/blanco"
+        tools:text="Andrés Rojas Peña" />
+
+    <TextView
+        android:id="@+id/correo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+        android:textColor="@color/verde_claro"
+        tools:text="comprador@sabornatural.co" />
+
+    <TextView
+        android:id="@+id/rol"
+        style="@style/Widget.SaborNatural.Etiqueta.Info"
+        android:layout_marginTop="@dimen/espacio_s"
+        tools:text="Comprador" />
+</LinearLayout>

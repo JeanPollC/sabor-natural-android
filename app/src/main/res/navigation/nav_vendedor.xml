@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Grafo de navegación del vendedor (documento técnico, Figura 2). Reutiliza Fragments
+    compartidos: la gestión de productos y la lista de pedidos reciben el modo "VENDEDOR"
+    como valor por defecto de su argumento.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_vendedor"
+    app:startDestination="@id/panelVendedorFragment">
+
+    <fragment
+        android:id="@+id/panelVendedorFragment"
+        android:name="com.sabornatural.tienda.ui.vendedor.PanelVendedorFragment"
+        android:label="@string/nav_panel" />
+
+    <fragment
+        android:id="@+id/productosVendedorFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.GestionProductosFragment"
+        android:label="@string/productos_titulo_vendedor">
+        <argument
+            android:name="modo"
+            android:defaultValue="VENDEDOR"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/formularioProductoFragment"
+        android:name="com.sabornatural.tienda.ui.vendedor.FormularioProductoFragment"
+        android:label="@string/formulario_producto_nuevo" />
+
+    <fragment
+        android:id="@+id/pedidosVendedorFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.ListaPedidosFragment"
+        android:label="@string/pedidos_titulo_vendedor">
+        <argument
+            android:name="modo"
+            android:defaultValue="VENDEDOR"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detallePedidoFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.DetallePedidoFragment"
+        android:label="@string/detalle_pedido_estado" />
+
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.PerfilFragment"
+        android:label="@string/perfil_titulo" />
+
+    <fragment
+        android:id="@+id/editarPerfilFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.EditarPerfilFragment"
+        android:label="@string/perfil_editar" />
+</navigation>

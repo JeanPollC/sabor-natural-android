@@ -1,0 +1,254 @@
+{
+  "_nota": "Datos de prueba ficticios para la demostración del frontend. La contraseña se guarda como hash SHA-256; las credenciales de prueba están en el README.",
+  "pedidos": [
+    {
+      "id": 1,
+      "codigo": "SN-482913",
+      "compradorId": 3,
+      "compradorNombre": "Andrés Rojas Peña",
+      "compradorTelefono": "3205551234",
+      "vendedorId": 2,
+      "vendedorNombre": "Huerta La Montaña",
+      "lineas": [
+        {
+          "productoId": 1,
+          "nombre": "Bebida de almendras sin azúcar",
+          "categoria": "BEBIDAS",
+          "cantidad": 2,
+          "precioUnitario": 14900
+        },
+        {
+          "productoId": 14,
+          "nombre": "Miel de panela orgánica",
+          "categoria": "ENDULZANTES",
+          "cantidad": 1,
+          "precioUnitario": 10900
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "ENTREGADO",
+      "medioPago": "NEQUI",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Calle 14 # 4-63, Centro, Ibagué",
+      "referenciaPago": "WMP-118204",
+      "fecha": "2026-10-12 10:24"
+    },
+    {
+      "id": 2,
+      "codigo": "SN-483507",
+      "compradorId": 3,
+      "compradorNombre": "Andrés Rojas Peña",
+      "compradorTelefono": "3205551234",
+      "vendedorId": 5,
+      "vendedorNombre": "Panadería Masa Viva",
+      "lineas": [
+        {
+          "productoId": 11,
+          "nombre": "Pan de masa madre integral",
+          "categoria": "PANADERIA",
+          "cantidad": 1,
+          "precioUnitario": 13500
+        },
+        {
+          "productoId": 16,
+          "nombre": "Hummus de garbanzo",
+          "categoria": "PREPARADOS",
+          "cantidad": 2,
+          "precioUnitario": 11500
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "EN_PREPARACION",
+      "medioPago": "TARJETA",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Calle 14 # 4-63, Centro, Ibagué",
+      "referenciaPago": "WMP-120771",
+      "fecha": "2026-11-07 18:05"
+    },
+    {
+      "id": 3,
+      "codigo": "SN-483120",
+      "compradorId": 7,
+      "compradorNombre": "Valentina Ospina Mora",
+      "compradorTelefono": "3019998877",
+      "vendedorId": 2,
+      "vendedorNombre": "Huerta La Montaña",
+      "lineas": [
+        {
+          "productoId": 2,
+          "nombre": "Bebida de avena y canela",
+          "categoria": "BEBIDAS",
+          "cantidad": 3,
+          "precioUnitario": 12500
+        },
+        {
+          "productoId": 15,
+          "nombre": "Infusión de hierbabuena y limonaria",
+          "categoria": "ENDULZANTES",
+          "cantidad": 2,
+          "precioUnitario": 8500
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "CONFIRMADO",
+      "medioPago": "PSE",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Carrera 5 # 37-20, Cádiz, Ibagué",
+      "referenciaPago": "WMP-119932",
+      "fecha": "2026-11-08 08:40"
+    },
+    {
+      "id": 4,
+      "codigo": "SN-482771",
+      "compradorId": 8,
+      "compradorNombre": "Camilo Restrepo Díaz",
+      "compradorTelefono": "3043332211",
+      "vendedorId": 2,
+      "vendedorNombre": "Huerta La Montaña",
+      "lineas": [
+        {
+          "productoId": 1,
+          "nombre": "Bebida de almendras sin azúcar",
+          "categoria": "BEBIDAS",
+          "cantidad": 1,
+          "precioUnitario": 14900
+        },
+        {
+          "productoId": 3,
+          "nombre": "Kombucha de jengibre",
+          "categoria": "BEBIDAS",
+          "cantidad": 4,
+          "precioUnitario": 9800
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "DESPACHADO",
+      "medioPago": "TARJETA",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Mz 12 Casa 4, Jordán 8.ª etapa, Ibagué",
+      "referenciaPago": "WMP-117650",
+      "fecha": "2026-11-06 15:12"
+    },
+    {
+      "id": 5,
+      "codigo": "SN-481990",
+      "compradorId": 10,
+      "compradorNombre": "Mateo Cárdenas León",
+      "compradorTelefono": "3051112233",
+      "vendedorId": 2,
+      "vendedorNombre": "Huerta La Montaña",
+      "lineas": [
+        {
+          "productoId": 14,
+          "nombre": "Miel de panela orgánica",
+          "categoria": "ENDULZANTES",
+          "cantidad": 2,
+          "precioUnitario": 10900
+        }
+      ],
+      "domicilio": 0,
+      "estado": "ENTREGADO",
+      "medioPago": "NEQUI",
+      "tipoEntrega": "RECOGER",
+      "direccion": "Recoge en el punto del vendedor",
+      "referenciaPago": "WMP-115402",
+      "fecha": "2026-10-30 11:58"
+    },
+    {
+      "id": 6,
+      "codigo": "SN-481655",
+      "compradorId": 7,
+      "compradorNombre": "Valentina Ospina Mora",
+      "compradorTelefono": "3019998877",
+      "vendedorId": 6,
+      "vendedorNombre": "Semillas del Combeima",
+      "lineas": [
+        {
+          "productoId": 5,
+          "nombre": "Mix de frutos secos",
+          "categoria": "SEMILLAS",
+          "cantidad": 2,
+          "precioUnitario": 18500
+        },
+        {
+          "productoId": 9,
+          "nombre": "Granola de quinua y panela",
+          "categoria": "GRANOLAS",
+          "cantidad": 1,
+          "precioUnitario": 16900
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "ENTREGADO",
+      "medioPago": "PSE",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Carrera 5 # 37-20, Cádiz, Ibagué",
+      "referenciaPago": "WMP-114310",
+      "fecha": "2026-10-25 09:31"
+    },
+    {
+      "id": 7,
+      "codigo": "SN-481200",
+      "compradorId": 8,
+      "compradorNombre": "Camilo Restrepo Díaz",
+      "compradorTelefono": "3043332211",
+      "vendedorId": 5,
+      "vendedorNombre": "Panadería Masa Viva",
+      "lineas": [
+        {
+          "productoId": 13,
+          "nombre": "Brownie vegano de cacao",
+          "categoria": "PANADERIA",
+          "cantidad": 4,
+          "precioUnitario": 6500
+        },
+        {
+          "productoId": 12,
+          "nombre": "Galletas de avena y banano",
+          "categoria": "PANADERIA",
+          "cantidad": 1,
+          "precioUnitario": 9500
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "CANCELADO",
+      "medioPago": "TARJETA",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Mz 12 Casa 4, Jordán 8.ª etapa, Ibagué",
+      "referenciaPago": "WMP-112980",
+      "fecha": "2026-10-21 17:45"
+    },
+    {
+      "id": 8,
+      "codigo": "SN-480844",
+      "compradorId": 10,
+      "compradorNombre": "Mateo Cárdenas León",
+      "compradorTelefono": "3051112233",
+      "vendedorId": 6,
+      "vendedorNombre": "Semillas del Combeima",
+      "lineas": [
+        {
+          "productoId": 6,
+          "nombre": "Semillas de chía",
+          "categoria": "SEMILLAS",
+          "cantidad": 1,
+          "precioUnitario": 11200
+        },
+        {
+          "productoId": 10,
+          "nombre": "Harina de almendra",
+          "categoria": "GRANOLAS",
+          "cantidad": 1,
+          "precioUnitario": 24900
+        }
+      ],
+      "domicilio": 6000,
+      "estado": "ENTREGADO",
+      "medioPago": "TARJETA",
+      "tipoEntrega": "DOMICILIO",
+      "direccion": "Calle 60 # 9-15, La Floresta, Ibagué",
+      "referenciaPago": "WMP-111207",
+      "fecha": "2026-10-15 13:02"
+    }
+  ]
+}

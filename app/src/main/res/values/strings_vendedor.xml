@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos del rol vendedor (mockups V-01 a V-06). -->
+<resources>
+    <string name="nav_panel">Panel</string>
+    <string name="nav_productos">Productos</string>
+    <string name="nav_pedidos">Pedidos</string>
+
+    <!-- Panel (V-01) -->
+    <string name="panel_vendedor_subtitulo">Panel del vendedor</string>
+    <string name="indicador_ventas_mes">Ventas del mes</string>
+    <string name="indicador_pedidos_nuevos">Pedidos nuevos</string>
+    <string name="indicador_publicados">Publicados</string>
+    <string name="indicador_existencias_bajas">Existencias bajas</string>
+    <string name="panel_vendedor_por_atender">Pedidos por atender</string>
+    <string name="panel_vendedor_publicaciones">Publicaciones que requieren atención</string>
+    <string name="panel_vendedor_sin_pendientes">No tienes pedidos por atender. ¡Buen trabajo!</string>
+    <string name="panel_vendedor_publicaciones_ok">Todas tus publicaciones están al día.</string>
+
+    <!-- Productos (V-02) -->
+    <string name="productos_titulo_vendedor">Mis productos</string>
+    <string name="productos_nuevo">Nuevo producto</string>
+    <string name="productos_filtro_agotados">Agotados</string>
+    <string name="productos_vacio">No hay productos en esta lista</string>
+    <string name="productos_vacio_texto">Crea un producto con el botón «Nuevo producto».</string>
+    <string name="producto_resumen_vendedor">%1$s · %2$d en existencia</string>
+    <string name="producto_motivo">Motivo: %1$s</string>
+    <string name="producto_pausar">Pausar publicación</string>
+    <string name="producto_reactivar">Reactivar publicación</string>
+    <string name="producto_eliminar_confirmar">Se eliminará «%1$s» y sus fotos. Si ya tiene ventas, se conservará en el histórico.</string>
+    <string name="producto_eliminado">Producto eliminado</string>
+    <string name="producto_pausado">Publicación pausada</string>
+    <string name="producto_reactivado">Publicación reactivada</string>
+
+    <!-- Formulario de producto (V-03, V-04) -->
+    <string name="formulario_producto_nuevo">Nuevo producto</string>
+    <string name="formulario_producto_editar">Editar producto</string>
+    <string name="formulario_foto">Foto del producto</string>
+    <string name="formulario_foto_ayuda">Tómala con la cámara o elígela de tu galería</string>
+    <string name="formulario_tomar_foto">Cámara</string>
+    <string name="formulario_galeria">Galería</string>
+    <string name="formulario_datos">Datos del producto</string>
+    <string name="formulario_nombre">Nombre del producto</string>
+    <string name="formulario_descripcion">Descripción</string>
+    <string name="formulario_precio">Precio (COP)</string>
+    <string name="formulario_existencias">Existencias</string>
+    <string name="formulario_categoria">Categoría</string>
+    <string name="formulario_tipo">Tipo de producto</string>
+    <string name="formulario_rotulo">Información del rótulo</string>
+    <string name="formulario_ingredientes">Ingredientes</string>
+    <string name="formulario_contenido">Contenido neto (ej. 500 g)</string>
+    <string name="formulario_registro">Registro sanitario</string>
+    <string name="formulario_registro_ayuda">Obligatorio para productos empacados</string>
+    <string name="formulario_aviso_revision">Al enviar, el producto pasa a revisión del administrador antes de aparecer en el catálogo.</string>
+    <string name="formulario_enviar">Enviar a revisión</string>
+    <string name="formulario_guardar_cambios">Guardar cambios</string>
+    <string name="formulario_enviado">Producto enviado a revisión</string>
+    <string name="formulario_guardado">Cambios guardados</string>
+    <string name="error_precio">Escribe un precio mayor que cero</string>
+    <string name="error_existencias">Escribe un número entero (0 o más)</string>
+    <string name="error_registro_empacado">El producto empacado necesita registro sanitario</string>
+</resources>

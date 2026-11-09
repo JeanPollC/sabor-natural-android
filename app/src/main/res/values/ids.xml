@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Identificadores para etiquetas (tags) de vistas usados desde Kotlin. -->
+<resources>
+    <!-- Relleno original de una vista antes de sumarle las barras del sistema (Insets.kt) -->
+    <item name="relleno_original" type="id" />
+</resources>

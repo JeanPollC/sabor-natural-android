@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Indicador de pasos del proceso de compra: Entrega → Pago → Listo. El estado de cada paso se pinta desde Kotlin. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blanco"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/margen_pantalla"
+    android:paddingTop="@dimen/espacio_m"
+    android:paddingEnd="@dimen/margen_pantalla"
+    android:paddingBottom="@dimen/espacio_m">
+
+    <TextView
+        android:id="@+id/paso1"
+        style="@style/Widget.SaborNatural.Paso"
+        android:text="1" />
+
+    <TextView
+        android:id="@+id/etiqueta1"
+        style="@style/Widget.SaborNatural.EtiquetaPaso"
+        android:text="@string/pago_paso_entrega" />
+
+    <View
+        android:id="@+id/linea1"
+        style="@style/Widget.SaborNatural.LineaPaso" />
+
+    <TextView
+        android:id="@+id/paso2"
+        style="@style/Widget.SaborNatural.Paso"
+        android:text="2" />
+
+    <TextView
+        android:id="@+id/etiqueta2"
+        style="@style/Widget.SaborNatural.EtiquetaPaso"
+        android:text="@string/pago_paso_pago" />
+
+    <View
+        android:id="@+id/linea2"
+        style="@style/Widget.SaborNatural.LineaPaso" />
+
+    <TextView
+        android:id="@+id/paso3"
+        style="@style/Widget.SaborNatural.Paso"
+        android:text="3" />
+
+    <TextView
+        android:id="@+id/etiqueta3"
+        style="@style/Widget.SaborNatural.EtiquetaPaso"
+        android:text="@string/pago_paso_listo" />
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Estado vacío reutilizable: ícono en un círculo, título, explicación y una acción opcional. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/espacio_xl"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <FrameLayout
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/bg_circulo_suave">
+
+        <ImageView
+            android:id="@+id/icono"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no"
+            app:tint="@color/verde_bosque"
+            tools:src="@drawable/ic_carrito" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_l"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+        tools:text="@string/carrito_vacio" />
+
+    <TextView
+        android:id="@+id/texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_xs"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+        tools:text="@string/carrito_vacio_texto" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/boton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_l"
+        android:paddingStart="@dimen/espacio_xl"
+        android:paddingEnd="@dimen/espacio_xl"
+        android:visibility="gone"
+        tools:text="@string/carrito_ir_catalogo"
+        tools:visibility="visible" />
+</LinearLayout>

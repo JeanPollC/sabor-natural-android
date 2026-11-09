@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Usuario en la lista del administrador: iniciales, nombre, correo, rol y estado de la cuenta. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/espacio_s"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/espacio_m">
+
+        <TextView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_circulo_suave"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+            android:textSize="@dimen/texto_cuerpo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="AR" />
+
+        <TextView
+            android:id="@+id/nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espacio_m"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Andrés Rojas Peña" />
+
+        <TextView
+            android:id="@+id/correo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/nombre"
+            app:layout_constraintTop_toBottomOf="@id/nombre"
+            tools:text="comprador@sabornatural.co" />
+
+        <TextView
+            android:id="@+id/rol"
+            style="@style/Widget.SaborNatural.Etiqueta.Info"
+            android:layout_marginTop="@dimen/espacio_xs"
+            app:layout_constraintStart_toStartOf="@id/nombre"
+            app:layout_constraintTop_toBottomOf="@id/correo"
+            tools:text="Comprador" />
+
+        <TextView
+            android:id="@+id/estado"
+            style="@style/Widget.SaborNatural.Etiqueta.Exito"
+            android:layout_marginStart="@dimen/espacio_xs"
+            app:layout_constraintBaseline_toBaselineOf="@id/rol"
+            app:layout_constraintStart_toEndOf="@id/rol"
+            tools:text="Activa" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Línea del carrito (B-03): imagen, nombre, precio unitario, selector de cantidad y quitar. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/espacio_s">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/espacio_m">
+
+        <FrameLayout
+            android:id="@+id/marcoImagen"
+            android:layout_width="@dimen/tamano_imagen_lista"
+            android:layout_height="@dimen/tamano_imagen_lista"
+            android:background="@drawable/bg_imagen_producto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/foto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/icono"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espacio_m"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/botonQuitar"
+            app:layout_constraintStart_toEndOf="@id/marcoImagen"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bebida de almendras sin azúcar" />
+
+        <TextView
+            android:id="@+id/precioUnitario"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+            app:layout_constraintEnd_toEndOf="@id/nombre"
+            app:layout_constraintStart_toStartOf="@id/nombre"
+            app:layout_constraintTop_toBottomOf="@id/nombre"
+            tools:text="$ 14.900 c/u" />
+
+        <ImageButton
+            android:id="@+id/botonQuitar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/accion_eliminar"
+            android:src="@drawable/ic_eliminar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/rojo" />
+
+        <include
+            android:id="@+id/selector"
+            layout="@layout/include_selector_cantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espacio_s"
+            app:layout_constraintStart_toStartOf="@id/nombre"
+            app:layout_constraintTop_toBottomOf="@id/precioUnitario" />
+
+        <TextView
+            android:id="@+id/subtotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Precio"
+            android:textSize="@dimen/texto_cuerpo"
+            app:layout_constraintBottom_toBottomOf="@id/selector"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/selector"
+            tools:text="$ 29.800" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hoja crema con las esquinas superiores redondeadas que se monta sobre la imagen del detalle. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/fondo_pantalla" />
+    <corners
+        android:topLeftRadius="@dimen/radio_xl"
+        android:topRightRadius="@dimen/radio_xl" />
+</shape>

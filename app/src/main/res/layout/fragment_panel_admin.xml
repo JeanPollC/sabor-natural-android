@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Panel de administración (mockup A-01, RF-ADP-05): indicadores generales, asuntos que
+    requieren una decisión y distribución de usuarios por rol (barras de progreso).
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.admin.PanelAdminFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/espacio_xl">
+
+            <include
+                android:id="@+id/encabezado"
+                layout="@layout/include_encabezado_panel" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-24dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/espacio_l"
+                android:paddingEnd="@dimen/espacio_l">
+
+                <include
+                    android:id="@+id/indicador1"
+                    layout="@layout/include_indicador" />
+
+                <include
+                    android:id="@+id/indicador2"
+                    layout="@layout/include_indicador" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/espacio_l"
+                android:paddingEnd="@dimen/espacio_l">
+
+                <include
+                    android:id="@+id/indicador3"
+                    layout="@layout/include_indicador" />
+
+                <include
+                    android:id="@+id/indicador4"
+                    layout="@layout/include_indicador" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla">
+
+                <!-- Requiere atención -->
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:text="@string/panel_admin_atencion" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/filaSolicitudes"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            app:drawableStartCompat="@drawable/ic_tienda"
+                            tools:text="1 solicitud de vendedor" />
+
+                        <com.google.android.material.divider.MaterialDivider style="@style/Widget.SaborNatural.Divisor" />
+
+                        <TextView
+                            android:id="@+id/filaRevision"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            app:drawableStartCompat="@drawable/ic_inventario"
+                            tools:text="2 productos por moderar" />
+
+                        <com.google.android.material.divider.MaterialDivider style="@style/Widget.SaborNatural.Divisor" />
+
+                        <TextView
+                            android:id="@+id/filaReporte"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            android:text="@string/panel_admin_ver_reporte"
+                            app:drawableStartCompat="@drawable/ic_grafico" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Usuarios por rol -->
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:text="@string/panel_admin_usuarios_por_rol" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/listaRoles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/espacio_l" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/franjaBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/verde_bosque_oscuro" />
+</FrameLayout>

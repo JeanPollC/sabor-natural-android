@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Carrito (mockup B-03, RF-CAR-01 a RF-CAR-06): aviso de un productor por pedido,
+    líneas con selector de cantidad, resumen de totales y botón para continuar al pago.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.comprador.CarritoFragment">
+
+    <include
+        android:id="@+id/barra"
+        layout="@layout/include_barra_superior" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/desplazable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/margen_pantalla">
+
+                <TextView
+                    android:id="@+id/avisoVendedor"
+                    style="@style/Widget.SaborNatural.Aviso.Info"
+                    app:drawableStartCompat="@drawable/ic_tienda"
+                    app:drawableTint="@color/verde_bosque"
+                    tools:text="@string/carrito_aviso_vendedor" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listaLineas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_l"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_linea_carrito" />
+
+                <!-- Resumen -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/resumen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s">
+
+                    <include
+                        android:id="@+id/totales"
+                        layout="@layout/include_totales" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/estadoVacio"
+            layout="@layout/include_estado_vacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/barraAccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_barra_accion"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingTop="@dimen/espacio_m"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:paddingBottom="@dimen/espacio_m">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonContinuar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/carrito_continuar"
+            app:icon="@drawable/ic_tarjeta" />
+    </FrameLayout>
+</LinearLayout>

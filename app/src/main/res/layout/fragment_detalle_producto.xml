@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Detalle del producto (mockup B-02, RF-INI-04).
+    FrameLayout con tres capas:
+      1. NestedScrollView: imagen grande y una "hoja" crema montada encima con los datos y el rótulo.
+      2. Botones flotantes de volver y carrito sobre la imagen.
+      3. Barra de acción fija abajo: selector de cantidad y botón "Agregar".
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.comprador.DetalleProductoFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="112dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/marcoImagen"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/alto_imagen_detalle"
+                android:background="@color/blanco">
+
+                <ImageView
+                    android:id="@+id/foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:importantForAccessibility="no"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/icono"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no"
+                    tools:src="@drawable/ic_bebida" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-28dp"
+                android:background="@drawable/bg_hoja_superior"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingTop="@dimen/espacio_xl"
+                android:paddingEnd="@dimen/margen_pantalla">
+
+                <TextView
+                    android:id="@+id/categoria"
+                    style="@style/Widget.SaborNatural.Etiqueta.Info"
+                    tools:text="Bebidas" />
+
+                <TextView
+                    android:id="@+id/nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Titulo"
+                    tools:text="Bebida de almendras sin azúcar" />
+
+                <TextView
+                    android:id="@+id/vendedor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:drawablePadding="@dimen/espacio_s"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    android:textColor="@color/texto_principal"
+                    app:drawableStartCompat="@drawable/ic_verificado"
+                    app:drawableTint="@color/verde_hoja"
+                    tools:text="Huerta La Montaña · Productor verificado" />
+
+                <TextView
+                    android:id="@+id/calificacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:drawablePadding="@dimen/espacio_s"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    app:drawableStartCompat="@drawable/ic_estrella"
+                    app:drawableTint="@color/calificacion"
+                    tools:text="4,8 · 36 reseñas" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_l"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/precio"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Precio.Grande"
+                        tools:text="$ 14.900" />
+
+                    <TextView
+                        android:id="@+id/existencias"
+                        style="@style/Widget.SaborNatural.Etiqueta.Exito"
+                        tools:text="24 disponibles" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:layout_marginBottom="@dimen/espacio_xs"
+                    android:text="@string/detalle_descripcion" />
+
+                <TextView
+                    android:id="@+id/descripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+                    tools:text="Bebida vegetal elaborada con almendras tostadas del Tolima." />
+
+                <!-- Rótulo: información exigida a los alimentos envasados (Resolución 5109 de 2005) -->
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:text="@string/detalle_rotulo" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/espacio_l">
+
+                        <TextView
+                            style="@style/Widget.SaborNatural.EtiquetaDato"
+                            android:text="@string/detalle_ingredientes" />
+
+                        <TextView
+                            android:id="@+id/ingredientes"
+                            style="@style/Widget.SaborNatural.ValorDato"
+                            tools:text="Agua, almendras (8 %), sal marina." />
+
+                        <TextView
+                            style="@style/Widget.SaborNatural.EtiquetaDato"
+                            android:layout_marginTop="@dimen/espacio_m"
+                            android:text="@string/detalle_contenido_neto" />
+
+                        <TextView
+                            android:id="@+id/contenidoNeto"
+                            style="@style/Widget.SaborNatural.ValorDato"
+                            tools:text="1 L" />
+
+                        <TextView
+                            style="@style/Widget.SaborNatural.EtiquetaDato"
+                            android:layout_marginTop="@dimen/espacio_m"
+                            android:text="@string/detalle_registro_sanitario" />
+
+                        <TextView
+                            android:id="@+id/registroSanitario"
+                            style="@style/Widget.SaborNatural.ValorDato"
+                            tools:text="RSA-0012345-2026" />
+
+                        <TextView
+                            style="@style/Widget.SaborNatural.EtiquetaDato"
+                            android:layout_marginTop="@dimen/espacio_m"
+                            android:text="@string/detalle_tipo" />
+
+                        <TextView
+                            android:id="@+id/tipo"
+                            style="@style/Widget.SaborNatural.ValorDato"
+                            tools:text="Empacado" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Botones flotantes sobre la imagen -->
+    <LinearLayout
+        android:id="@+id/barraFlotante"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/espacio_m">
+
+        <ImageButton
+            android:id="@+id/botonVolver"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_circulo_blanco"
+            android:contentDescription="@string/accion_volver"
+            android:elevation="2dp"
+            android:src="@drawable/ic_flecha_atras"
+            app:tint="@color/verde_bosque" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/botonCarrito"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_circulo_blanco"
+            android:contentDescription="@string/detalle_ver_carrito"
+            android:elevation="2dp"
+            android:src="@drawable/ic_carrito"
+            app:tint="@color/verde_bosque" />
+    </LinearLayout>
+
+    <!-- Barra de acción fija -->
+    <LinearLayout
+        android:id="@+id/barraAccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_barra_accion"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingTop="@dimen/espacio_m"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:paddingBottom="@dimen/espacio_m">
+
+        <include
+            android:id="@+id/selector"
+            layout="@layout/include_selector_cantidad" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonAgregar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/espacio_l"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_carrito"
+            tools:text="Agregar · $ 14.900" />
+    </LinearLayout>
+</FrameLayout>

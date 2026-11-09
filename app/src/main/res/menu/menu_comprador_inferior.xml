@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Barra inferior del comprador. El id de cada opción es el id del destino en nav_comprador.xml. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/inicioFragment"
+        android:icon="@drawable/ic_inicio"
+        android:title="@string/nav_inicio" />
+    <item
+        android:id="@+id/catalogoFragment"
+        android:icon="@drawable/ic_catalogo"
+        android:title="@string/nav_catalogo" />
+    <item
+        android:id="@+id/carritoFragment"
+        android:icon="@drawable/ic_carrito"
+        android:title="@string/nav_carrito" />
+    <item
+        android:id="@+id/perfilFragment"
+        android:icon="@drawable/ic_perfil"
+        android:title="@string/nav_perfil" />
+</menu>

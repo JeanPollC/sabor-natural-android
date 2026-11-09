@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Inicio del comprador (mockup B-01, RF-INI-02).
+    NestedScrollView con: encabezado (saludo, dirección y buscador), banner promocional,
+    categorías (RecyclerView horizontal), destacados (RecyclerView horizontal) y
+    recomendados (RecyclerView en cuadrícula de 2 columnas).
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.comprador.InicioFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/espacio_l">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Encabezado -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/encabezado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_encabezado_curvo"
+                android:paddingStart="@dimen/espacio_s"
+                android:paddingTop="@dimen/espacio_s"
+                android:paddingEnd="@dimen/margen_pantalla"
+                android:paddingBottom="@dimen/espacio_xl">
+
+                <ImageButton
+                    android:id="@+id/botonMenu"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/menu_abrir"
+                    android:src="@drawable/ic_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/blanco" />
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/descripcion_logo"
+                    android:src="@drawable/ic_logo_marca"
+                    app:layout_constraintBottom_toBottomOf="@id/botonMenu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/botonMenu" />
+
+                <TextView
+                    android:id="@+id/saludo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/espacio_m"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Marca"
+                    android:textColor="@color/blanco"
+                    android:textSize="26sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/botonMenu"
+                    tools:text="Hola, Andrés" />
+
+                <TextView
+                    android:id="@+id/direccion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xs"
+                    android:drawablePadding="@dimen/espacio_xs"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    android:textColor="@color/verde_claro"
+                    app:drawableStartCompat="@drawable/ic_ubicacion"
+                    app:drawableTint="@color/lima"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/saludo"
+                    app:layout_constraintTop_toBottomOf="@id/saludo"
+                    tools:text="Entregar en Calle 14 # 4-63, Centro, Ibagué" />
+
+                <!-- Buscador: al tocarlo abre el catálogo con el teclado listo -->
+                <TextView
+                    android:id="@+id/buscador"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/alto_campo_busqueda"
+                    android:layout_marginTop="@dimen/espacio_l"
+                    android:background="@drawable/bg_campo_busqueda"
+                    android:drawablePadding="@dimen/espacio_m"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/espacio_l"
+                    android:paddingEnd="@dimen/espacio_l"
+                    android:text="@string/catalogo_buscar"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    app:drawableStartCompat="@drawable/ic_buscar"
+                    app:drawableTint="@color/verde_bosque"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/saludo"
+                    app:layout_constraintTop_toBottomOf="@id/direccion" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Banner promocional -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margen_pantalla"
+                android:layout_marginTop="@dimen/espacio_l"
+                android:layout_marginEnd="@dimen/margen_pantalla"
+                android:background="@drawable/bg_promo"
+                android:padding="@dimen/espacio_l">
+
+                <TextView
+                    android:id="@+id/promoTitulo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/espacio_s"
+                    android:text="@string/inicio_promo_titulo"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+                    android:textColor="@color/blanco"
+                    app:layout_constraintEnd_toStartOf="@id/promoIcono"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xxs"
+                    android:text="@string/inicio_promo_texto"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    android:textColor="@color/blanco"
+                    app:layout_constraintEnd_toEndOf="@id/promoTitulo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/promoTitulo" />
+
+                <ImageView
+                    android:id="@+id/promoIcono"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:alpha="0.85"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_envio"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/blanco" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Categorías -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla"
+                android:text="@string/inicio_categorias" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaCategorias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/espacio_s"
+                android:paddingEnd="@dimen/espacio_s"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_categoria" />
+
+            <!-- Destacados -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/espacio_xs">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/inicio_destacados"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonVerTodo"
+                    style="@style/Widget.SaborNatural.Boton.Texto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/accion_ver_todo" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaDestacados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/espacio_l"
+                android:paddingEnd="@dimen/espacio_l"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_producto" />
+
+            <!-- Recomendados -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla"
+                android:text="@string/inicio_recomendados" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaRecomendados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="@dimen/espacio_l"
+                android:paddingEnd="@dimen/espacio_l"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_producto" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Franja fija detrás de la barra de estado cuando el encabezado sale de la pantalla -->
+    <View
+        android:id="@+id/franjaBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/verde_bosque_oscuro" />
+</FrameLayout>

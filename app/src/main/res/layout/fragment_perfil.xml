@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Perfil, común a los tres roles (mockups B-10 y B-12, RF-PER-01 a RF-PER-07).
+    Encabezado con avatar y datos; tarjetas de cuenta, tienda (solo vendedor) y seguridad,
+    y botón de cerrar sesión. Las filas que no aplican a un rol se ocultan desde Kotlin.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.compartido.PerfilFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Encabezado -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/encabezado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_encabezado_curvo"
+                android:paddingStart="@dimen/espacio_s"
+                android:paddingTop="@dimen/espacio_s"
+                android:paddingEnd="@dimen/espacio_s"
+                android:paddingBottom="@dimen/espacio_xl">
+
+                <ImageButton
+                    android:id="@+id/botonMenu"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/menu_abrir"
+                    android:src="@drawable/ic_menu"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/blanco" />
+
+                <TextView
+                    android:id="@+id/tituloPantalla"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/espacio_s"
+                    android:text="@string/perfil_titulo"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.BarraSuperior"
+                    android:textColor="@color/blanco"
+                    app:layout_constraintBottom_toBottomOf="@id/botonMenu"
+                    app:layout_constraintStart_toEndOf="@id/botonMenu"
+                    app:layout_constraintTop_toTopOf="@id/botonMenu" />
+
+                <FrameLayout
+                    android:id="@+id/marcoAvatar"
+                    android:layout_width="@dimen/tamano_avatar_grande"
+                    android:layout_height="@dimen/tamano_avatar_grande"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/botonMenu">
+
+                    <TextView
+                        android:id="@+id/avatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_circulo_suave"
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Marca"
+                        tools:text="AR" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/fotoPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.SaborNatural.Circulo" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/nombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Titulo"
+                    android:textColor="@color/blanco"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/marcoAvatar"
+                    tools:text="Andrés Rojas Peña" />
+
+                <TextView
+                    android:id="@+id/correo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                    android:textColor="@color/verde_claro"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nombre"
+                    tools:text="comprador@sabornatural.co" />
+
+                <TextView
+                    android:id="@+id/rol"
+                    style="@style/Widget.SaborNatural.Etiqueta.Info"
+                    android:layout_marginTop="@dimen/espacio_s"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/correo"
+                    tools:text="Comprador" />
+
+                <TextView
+                    android:id="@+id/miembroDesde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xs"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Etiqueta"
+                    android:textColor="@color/verde_claro"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rol"
+                    tools:text="Miembro desde 2 de septiembre de 2026" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla"
+                android:paddingBottom="@dimen/espacio_xl">
+
+                <!-- Cuenta -->
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:text="@string/perfil_seccion_cuenta" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/filaEditar"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            android:text="@string/perfil_editar"
+                            app:drawableStartCompat="@drawable/ic_editar" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divisorPedidos"
+                            style="@style/Widget.SaborNatural.Divisor" />
+
+                        <TextView
+                            android:id="@+id/filaPedidos"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            android:text="@string/perfil_mis_pedidos"
+                            app:drawableStartCompat="@drawable/ic_pedidos" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divisorDirecciones"
+                            style="@style/Widget.SaborNatural.Divisor" />
+
+                        <TextView
+                            android:id="@+id/filaDirecciones"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            android:text="@string/perfil_direcciones"
+                            app:drawableStartCompat="@drawable/ic_ubicacion" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Mi tienda (solo vendedor) -->
+                <LinearLayout
+                    android:id="@+id/seccionTienda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/Widget.SaborNatural.TituloSeccion"
+                        android:text="@string/perfil_seccion_tienda" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/espacio_l">
+
+                            <TextView
+                                style="@style/Widget.SaborNatural.EtiquetaDato"
+                                android:text="@string/perfil_tienda_punto" />
+
+                            <TextView
+                                style="@style/Widget.SaborNatural.ValorDato"
+                                android:text="@string/perfil_tienda_punto_valor" />
+
+                            <TextView
+                                style="@style/Widget.SaborNatural.EtiquetaDato"
+                                android:layout_marginTop="@dimen/espacio_m"
+                                android:text="@string/perfil_tienda_cobertura" />
+
+                            <TextView
+                                style="@style/Widget.SaborNatural.ValorDato"
+                                android:text="@string/perfil_tienda_cobertura_valor" />
+
+                            <TextView
+                                android:id="@+id/telefonoTienda"
+                                style="@style/Widget.SaborNatural.ValorDato"
+                                android:layout_marginTop="@dimen/espacio_m"
+                                android:drawablePadding="@dimen/espacio_s"
+                                android:gravity="center_vertical"
+                                app:drawableStartCompat="@drawable/ic_telefono"
+                                app:drawableTint="@color/verde_bosque"
+                                tools:text="Celular 3109876543" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Seguridad y privacidad -->
+                <TextView
+                    style="@style/Widget.SaborNatural.TituloSeccion"
+                    android:text="@string/perfil_seccion_seguridad" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/filaHuella"
+                            layout="@layout/include_fila_interruptor" />
+
+                        <com.google.android.material.divider.MaterialDivider style="@style/Widget.SaborNatural.Divisor" />
+
+                        <include
+                            android:id="@+id/filaAvisos"
+                            layout="@layout/include_fila_interruptor" />
+
+                        <com.google.android.material.divider.MaterialDivider style="@style/Widget.SaborNatural.Divisor" />
+
+                        <include
+                            android:id="@+id/filaPromociones"
+                            layout="@layout/include_fila_interruptor" />
+
+                        <com.google.android.material.divider.MaterialDivider style="@style/Widget.SaborNatural.Divisor" />
+
+                        <TextView
+                            android:id="@+id/filaPolitica"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            android:text="@string/perfil_politica"
+                            app:drawableStartCompat="@drawable/ic_verificado" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divisorEliminar"
+                            style="@style/Widget.SaborNatural.Divisor" />
+
+                        <TextView
+                            android:id="@+id/filaEliminar"
+                            style="@style/Widget.SaborNatural.FilaOpcion"
+                            android:text="@string/perfil_eliminar_cuenta"
+                            android:textColor="@color/rojo"
+                            app:drawableStartCompat="@drawable/ic_eliminar"
+                            app:drawableTint="@color/rojo" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonCerrarSesion"
+                    style="@style/Widget.SaborNatural.Boton.ContornoPeligro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_xl"
+                    android:text="@string/panel_cerrar_sesion"
+                    app:icon="@drawable/ic_salir" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/franjaBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/verde_bosque_oscuro" />
+</FrameLayout>

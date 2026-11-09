@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Barra inferior del admin. El id de cada opción es el id del destino en su grafo de navegación. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/panelAdminFragment"
+        android:icon="@drawable/ic_panel"
+        android:title="@string/nav_panel" />
+    <item
+        android:id="@+id/usuariosFragment"
+        android:icon="@drawable/ic_usuarios"
+        android:title="@string/nav_usuarios" />
+    <item
+        android:id="@+id/productosAdminFragment"
+        android:icon="@drawable/ic_inventario"
+        android:title="@string/nav_productos" />
+    <item
+        android:id="@+id/reporteVentasFragment"
+        android:icon="@drawable/ic_grafico"
+        android:title="@string/nav_ventas" />
+    <item
+        android:id="@+id/perfilFragment"
+        android:icon="@drawable/ic_perfil"
+        android:title="@string/nav_perfil" />
+</menu>

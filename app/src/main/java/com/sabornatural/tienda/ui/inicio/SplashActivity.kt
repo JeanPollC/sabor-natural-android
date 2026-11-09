@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.sabornatural.tienda.R
-import com.sabornatural.tienda.datos.RepositorioUsuarios
 import com.sabornatural.tienda.datos.Sesion
 import com.sabornatural.tienda.databinding.ActivitySplashBinding
 import com.sabornatural.tienda.ui.auth.IngresoActivity
@@ -36,7 +35,6 @@ class SplashActivity : PantallaBase() {
         setContentView(binding.root)
         binding.raiz.rellenarBarrasDelSistema()
 
-        RepositorioUsuarios.inicializar(this)
         binding.version.text = getString(R.string.splash_version, versionDeLaApp())
 
         // Animaciones definidas en res/anim

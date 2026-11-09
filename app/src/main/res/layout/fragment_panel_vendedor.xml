@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Panel del vendedor (mockup V-01): cuatro indicadores en dos filas, los pedidos por atender
+    y las publicaciones que requieren atención (en revisión o rechazadas, con su motivo).
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.vendedor.PanelVendedorFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/espacio_xl">
+
+            <include
+                android:id="@+id/encabezado"
+                layout="@layout/include_encabezado_panel" />
+
+            <!-- Indicadores: dos filas de dos tarjetas; suben un poco sobre el encabezado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-24dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/espacio_l"
+                android:paddingEnd="@dimen/espacio_l">
+
+                <include
+                    android:id="@+id/indicador1"
+                    layout="@layout/include_indicador" />
+
+                <include
+                    android:id="@+id/indicador2"
+                    layout="@layout/include_indicador" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/espacio_l"
+                android:paddingEnd="@dimen/espacio_l">
+
+                <include
+                    android:id="@+id/indicador3"
+                    layout="@layout/include_indicador" />
+
+                <include
+                    android:id="@+id/indicador4"
+                    layout="@layout/include_indicador" />
+            </LinearLayout>
+
+            <!-- Pedidos por atender -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/espacio_xs">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/panel_vendedor_por_atender"
+                    android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonVerPedidos"
+                    style="@style/Widget.SaborNatural.Boton.Texto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/accion_ver_todo" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaPedidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_pedido" />
+
+            <TextView
+                android:id="@+id/sinPedidos"
+                style="@style/Widget.SaborNatural.Aviso.Info"
+                android:layout_marginStart="@dimen/margen_pantalla"
+                android:layout_marginEnd="@dimen/margen_pantalla"
+                android:text="@string/panel_vendedor_sin_pendientes"
+                android:visibility="gone" />
+
+            <!-- Publicaciones -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla"
+                android:text="@string/panel_vendedor_publicaciones" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaPublicaciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingEnd="@dimen/margen_pantalla"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_producto_gestion" />
+
+            <TextView
+                android:id="@+id/sinPublicaciones"
+                style="@style/Widget.SaborNatural.Aviso.Info"
+                android:layout_marginStart="@dimen/margen_pantalla"
+                android:layout_marginEnd="@dimen/margen_pantalla"
+                android:text="@string/panel_vendedor_publicaciones_ok"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/franjaBarraEstado"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/verde_bosque_oscuro" />
+</FrameLayout>

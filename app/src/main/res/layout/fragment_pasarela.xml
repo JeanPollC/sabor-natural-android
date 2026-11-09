@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Pasarela de pagos (mockups B-04 y B-05, RF-PED-01, RF-PAG-01): tipo de entrega y dirección,
+    medio de pago, datos de facturación, resumen y botón "Pagar". Antes de pagar se muestran el
+    vendedor y el total con domicilio (Ley 1480 de 2011, transparencia antes del pago).
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.comprador.PasarelaFragment">
+
+    <include
+        android:id="@+id/barra"
+        layout="@layout/include_barra_superior" />
+
+    <include
+        android:id="@+id/pasos"
+        layout="@layout/include_pasos_pago" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margen_pantalla"
+            android:paddingEnd="@dimen/margen_pantalla"
+            android:paddingBottom="@dimen/espacio_l">
+
+            <!-- Entrega -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:layout_marginTop="@dimen/espacio_l"
+                android:text="@string/pago_seccion_entrega" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/grupoEntrega"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:checkedButton="@id/opcionDomicilio"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/opcionDomicilio"
+                    style="@style/Widget.SaborNatural.BotonAlternar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/entrega_domicilio"
+                    app:icon="@drawable/ic_envio" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/opcionRecoger"
+                    style="@style/Widget.SaborNatural.BotonAlternar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/entrega_recoger"
+                    app:icon="@drawable/ic_tienda" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <LinearLayout
+                android:id="@+id/datosDomicilio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pago_direccion"
+                    app:startIconDrawable="@drawable/ic_ubicacion">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="postalAddress"
+                        android:inputType="textPostalAddress"
+                        android:maxLength="255" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoIndicaciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:hint="@string/pago_indicaciones"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="500">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:maxLength="500"
+                        android:minLines="2" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/avisoRecoger"
+                style="@style/Widget.SaborNatural.Aviso.Info"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_tienda"
+                app:drawableTint="@color/verde_bosque"
+                tools:text="@string/pago_recoger_en"
+                tools:visibility="visible" />
+
+            <!-- Medio de pago -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:text="@string/pago_seccion_medio" />
+
+            <include
+                android:id="@+id/opcionTarjeta"
+                layout="@layout/include_opcion_pago" />
+
+            <include
+                android:id="@+id/opcionPse"
+                layout="@layout/include_opcion_pago" />
+
+            <include
+                android:id="@+id/opcionNequi"
+                layout="@layout/include_opcion_pago" />
+
+            <!-- Facturación -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:text="@string/pago_seccion_facturacion" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoNombreFactura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pago_nombre_factura">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="name"
+                    android:inputType="textPersonName|textCapWords" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoDocumento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:hint="@string/pago_documento">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="10" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Resumen -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:text="@string/pago_seccion_resumen" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/totales"
+                    layout="@layout/include_totales" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/Widget.SaborNatural.Aviso.Info"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:text="@string/pago_aviso_pasarela"
+                app:drawableStartCompat="@drawable/ic_verificado"
+                app:drawableTint="@color/verde_bosque" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/barraAccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_barra_accion"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingTop="@dimen/espacio_m"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:paddingBottom="@dimen/espacio_m">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonPagar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_candado"
+            tools:text="Pagar $ 50.700" />
+    </FrameLayout>
+</LinearLayout>

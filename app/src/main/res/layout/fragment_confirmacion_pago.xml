@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Pago aprobado (mockup B-06, RF-PAG-03, RF-PED-03): comprobante con el código del pedido,
+    la referencia de pago, el medio, la fecha y el total, y el aviso del envío al correo.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/raiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.comprador.ConfirmacionPagoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/margen_pantalla">
+
+        <FrameLayout
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            android:layout_marginTop="@dimen/espacio_xxl"
+            android:background="@drawable/bg_circulo_suave">
+
+            <ImageView
+                android:id="@+id/iconoExito"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_check_circulo"
+                app:tint="@color/verde_bosque" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espacio_l"
+            android:text="@string/confirmacion_titulo"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Marca"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/texto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espacio_xs"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+            tools:text="Huerta La Montaña ya recibió tu pedido y empezará a prepararlo." />
+
+        <!-- Comprobante -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espacio_xl">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/espacio_l"
+                android:stretchColumns="1">
+
+                <TableRow>
+
+                    <TextView
+                        android:text="@string/confirmacion_pedido"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+                    <TextView
+                        android:id="@+id/codigo"
+                        android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+                        android:textStyle="bold"
+                        tools:text="SN-483991" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/espacio_s">
+
+                    <TextView
+                        android:text="@string/confirmacion_referencia"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+                    <TextView
+                        android:id="@+id/referencia"
+                        android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+                        tools:text="WMP-120044" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/espacio_s">
+
+                    <TextView
+                        android:text="@string/confirmacion_medio"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+                    <TextView
+                        android:id="@+id/medio"
+                        android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+                        tools:text="Nequi" />
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/espacio_s">
+
+                    <TextView
+                        android:text="@string/confirmacion_fecha"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+                    <TextView
+                        android:id="@+id/fecha"
+                        android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+                        tools:text="8 nov 2026, 5:40 p. m." />
+                </TableRow>
+
+                <View
+                    android:layout_height="@dimen/borde_fino"
+                    android:layout_marginTop="@dimen/espacio_m"
+                    android:layout_marginBottom="@dimen/espacio_m"
+                    android:background="@color/borde" />
+
+                <TableRow>
+
+                    <TextView
+                        android:text="@string/confirmacion_total"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo" />
+
+                    <TextView
+                        android:id="@+id/total"
+                        android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.SaborNatural.Precio"
+                        tools:text="$ 50.700" />
+                </TableRow>
+            </TableLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/correo"
+            style="@style/Widget.SaborNatural.Aviso.Info"
+            android:layout_marginTop="@dimen/espacio_m"
+            app:drawableStartCompat="@drawable/ic_correo"
+            app:drawableTint="@color/verde_bosque"
+            tools:text="Enviamos el comprobante a comprador@sabornatural.co" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="@dimen/espacio_xl" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonVerPedidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirmacion_ver_pedidos"
+            app:icon="@drawable/ic_pedidos" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonSeguir"
+            style="@style/Widget.SaborNatural.Boton.Texto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espacio_xs"
+            android:text="@string/confirmacion_seguir" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

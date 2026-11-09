@@ -22,6 +22,20 @@
         <item name="cornerSize">@dimen/radio_l</item>
     </style>
 
+    <!-- Círculo para fotos de perfil -->
+    <style name="ShapeAppearance.SaborNatural.Circulo" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Línea divisoria entre filas de una tarjeta (con sangría bajo el ícono) -->
+    <style name="Widget.SaborNatural.Divisor" parent="Widget.Material3.MaterialDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="dividerColor">@color/borde</item>
+        <item name="dividerInsetStart">56dp</item>
+    </style>
+
     <!-- Píldora: esquinas al 50 % de la altura -->
     <style name="ShapeAppearance.SaborNatural.Pildora" parent="">
         <item name="cornerFamily">rounded</item>
@@ -151,6 +165,13 @@
         <item name="iconGravity">textStart</item>
     </style>
 
+    <!-- Contorno rojo: cerrar sesión y acciones destructivas secundarias -->
+    <style name="Widget.SaborNatural.Boton.ContornoPeligro" parent="Widget.SaborNatural.Boton.Contorno">
+        <item name="strokeColor">@color/rojo</item>
+        <item name="android:textColor">@color/rojo</item>
+        <item name="iconTint">@color/rojo</item>
+    </style>
+
     <!-- Texto: enlaces como "¿Olvidaste tu contraseña?" -->
     <style name="Widget.SaborNatural.Boton.Texto" parent="Widget.Material3.Button.TextButton">
         <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Boton</item>
@@ -179,6 +200,19 @@
         <item name="helperTextTextColor">@color/texto_secundario</item>
         <item name="errorTextColor">@color/rojo</item>
         <item name="boxStrokeErrorColor">@color/rojo</item>
+    </style>
+
+    <!-- Campo con lista desplegable (categoría, rol) -->
+    <style name="Widget.SaborNatural.Campo.Desplegable" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/blanco</item>
+        <item name="boxStrokeColor">@color/selector_borde_campo</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radio_m</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radio_m</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radio_m</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radio_m</item>
+        <item name="hintTextColor">@color/verde_bosque</item>
+        <item name="startIconTint">@color/verde_bosque</item>
+        <item name="endIconTint">@color/verde_bosque</item>
     </style>
 
     <!-- ═════════ Tarjetas ═════════ -->
@@ -326,6 +360,100 @@
         <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Cuerpo</item>
         <item name="android:textColor">@color/blanco</item>
         <item name="drawableTint">@color/lima</item>
+    </style>
+
+    <!-- Fila de opción del perfil: ícono, texto y flecha; toda la fila es tocable -->
+    <style name="Widget.SaborNatural.FilaOpcion" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:paddingStart">@dimen/espacio_l</item>
+        <item name="android:paddingEnd">@dimen/espacio_l</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/espacio_l</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Cuerpo</item>
+        <item name="drawableTint">@color/verde_bosque</item>
+        <item name="drawableEndCompat">@drawable/ic_chevron</item>
+    </style>
+
+    <!-- Menú lateral (NavigationView): destino activo en verde claro -->
+    <style name="Widget.SaborNatural.MenuLateral" parent="Widget.Material3.NavigationView">
+        <item name="android:background">@color/blanco</item>
+        <item name="itemIconTint">@color/selector_barra_inferior</item>
+        <item name="itemTextColor">@color/selector_barra_inferior</item>
+        <item name="itemShapeFillColor">@color/selector_menu_lateral_fondo</item>
+        <item name="itemTextAppearance">@style/TextAppearance.SaborNatural.Cuerpo</item>
+        <item name="drawerLayoutCornerSize">@dimen/radio_l</item>
+    </style>
+
+    <!-- Tarjeta que se puede marcar (medio de pago, tipo de entrega) -->
+    <style name="Widget.SaborNatural.TarjetaSeleccionable" parent="Widget.SaborNatural.Tarjeta">
+        <item name="android:checkable">true</item>
+        <item name="strokeColor">@color/selector_borde_seleccion</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="checkedIcon">@null</item>
+        <item name="cardForegroundColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Botones + y − del selector de cantidad -->
+    <style name="Widget.SaborNatural.BotonCantidad" parent="Widget.Material3.Button.IconButton.Outlined">
+        <item name="iconTint">@color/verde_bosque</item>
+        <item name="strokeColor">@color/borde</item>
+        <item name="iconSize">18dp</item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">40dp</item>
+    </style>
+
+    <!-- Indicador numérico (paneles del vendedor y del administrador) -->
+    <style name="TextAppearance.SaborNatural.Indicador" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/texto_principal</item>
+    </style>
+
+    <style name="TextAppearance.SaborNatural.Precio.Grande">
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <!-- Indicador de pasos de la compra -->
+    <style name="Widget.SaborNatural.Paso" parent="">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:background">@drawable/bg_paso</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Etiqueta</item>
+    </style>
+
+    <style name="Widget.SaborNatural.EtiquetaPaso" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/espacio_xs</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Etiqueta</item>
+    </style>
+
+    <style name="Widget.SaborNatural.LineaPaso" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">@dimen/espacio_s</item>
+        <item name="android:layout_marginEnd">@dimen/espacio_s</item>
+        <item name="android:background">@color/borde</item>
+    </style>
+
+    <!-- Par etiqueta/valor dentro de una tarjeta (rótulo, recibo, datos del pedido) -->
+    <style name="Widget.SaborNatural.EtiquetaDato" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Etiqueta</item>
+        <item name="android:textColor">@color/texto_secundario</item>
+    </style>
+
+    <style name="Widget.SaborNatural.ValorDato" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/espacio_xxs</item>
+        <item name="android:textAppearance">@style/TextAppearance.SaborNatural.Cuerpo</item>
     </style>
 
     <!-- Título de sección dentro de una pantalla larga -->

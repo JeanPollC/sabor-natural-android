@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Resumen de totales (carrito, pasarela y detalle del pedido). TableLayout: cada TableRow tiene
+    una etiqueta a la izquierda y el valor alineado a la derecha (stretchColumns estira la 1.ª columna).
+-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/espacio_l"
+    android:stretchColumns="0">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/etiquetaSubtotal"
+            android:text="@string/carrito_subtotal"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+        <TextView
+            android:id="@+id/subtotal"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+            tools:text="$ 44.700" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="@dimen/espacio_s">
+
+        <TextView
+            android:text="@string/carrito_domicilio"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+        <TextView
+            android:id="@+id/domicilio"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+            tools:text="$ 6.000" />
+    </TableRow>
+
+    <View
+        android:layout_height="@dimen/borde_fino"
+        android:layout_marginTop="@dimen/espacio_m"
+        android:layout_marginBottom="@dimen/espacio_m"
+        android:background="@color/borde" />
+
+    <TableRow>
+
+        <TextView
+            android:text="@string/carrito_total"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo" />
+
+        <TextView
+            android:id="@+id/total"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.SaborNatural.Precio"
+            tools:text="$ 50.700" />
+    </TableRow>
+</TableLayout>

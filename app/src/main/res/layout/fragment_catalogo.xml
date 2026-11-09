@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Catálogo (RF-INI-03): buscador, fichas de categoría (ChipGroup de selección única dentro de
+    un HorizontalScrollView), número de resultados y cuadrícula de productos de 2 columnas.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.comprador.CatalogoFragment">
+
+    <include
+        android:id="@+id/barra"
+        layout="@layout/include_barra_superior" />
+
+    <!-- Buscador sobre un bloque verde con esquinas curvas -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bloque_verde_curvo"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:paddingBottom="@dimen/espacio_l">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campoBuscar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="@dimen/radio_xl"
+            app:boxCornerRadiusBottomStart="@dimen/radio_xl"
+            app:boxCornerRadiusTopEnd="@dimen/radio_xl"
+            app:boxCornerRadiusTopStart="@dimen/radio_xl"
+            app:boxStrokeWidth="0dp"
+            app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            app:startIconDrawable="@drawable/ic_buscar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textoBuscar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/catalogo_buscar"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLength="60" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_m"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/fichasCategorias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true" />
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/resultados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/espacio_xs"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+        tools:text="14 resultados" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listaProductos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="@dimen/espacio_m"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_producto" />
+
+        <include
+            android:id="@+id/estadoVacio"
+            layout="@layout/include_estado_vacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</LinearLayout>

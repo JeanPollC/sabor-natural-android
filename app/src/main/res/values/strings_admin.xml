@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos del rol administrador (mockups A-01 a A-06 y reporte de ventas). -->
+<resources>
+    <string name="nav_usuarios">Usuarios</string>
+    <string name="nav_ventas">Ventas</string>
+
+    <!-- Panel (A-01) -->
+    <string name="panel_admin_subtitulo">Panel de administración</string>
+    <string name="indicador_usuarios_activos">Usuarios activos</string>
+    <string name="indicador_en_revision">En revisión</string>
+    <string name="indicador_pedidos_mes">Pedidos del mes</string>
+    <string name="panel_admin_atencion">Requiere tu atención</string>
+    <plurals name="panel_admin_solicitudes">
+        <item quantity="one">%1$d solicitud de vendedor</item>
+        <item quantity="other">%1$d solicitudes de vendedor</item>
+    </plurals>
+    <plurals name="panel_admin_productos_revision">
+        <item quantity="one">%1$d producto por moderar</item>
+        <item quantity="other">%1$d productos por moderar</item>
+    </plurals>
+    <string name="panel_admin_ver_reporte">Ver el reporte de ventas</string>
+    <string name="panel_admin_usuarios_por_rol">Usuarios por rol</string>
+
+    <!-- Usuarios (A-02, A-03, A-04) -->
+    <string name="usuarios_titulo">Usuarios</string>
+    <string name="usuarios_buscar">Buscar por nombre o correo</string>
+    <string name="usuarios_filtro_compradores">Compradores</string>
+    <string name="usuarios_filtro_vendedores">Vendedores</string>
+    <string name="usuarios_filtro_admin">Administradores</string>
+    <string name="usuarios_filtro_pendientes">Pendientes</string>
+    <string name="usuarios_nuevo">Nuevo usuario</string>
+    <string name="usuarios_vacio">No hay usuarios con ese filtro</string>
+    <string name="usuario_formulario_nuevo">Nuevo usuario</string>
+    <string name="usuario_formulario_editar">Editar usuario</string>
+    <string name="usuario_rol">Rol</string>
+    <string name="usuario_estado">Estado de la cuenta</string>
+    <string name="usuario_registrado">Registrado el %1$s</string>
+    <string name="usuario_aviso_clave">El administrador no asigna contraseñas: el usuario recibirá un enlace en su correo para crearla.</string>
+    <string name="usuario_solicitud_titulo">Solicitud de vendedor</string>
+    <string name="usuario_solicitud_texto">Este comercio pidió vender en Sabor Natural. Verifica su documento y su punto de despacho antes de aprobarlo.</string>
+    <string name="usuario_aprobado">Vendedor aprobado</string>
+    <string name="usuario_rechazado">Solicitud rechazada</string>
+    <string name="usuario_creado">Usuario creado. Se envió el enlace de activación.</string>
+    <string name="usuario_guardado">Usuario actualizado</string>
+    <string name="usuario_eliminar">Eliminar usuario</string>
+    <string name="usuario_eliminar_confirmar">Se eliminará la cuenta de %1$s. Sus pedidos se conservan sin identificarlo. Esta acción no se puede deshacer.</string>
+    <string name="usuario_eliminado">Usuario eliminado</string>
+    <string name="usuario_no_propio">No puedes cambiar el rol ni el estado de tu propia cuenta</string>
+
+    <!-- Productos (A-05) -->
+    <string name="productos_titulo_admin">Moderación de productos</string>
+    <string name="productos_filtro_pausados">Pausados</string>
+    <string name="rotulo_completo">Rótulo completo</string>
+    <string name="rotulo_incompleto">Rótulo incompleto</string>
+    <string name="producto_resumen_admin">%1$s · %2$s</string>
+    <string name="moderacion_titulo">Moderar publicación</string>
+    <string name="moderacion_aprobar_bloqueado">No se puede aprobar: falta el registro sanitario en el rótulo.</string>
+    <string name="moderacion_suspender">Suspender</string>
+    <string name="moderacion_motivo">Motivo del rechazo</string>
+    <string name="moderacion_motivo_ayuda">El vendedor verá este motivo</string>
+    <string name="moderacion_aprobado">Producto aprobado y publicado</string>
+    <string name="moderacion_rechazado">Producto rechazado</string>
+    <string name="moderacion_suspendido">Publicación suspendida</string>
+
+    <!-- Reporte de ventas -->
+    <string name="reporte_titulo">Reporte de ventas</string>
+    <string name="reporte_7_dias">Últimos 7 días</string>
+    <string name="reporte_mes">Este mes</string>
+    <string name="reporte_todo">Todo</string>
+    <string name="reporte_ventas">Ventas</string>
+    <string name="reporte_pedidos">Pedidos</string>
+    <string name="reporte_ticket">Ticket promedio</string>
+    <string name="reporte_cancelados">Cancelados</string>
+    <string name="reporte_por_categoria">Ventas por categoría</string>
+    <string name="reporte_por_vendedor">Ventas por productor</string>
+    <string name="reporte_mas_vendidos">Productos más vendidos</string>
+    <string name="reporte_ultimos">Últimos pedidos</string>
+    <string name="reporte_sin_datos">No hay ventas en este periodo</string>
+    <string name="reporte_unidades">%1$d und. · %2$s</string>
+    <string name="reporte_nota">Las ventas suman los pedidos no cancelados, con domicilio incluido.</string>
+</resources>

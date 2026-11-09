@@ -48,7 +48,6 @@ class IngresoActivity : PantallaBase() {
         binding = ActivityIngresoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sesion = Sesion(this)
-        RepositorioUsuarios.inicializar(this)
 
         configurarEncabezado()
         binding.desplazable.rellenarBarraDeNavegacion()

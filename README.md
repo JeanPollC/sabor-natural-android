@@ -14,7 +14,7 @@ comprador) y las pantallas comunes, construidas a partir de los mockups del docu
 | Interfaz | Layouts XML con Material Design 3 (Material Components 1.12) |
 | SDK | `minSdk` 26 · `targetSdk` 36 · `compileSdk` 36 |
 | Compilación | Gradle 8.14.3 · Android Gradle Plugin 8.13 · JDK 21 |
-| Bibliotecas | AppCompat, ConstraintLayout, RecyclerView, Navigation, Biometric, SplashScreen |
+| Bibliotecas | AppCompat, ConstraintLayout, RecyclerView, Navigation Component, Biometric, SplashScreen, Lifecycle |
 
 ## Cómo abrirlo y ejecutarlo
 
@@ -43,43 +43,69 @@ donde la contraseña está guardada como hash SHA-256 (no en texto plano). Estas
 | Comprador | `comprador@sabornatural.co` | `Compra2026*` |
 | Vendedor pendiente de aprobación | `pendiente@sabornatural.co` | `Vende2026*` |
 
-Las cuentas creadas desde la pantalla de registro se guardan solo en memoria mientras la app está abierta.
+Todo lo que se crea o modifica en la app (cuentas, productos, pedidos, fotos) se guarda en memoria mientras la app
+está abierta; al cerrarla vuelven los datos de prueba. La conexión con la API se hará en la siguiente fase del curso.
 
 **Ingreso con huella en el emulador:** registrar una huella en `Ajustes > Seguridad > Pixel Imprint` (pide un PIN)
 y usar los controles extendidos del emulador (`... > Fingerprint > Touch sensor`) para simular el toque.
 
 ## Pantallas
 
-| Fase | Pantalla | Mockup | Requerimientos |
+Cada rol tiene su propia Activity con **barra de navegación inferior** (BottomNavigationView) y **menú lateral**
+(DrawerLayout + NavigationView); sus pantallas son Fragments conectados por un grafo de Navigation Component
+(`res/navigation`). Los códigos de mockup remiten al documento técnico de planeación.
+
+| Rol | Pantalla | Mockup | Clase |
 |---|---|---|---|
-| 2 | Splash animado | C-01 | RF-INI-01 |
-| 2 | Bienvenida | C-01 | RF-INI-01, RF-INI-02 |
-| 2 | Ingreso con correo y contraseña, bloqueo tras 5 intentos | C-02 | RF-AUT-03 |
-| 2 | Ingreso con huella (BiometricPrompt) | C-03 | RF-AUT-05 |
-| 2 | Recuperar contraseña | C-02 | RF-AUT-06 |
-| 2 | Crear cuenta de comprador o vendedor | C-04 | RF-AUT-01, RF-AUT-02 |
+| Todos | Splash animado | C-01 | `ui/inicio/SplashActivity` |
+| Todos | Bienvenida (ingresar, crear cuenta, explorar sin cuenta) | C-01 | `ui/inicio/BienvenidaActivity` |
+| Todos | Ingreso con validaciones y bloqueo tras 5 intentos | C-02 | `ui/auth/IngresoActivity` |
+| Todos | Ingreso con huella (BiometricPrompt) | C-03 | `ui/comun/Biometria` |
+| Todos | Recuperar contraseña | C-02 | `ui/auth/RecuperarClaveActivity` |
+| Todos | Crear cuenta de comprador o vendedor | C-04 | `ui/auth/RegistroActivity` |
+| Todos | Perfil, editar perfil (cámara o galería), seguridad y privacidad | B-10 a B-12 | `ui/compartido/PerfilFragment`, `EditarPerfilFragment` |
+| Comprador | Inicio | B-01 | `ui/comprador/InicioFragment` |
+| Comprador | Catálogo con búsqueda y filtros | B-01 | `ui/comprador/CatalogoFragment` |
+| Comprador | Detalle del producto | B-02 | `ui/comprador/DetalleProductoFragment` |
+| Comprador | Carrito | B-03 | `ui/comprador/CarritoFragment` |
+| Comprador | Pasarela de pagos (entrega, medio de pago, facturación) | B-04, B-05 | `ui/comprador/PasarelaFragment` |
+| Comprador | Pago aprobado | B-06 | `ui/comprador/ConfirmacionPagoFragment` |
+| Comprador | Mis pedidos y seguimiento | B-07, B-08 | `ui/compartido/ListaPedidosFragment`, `DetallePedidoFragment` |
+| Vendedor | Panel con indicadores | V-01 | `ui/vendedor/PanelVendedorFragment` |
+| Vendedor | Productos: crear, consultar, editar, pausar y eliminar | V-02 | `ui/compartido/GestionProductosFragment` |
+| Vendedor | Formulario de producto con cámara y galería | V-03, V-04 | `ui/vendedor/FormularioProductoFragment` |
+| Vendedor | Historial de pedidos recibidos y despacho | V-05, V-06 | `ui/compartido/ListaPedidosFragment`, `DetallePedidoFragment` |
+| Administrador | Panel (dashboard) | A-01 | `ui/admin/PanelAdminFragment` |
+| Administrador | Usuarios: listado, crear, editar, eliminar, aprobar vendedores | A-02 a A-04 | `ui/admin/UsuariosFragment`, `FormularioUsuarioFragment` |
+| Administrador | Moderación de productos | A-05 | `ui/compartido/GestionProductosFragment` |
+| Administrador | Reporte de ventas con gráfico | A-01, A-06 | `ui/admin/ReporteVentasFragment`, `GraficoBarras` |
 
 ## Estructura
 
 ```
 app/src/main/
-├── assets/datos_demo/  usuarios de prueba (JSON)
+├── assets/datos_demo/  usuarios, productos y pedidos de prueba (JSON)
 ├── java/com/sabornatural/tienda/
-│   ├── datos/          modelos, repositorio de usuarios y sesión
+│   ├── SaborNaturalApp.kt  carga los datos de prueba al iniciar la app
+│   ├── datos/          modelos, repositorios en memoria, carrito, sesión y preferencias
 │   └── ui/
-│       ├── auth/       ingreso, huella, recuperar contraseña y registro
-│       ├── comun/      pantalla base, navegación por rol, validaciones, biometría e insets
-│       ├── estilos/    guía de estilos (mantener presionado el logo de la bienvenida)
 │       ├── inicio/     splash y bienvenida
-│       └── panel/      panel provisional por rol (se reemplaza en las fases 3 a 5)
+│       ├── auth/       ingreso, recuperar contraseña y registro
+│       ├── comprador/  Activity del comprador y sus pantallas
+│       ├── vendedor/   Activity del vendedor, panel y formulario de producto
+│       ├── admin/      Activity del administrador, usuarios, reporte y gráfico de barras
+│       ├── compartido/ pantallas que usan varios roles (perfil, pedidos, gestión de productos)
+│       ├── comun/      base de pantallas, navegación, adaptadores, validaciones, biometría, cámara
+│       └── estilos/    guía de estilos (mantener presionado el logo de la bienvenida)
 └── res/
-    ├── anim/           animaciones de entrada del splash
+    ├── anim/           animaciones del splash y de las transiciones entre pantallas
     ├── color/          selectores de color por estado (enfocado, marcado, deshabilitado)
     ├── drawable/       íconos vectoriales, logotipo y fondos con forma o degradado
-    ├── layout/         pantallas, encabezados reutilizables (include) e ítems de lista
-    ├── menu/           menús de navegación
+    ├── layout/         activities, fragments, includes reutilizables, ítems de lista y hojas inferiores
+    ├── menu/           barra inferior y menú lateral de cada rol
     ├── mipmap-*/       ícono adaptable de la aplicación
-    └── values/         colors, dimens, strings (con plurals), styles y themes
+    ├── navigation/     grafos de navegación de cada rol
+    └── values/         colors, dimens, strings (por rol, con plurals), styles y themes
 ```
 
 ## Sistema de diseño

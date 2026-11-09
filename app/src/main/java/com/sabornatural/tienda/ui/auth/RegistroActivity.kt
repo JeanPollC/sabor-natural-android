@@ -37,7 +37,6 @@ class RegistroActivity : PantallaBase() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        RepositorioUsuarios.inicializar(this)
 
         with(binding.encabezado) {
             root.rellenarBarraDeEstado()

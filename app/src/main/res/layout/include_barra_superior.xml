@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Barra superior verde que reutilizan casi todas las pantallas con <include>.
+    El FrameLayout se extiende detrás de la barra de estado; la MaterialToolbar lleva el título,
+    el ícono de menú o de volver y las acciones. El ThemeOverlay pinta de blanco los íconos.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/verde_bosque">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barraSuperior"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.SaborNatural.BarraSuperior" />
+</FrameLayout>

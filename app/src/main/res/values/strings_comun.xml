@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos compartidos por los tres roles: categorías, estados, perfil y menú lateral. -->
+<resources>
+    <!-- Categorías -->
+    <string name="categoria_granolas">Granolas</string>
+    <string name="categoria_endulzantes">Infusiones</string>
+    <string name="categoria_preparados">Preparados</string>
+
+    <!-- Estados de publicación -->
+    <string name="publicacion_borrador">Borrador</string>
+    <string name="publicacion_revision">En revisión</string>
+    <string name="publicacion_publicado">Publicado</string>
+    <string name="publicacion_rechazado">Rechazado</string>
+    <string name="publicacion_suspendido">Pausado</string>
+    <string name="tipo_empacado">Empacado</string>
+    <string name="tipo_preparado">Preparado</string>
+
+    <!-- Estados de pedido, pagos y entrega -->
+    <string name="pedido_confirmado">Nuevo</string>
+    <string name="pedido_confirmado_linea">Pedido confirmado</string>
+    <string name="pedido_en_preparacion">En preparación</string>
+    <string name="pedido_despachado">Despachado</string>
+    <string name="pedido_entregado">Entregado</string>
+    <string name="pedido_cancelado">Cancelado</string>
+    <string name="pago_tarjeta">Tarjeta débito o crédito</string>
+    <string name="pago_pse">PSE</string>
+    <string name="pago_nequi">Nequi</string>
+    <string name="entrega_domicilio">Domicilio</string>
+    <string name="entrega_recoger">Recoger</string>
+
+    <!-- Formatos -->
+    <string name="formato_unidades">%1$d und.</string>
+    <string name="formato_calificacion">%1$s (%2$d)</string>
+    <string name="formato_disponibles">%1$d disponibles</string>
+    <string name="formato_pocas_unidades">¡Últimas %1$d unidades!</string>
+    <string name="formato_agotado">Agotado</string>
+    <string name="formato_por_vendedor">por %1$s</string>
+    <string name="formato_pedido_resumen">%1$s · %2$s</string>
+    <plurals name="formato_productos">
+        <item quantity="one">%1$d producto</item>
+        <item quantity="other">%1$d productos</item>
+    </plurals>
+    <plurals name="formato_resultados">
+        <item quantity="one">%1$d resultado</item>
+        <item quantity="other">%1$d resultados</item>
+    </plurals>
+
+    <!-- Menú lateral -->
+    <string name="menu_abrir">Abrir menú</string>
+    <string name="menu_cerrar">Cerrar menú</string>
+    <string name="menu_seccion_cuenta">Cuenta</string>
+
+    <!-- Perfil (B-10, B-11, B-12) -->
+    <string name="perfil_titulo">Mi perfil</string>
+    <string name="perfil_editar">Editar perfil</string>
+    <string name="perfil_mis_pedidos">Mis pedidos</string>
+    <string name="perfil_direcciones">Mis direcciones</string>
+    <string name="perfil_seccion_cuenta">Cuenta</string>
+    <string name="perfil_seccion_seguridad">Seguridad y privacidad</string>
+    <string name="perfil_huella">Ingreso con huella</string>
+    <string name="perfil_huella_detalle">Desbloquea la app sin escribir la contraseña</string>
+    <string name="perfil_huella_no_disponible">Este teléfono no tiene huellas registradas</string>
+    <string name="perfil_notificaciones_pedidos">Avisos de mis pedidos</string>
+    <string name="perfil_notificaciones_promociones">Promociones</string>
+    <string name="perfil_notificaciones_promociones_detalle">Solo de lunes a sábado, en horario permitido (Ley 2300 de 2023)</string>
+    <string name="perfil_politica">Política de tratamiento de datos</string>
+    <string name="perfil_politica_texto">Sabor Natural trata tus datos solo para gestionar tus compras y entregas, según la Ley 1581 de 2012. Puedes consultarlos, corregirlos o eliminarlos desde tu perfil.</string>
+    <string name="perfil_eliminar_cuenta">Eliminar mi cuenta</string>
+    <string name="perfil_eliminar_cuenta_confirmar">Se eliminarán tus datos personales. Tus pedidos se conservan sin identificarte, como soporte contable. Esta acción no se puede deshacer.</string>
+    <string name="perfil_cuenta_eliminada">Cuenta eliminada</string>
+    <string name="perfil_seccion_tienda">Mi tienda</string>
+    <string name="perfil_tienda_punto">Punto de despacho</string>
+    <string name="perfil_tienda_punto_valor">Vereda El Totumo, km 4 vía a San Bernardo, Ibagué</string>
+    <string name="perfil_tienda_cobertura">Cobertura de entrega</string>
+    <string name="perfil_tienda_cobertura_valor">Hasta 12 km desde el punto de despacho</string>
+    <string name="perfil_miembro_desde">Miembro desde %1$s</string>
+    <string name="perfil_direccion_predeterminada">Calle 14 # 4-63, Centro, Ibagué</string>
+    <string name="perfil_proximamente">Disponible cuando la app se conecte con la API</string>
+
+    <!-- Editar perfil -->
+    <string name="editar_perfil_cambiar_foto">Cambiar foto</string>
+    <string name="editar_perfil_tomar_foto">Tomar foto</string>
+    <string name="editar_perfil_elegir_galeria">Elegir de la galería</string>
+    <string name="editar_perfil_quitar_foto">Quitar foto</string>
+    <string name="editar_perfil_correo_ayuda">El correo no se puede cambiar desde la app</string>
+    <string name="editar_perfil_guardado">Perfil actualizado</string>
+
+    <!-- Estados vacíos -->
+    <string name="vacio_sin_resultados">No encontramos productos</string>
+    <string name="vacio_sin_resultados_texto">Prueba con otra palabra o quita el filtro de categoría.</string>
+    <string name="vacio_sin_pedidos">Aún no hay pedidos</string>
+    <string name="vacio_sin_pedidos_texto">Cuando haya pedidos los verás aquí con su estado.</string>
+    <string name="vacio_invitado">Ingresa para continuar</string>
+    <string name="vacio_invitado_texto">Necesitas una cuenta para comprar y ver tu perfil.</string>
+    <string name="vacio_invitado_boton">Ingresar o crear cuenta</string>
+
+    <!-- Acciones genéricas -->
+    <string name="accion_ver_todo">Ver todo</string>
+    <string name="accion_deshacer">Deshacer</string>
+    <string name="accion_confirmar">Confirmar</string>
+    <string name="accion_editar">Editar</string>
+    <string name="accion_aprobar">Aprobar</string>
+    <string name="accion_rechazar">Rechazar</string>
+    <string name="accion_aumentar">Aumentar cantidad</string>
+    <string name="accion_disminuir">Disminuir cantidad</string>
+    <string name="accion_mas_opciones">Más opciones</string>
+    <!-- Listas de pedidos -->
+    <string name="pedidos_titulo_comprador">Mis pedidos</string>
+    <string name="pedidos_titulo_vendedor">Pedidos recibidos</string>
+    <string name="pedidos_todos">Todos</string>
+
+    <!-- Detalle del pedido (B-08 comprador, V-06 vendedor) -->
+    <string name="detalle_pedido_estado">Estado del pedido</string>
+    <string name="detalle_pedido_productor">Productor</string>
+    <string name="detalle_pedido_comprador">Comprador</string>
+    <string name="detalle_pedido_entrega">Entrega</string>
+    <string name="detalle_pedido_productos">Productos</string>
+    <string name="detalle_pedido_pago">Pago</string>
+    <string name="detalle_pedido_avanzar">Marcar como %1$s</string>
+    <string name="detalle_pedido_rechazar">Rechazar pedido</string>
+    <string name="detalle_pedido_rechazar_confirmar">El comprador recibirá el reembolso al mismo medio de pago. ¿Rechazar este pedido?</string>
+    <string name="detalle_pedido_cancelar">Cancelar pedido</string>
+    <string name="detalle_pedido_cancelar_confirmar">Puedes cancelar mientras el pedido no haya sido despachado. El reembolso llega al mismo medio de pago en máximo 15 días.</string>
+    <string name="detalle_pedido_actualizado">Pedido actualizado: %1$s</string>
+    <string name="detalle_pedido_recoge">Recoge en el punto del productor</string>
+    <string name="formato_linea_pedido">%1$d × %2$s</string>
+    <string name="formato_telefono">Celular %1$s</string>
+</resources>

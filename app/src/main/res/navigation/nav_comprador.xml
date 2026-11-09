@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Grafo de navegación del comprador (documento técnico, Figura 2). Cada <fragment> es una
+    pantalla; startDestination es la primera. Los destinos de la barra inferior usan los mismos
+    ids que los menús, así Navigation sabe qué opción marcar.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_comprador"
+    app:startDestination="@id/inicioFragment">
+
+    <fragment
+        android:id="@+id/inicioFragment"
+        android:name="com.sabornatural.tienda.ui.comprador.InicioFragment"
+        android:label="@string/nav_inicio" />
+
+    <fragment
+        android:id="@+id/catalogoFragment"
+        android:name="com.sabornatural.tienda.ui.comprador.CatalogoFragment"
+        android:label="@string/catalogo_titulo" />
+
+    <fragment
+        android:id="@+id/detalleProductoFragment"
+        android:name="com.sabornatural.tienda.ui.comprador.DetalleProductoFragment"
+        android:label="@string/detalle_descripcion">
+        <argument
+            android:name="producto_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/carritoFragment"
+        android:name="com.sabornatural.tienda.ui.comprador.CarritoFragment"
+        android:label="@string/carrito_titulo" />
+
+    <fragment
+        android:id="@+id/pasarelaFragment"
+        android:name="com.sabornatural.tienda.ui.comprador.PasarelaFragment"
+        android:label="@string/pago_titulo" />
+
+    <fragment
+        android:id="@+id/confirmacionPagoFragment"
+        android:name="com.sabornatural.tienda.ui.comprador.ConfirmacionPagoFragment"
+        android:label="@string/confirmacion_titulo">
+        <argument
+            android:name="pedido_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/misPedidosFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.ListaPedidosFragment"
+        android:label="@string/pedidos_titulo_comprador">
+        <argument
+            android:name="modo"
+            android:defaultValue="COMPRADOR"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detallePedidoFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.DetallePedidoFragment"
+        android:label="@string/detalle_pedido_estado" />
+
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.PerfilFragment"
+        android:label="@string/perfil_titulo" />
+
+    <fragment
+        android:id="@+id/editarPerfilFragment"
+        android:name="com.sabornatural.tienda.ui.compartido.EditarPerfilFragment"
+        android:label="@string/perfil_editar" />
+</navigation>

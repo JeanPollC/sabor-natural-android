@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Textos del rol comprador (mockups B-01 a B-12). -->
+<resources>
+    <!-- Inicio (B-01) -->
+    <string name="inicio_saludo">Hola, %1$s</string>
+    <string name="inicio_saludo_invitado">Hola</string>
+    <string name="inicio_entregar_en">Entregar en %1$s</string>
+    <string name="inicio_promo_titulo">Envío gratis en tu primera compra</string>
+    <string name="inicio_promo_texto">Productos frescos de productores de Ibagué</string>
+    <string name="inicio_categorias">Categorías</string>
+    <string name="inicio_destacados">Destacados</string>
+    <string name="inicio_recomendados">Recomendados para ti</string>
+
+    <!-- Catálogo -->
+    <string name="catalogo_titulo">Catálogo</string>
+    <string name="catalogo_buscar">Buscar por producto o productor</string>
+
+    <!-- Detalle (B-02) -->
+    <string name="detalle_productor_verificado">Productor verificado</string>
+    <string name="detalle_descripcion">Descripción</string>
+    <string name="detalle_rotulo">Información del rótulo</string>
+    <string name="detalle_ingredientes">Ingredientes</string>
+    <string name="detalle_contenido_neto">Contenido neto</string>
+    <string name="detalle_registro_sanitario">Registro sanitario</string>
+    <string name="detalle_no_aplica">No aplica (producto preparado)</string>
+    <string name="detalle_tipo">Tipo</string>
+    <string name="detalle_sin_registro">Pendiente de registro</string>
+    <string name="detalle_resenas">%1$d reseñas</string>
+    <string name="detalle_sin_resenas">Sin reseñas todavía</string>
+    <string name="detalle_agregar">Agregar · %1$s</string>
+    <string name="detalle_agregado">Agregado al carrito</string>
+    <string name="detalle_ver_carrito">Ver carrito</string>
+
+    <!-- Carrito (B-03) -->
+    <string name="carrito_titulo">Mi carrito</string>
+    <string name="carrito_vaciar">Vaciar</string>
+    <string name="carrito_vaciar_confirmar">¿Quitar todos los productos del carrito?</string>
+    <string name="carrito_aviso_vendedor">Este pedido es de %1$s. Cada pedido corresponde a un solo productor.</string>
+    <string name="carrito_producto_quitado">Producto quitado</string>
+    <string name="carrito_subtotal">Subtotal</string>
+    <string name="carrito_domicilio">Domicilio</string>
+    <string name="carrito_domicilio_gratis">Gratis</string>
+    <string name="carrito_total">Total</string>
+    <string name="carrito_continuar">Continuar al pago</string>
+    <string name="carrito_vacio">Tu carrito está vacío</string>
+    <string name="carrito_vacio_texto">Agrega productos del catálogo para empezar tu pedido.</string>
+    <string name="carrito_ir_catalogo">Ir al catálogo</string>
+    <string name="carrito_otro_vendedor_titulo">¿Cambiar de productor?</string>
+    <string name="carrito_otro_vendedor_texto">Tu carrito tiene productos de %1$s. Cada pedido es de un solo productor. ¿Vaciarlo y agregar este producto de %2$s?</string>
+    <string name="carrito_otro_vendedor_si">Vaciar y agregar</string>
+    <string name="carrito_sin_existencias">Este producto está agotado</string>
+
+    <!-- Pasarela (B-04, B-05) -->
+    <string name="pago_titulo">Finalizar compra</string>
+    <string name="pago_paso_entrega">Entrega</string>
+    <string name="pago_paso_pago">Pago</string>
+    <string name="pago_paso_listo">Listo</string>
+    <string name="pago_seccion_entrega">¿Cómo recibes tu pedido?</string>
+    <string name="pago_direccion">Dirección de entrega</string>
+    <string name="pago_indicaciones">Indicaciones para el domiciliario (opcional)</string>
+    <string name="pago_recoger_en">Recoges en el punto de %1$s, Ibagué. Te avisaremos cuando esté listo.</string>
+    <string name="pago_seccion_medio">Medio de pago</string>
+    <string name="pago_tarjeta_detalle">Visa, Mastercard o American Express</string>
+    <string name="pago_pse_detalle">Débito desde tu cuenta bancaria</string>
+    <string name="pago_nequi_detalle">Aprueba el pago en la app Nequi</string>
+    <string name="pago_seccion_facturacion">Datos de facturación</string>
+    <string name="pago_nombre_factura">Nombre o razón social</string>
+    <string name="pago_documento">Cédula o NIT</string>
+    <string name="pago_seccion_resumen">Resumen</string>
+    <string name="pago_aviso_pasarela">El pago lo procesa la pasarela Wompi. Sabor Natural no ve ni guarda los datos de tu tarjeta.</string>
+    <string name="pago_boton">Pagar %1$s</string>
+    <string name="pago_procesando">Procesando el pago…</string>
+    <string name="pago_procesando_detalle">No cierres la aplicación</string>
+    <string name="error_documento">Escribe un número de documento válido (6 a 10 dígitos)</string>
+
+    <!-- Confirmación (B-06) -->
+    <string name="confirmacion_titulo">¡Pago aprobado!</string>
+    <string name="confirmacion_texto">%1$s ya recibió tu pedido y empezará a prepararlo.</string>
+    <string name="confirmacion_pedido">Pedido</string>
+    <string name="confirmacion_referencia">Referencia de pago</string>
+    <string name="confirmacion_medio">Medio de pago</string>
+    <string name="confirmacion_fecha">Fecha</string>
+    <string name="confirmacion_total">Total pagado</string>
+    <string name="confirmacion_correo">Enviamos el comprobante a %1$s</string>
+    <string name="confirmacion_ver_pedidos">Ver mis pedidos</string>
+    <string name="confirmacion_seguir">Seguir comprando</string>
+
+    <!-- Mis pedidos (B-07) -->
+    <string name="pedidos_en_curso">En curso</string>
+    <string name="pedidos_finalizados">Finalizados</string>
+</resources>

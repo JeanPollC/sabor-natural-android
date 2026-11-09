@@ -46,6 +46,20 @@
     <color name="estado_info_fondo">@color/verde_claro</color>
     <color name="estado_info_texto">@color/verde_bosque</color>
 
+    <!-- Categorías del catálogo: fondo claro e ícono de color (imagen del producto sin foto) -->
+    <color name="categoria_bebidas_fondo">#E3F0F2</color>
+    <color name="categoria_bebidas">#2F6B7A</color>
+    <color name="categoria_semillas_fondo">#EDF5E1</color>
+    <color name="categoria_semillas">#4E7D2B</color>
+    <color name="categoria_granolas_fondo">#F6EDD6</color>
+    <color name="categoria_granolas">#9A7322</color>
+    <color name="categoria_panaderia_fondo">#F8E6DD</color>
+    <color name="categoria_panaderia">#A5532F</color>
+    <color name="categoria_endulzantes_fondo">#FFF3DF</color>
+    <color name="categoria_endulzantes">#9A6512</color>
+    <color name="categoria_preparados_fondo">#DCEBD9</color>
+    <color name="categoria_preparados">#1F4D2E</color>
+
     <!-- Superficies sobre el degradado verde (bienvenida) -->
     <color name="blanco_translucido">#1AFFFFFF</color>
     <color name="borde_translucido">#33FFFFFF</color>

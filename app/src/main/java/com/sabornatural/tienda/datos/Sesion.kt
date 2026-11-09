@@ -28,8 +28,11 @@ class Sesion(contexto: Context) {
 
     fun iniciar(usuario: Usuario) = preferencias.edit { putInt(CLAVE_USUARIO, usuario.id) }
 
-    /** Cierra la sesión: borra el usuario y la preferencia de huella (RF-AUT-07). */
-    fun cerrar() = preferencias.edit { clear() }
+    /** Cierra la sesión: borra el usuario, la preferencia de huella y el carrito (RF-AUT-07). */
+    fun cerrar() {
+        preferencias.edit { clear() }
+        Carrito.vaciar()
+    }
 
     private companion object {
         const val CLAVE_USUARIO = "usuario_id"

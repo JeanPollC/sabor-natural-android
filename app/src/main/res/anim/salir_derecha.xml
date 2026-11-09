@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Al volver: la pantalla actual sale por la derecha -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="250"
+    android:interpolator="@android:anim/decelerate_interpolator">
+    <translate
+        android:fromXDelta="0"
+        android:toXDelta="30%" />
+    <alpha
+        android:fromAlpha="1"
+        android:toAlpha="0" />
+</set>

@@ -29,6 +29,9 @@
         <item name="colorOnSurfaceVariant">@color/texto_secundario</item>
         <item name="colorOutline">@color/borde</item>
         <item name="colorOutlineVariant">@color/borde</item>
+        <!-- Avisos (Snackbar): fondo carbón y acción en lima en lugar del morado por defecto -->
+        <item name="colorPrimaryInverse">@color/lima</item>
+        <item name="colorSurfaceInverse">@color/gris_carbon</item>
         <item name="colorSurfaceContainerLowest">@color/blanco</item>
         <item name="colorSurfaceContainerLow">@color/blanco</item>
         <item name="colorSurfaceContainer">@color/crema</item>
@@ -75,6 +78,8 @@
         <item name="extendedFloatingActionButtonStyle">@style/Widget.SaborNatural.BotonFlotanteExtendido</item>
         <item name="materialSwitchStyle">@style/Widget.SaborNatural.Interruptor</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.SaborNatural.Dialogo</item>
+        <item name="navigationViewStyle">@style/Widget.SaborNatural.MenuLateral</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.SaborNatural.HojaInferior</item>
     </style>
 
     <!-- Diálogos: superficie blanca, ícono verde y botones de texto de la marca -->
@@ -86,6 +91,22 @@
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.SaborNatural.Titulo</item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.SaborNatural.Dialogo.BotonPrincipal</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.SaborNatural.Dialogo.BotonSecundario</item>
+    </style>
+
+    <!-- Contenido de la barra superior: íconos y textos blancos sobre el verde -->
+    <style name="ThemeOverlay.SaborNatural.BarraSuperior" parent="ThemeOverlay.Material3.Dark.ActionBar">
+        <item name="colorControlNormal">@color/blanco</item>
+        <item name="colorOnSurface">@color/blanco</item>
+        <item name="colorOnSurfaceVariant">@color/blanco</item>
+        <item name="actionMenuTextColor">@color/blanco</item>
+        <item name="actionMenuTextAppearance">@style/TextAppearance.SaborNatural.Boton</item>
+    </style>
+
+    <!-- Hojas inferiores (opciones de foto, acciones de moderación): fondo blanco -->
+    <style name="ThemeOverlay.SaborNatural.HojaInferior" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="colorSurface">@color/blanco</item>
+        <item name="colorSurfaceContainerLow">@color/blanco</item>
+        <item name="android:navigationBarColor">@color/blanco</item>
     </style>
 
     <style name="MaterialAlertDialog.SaborNatural.Titulo" parent="MaterialAlertDialog.Material3.Title.Text">

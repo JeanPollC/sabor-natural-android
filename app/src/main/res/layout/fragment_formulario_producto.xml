@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Crear o editar producto (mockups V-03 y V-04, RF-PRO-01, RF-PRO-02 y RF-PRO-04): foto con la
+    cámara o la galería, datos comerciales, categoría (lista desplegable), tipo e información del
+    rótulo. El mismo formulario sirve para crear y para editar.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.vendedor.FormularioProductoFragment">
+
+    <include
+        android:id="@+id/barra"
+        layout="@layout/include_barra_superior" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margen_pantalla">
+
+            <!-- Foto -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="@dimen/espacio_xs"
+                android:text="@string/formulario_foto" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/espacio_m"
+                android:text="@string/formulario_foto_ayuda"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+            <FrameLayout
+                android:id="@+id/marcoImagen"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/bg_imagen_producto">
+
+                <ImageView
+                    android:id="@+id/foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:importantForAccessibility="no"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/icono"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_gravity="center"
+                    android:importantForAccessibility="no" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_s"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonCamara"
+                    style="@style/Widget.SaborNatural.Boton.Secundario"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/espacio_s"
+                    android:layout_weight="1"
+                    android:text="@string/formulario_tomar_foto"
+                    app:icon="@drawable/ic_camara"
+                    app:iconGravity="textStart" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botonGaleria"
+                    style="@style/Widget.SaborNatural.Boton.Secundario"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/formulario_galeria"
+                    app:icon="@drawable/ic_galeria"
+                    app:iconGravity="textStart" />
+            </LinearLayout>
+
+            <!-- Datos -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:text="@string/formulario_datos" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/formulario_nombre"
+                app:counterEnabled="true"
+                app:counterMaxLength="100">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:maxLength="100" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_xs"
+                android:hint="@string/formulario_descripcion"
+                app:counterEnabled="true"
+                app:counterMaxLength="500">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:maxLength="500"
+                    android:minLines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_xs"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoPrecio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/espacio_s"
+                    android:layout_weight="1"
+                    android:hint="@string/formulario_precio"
+                    app:prefixText="$ ">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="9" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/campoExistencias"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/formulario_existencias">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="5" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Categoría: lista desplegable de Material (ExposedDropdownMenu) -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoCategoria"
+                style="@style/Widget.SaborNatural.Campo.Desplegable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:hint="@string/formulario_categoria"
+                app:startIconDrawable="@drawable/ic_etiqueta">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/listaCategoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_l"
+                android:layout_marginBottom="@dimen/espacio_s"
+                android:text="@string/formulario_tipo"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/grupoTipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:checkedButton="@id/opcionEmpacado"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/opcionEmpacado"
+                    style="@style/Widget.SaborNatural.BotonAlternar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tipo_empacado"
+                    app:icon="@drawable/ic_inventario" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/opcionPreparado"
+                    style="@style/Widget.SaborNatural.BotonAlternar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tipo_preparado"
+                    app:icon="@drawable/ic_restaurante" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <!-- Rótulo -->
+            <TextView
+                style="@style/Widget.SaborNatural.TituloSeccion"
+                android:text="@string/formulario_rotulo" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoIngredientes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/formulario_ingredientes">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:maxLength="300" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoContenido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:hint="@string/formulario_contenido">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLength="40" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:hint="@string/formulario_registro"
+                app:helperText="@string/formulario_registro_ayuda">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="30" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/Widget.SaborNatural.Aviso.Pendiente"
+                android:layout_marginTop="@dimen/espacio_l"
+                android:text="@string/formulario_aviso_revision"
+                app:drawableStartCompat="@drawable/ic_info"
+                app:drawableTint="@color/estado_pendiente_texto" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/barraAccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_barra_accion"
+        android:paddingStart="@dimen/margen_pantalla"
+        android:paddingTop="@dimen/espacio_m"
+        android:paddingEnd="@dimen/margen_pantalla"
+        android:paddingBottom="@dimen/espacio_m">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/botonGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/formulario_enviar" />
+    </FrameLayout>
+</LinearLayout>

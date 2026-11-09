@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Categoría granolas y harinas -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:tint="?attr/colorControlNormal"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M2,11h20c0,4.97 -4.03,9 -9,9h-2c-4.97,0 -9,-4.03 -9,-9zM6,10c0,-3.31 2.69,-6 6,-6s6,2.69 6,6z" />
+</vector>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fila con interruptor (perfil): ícono, título, detalle y MaterialSwitch a la derecha. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="64dp"
+    android:paddingStart="@dimen/espacio_l"
+    android:paddingTop="@dimen/espacio_s"
+    android:paddingEnd="@dimen/espacio_m"
+    android:paddingBottom="@dimen/espacio_s">
+
+    <ImageView
+        android:id="@+id/icono"
+        android:layout_width="@dimen/tamano_icono"
+        android:layout_height="@dimen/tamano_icono"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/verde_bosque"
+        tools:src="@drawable/ic_huella" />
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espacio_l"
+        android:layout_marginEnd="@dimen/espacio_s"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
+        app:layout_constraintBottom_toTopOf="@id/detalle"
+        app:layout_constraintEnd_toStartOf="@id/interruptor"
+        app:layout_constraintStart_toEndOf="@id/icono"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/perfil_huella" />
+
+    <TextView
+        android:id="@+id/detalle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Etiqueta"
+        android:textColor="@color/texto_secundario"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/titulo"
+        app:layout_constraintStart_toStartOf="@id/titulo"
+        app:layout_constraintTop_toBottomOf="@id/titulo"
+        tools:text="@string/perfil_huella_detalle" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/interruptor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Gestión de productos con filtros por estado. Sirve a dos roles:
+      - vendedor: "Mis productos" con botón flotante para crear (mockup V-02, CRUD completo);
+      - administrador: moderación de las publicaciones de todos los vendedores (mockup A-05).
+    CoordinatorLayout: permite que el botón flotante se acomode cuando aparece un Snackbar.
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.compartido.GestionProductosFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/barra"
+            layout="@layout/include_barra_superior" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espacio_m"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/margen_pantalla"
+            android:paddingEnd="@dimen/margen_pantalla"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/fichasEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:selectionRequired="true"
+                app:singleLine="true"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaProductos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/margen_pantalla"
+                android:paddingTop="@dimen/espacio_m"
+                android:paddingEnd="@dimen/margen_pantalla"
+                android:paddingBottom="96dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_producto_gestion" />
+
+            <include
+                android:id="@+id/estadoVacio"
+                layout="@layout/include_estado_vacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/botonNuevo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margen_pantalla"
+        android:visibility="gone"
+        app:icon="@drawable/ic_agregar"
+        tools:text="@string/productos_nuevo"
+        tools:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

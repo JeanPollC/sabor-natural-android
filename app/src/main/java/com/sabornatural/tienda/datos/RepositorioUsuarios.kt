@@ -1,48 +1,30 @@
 package com.sabornatural.tienda.datos
 
-import android.content.Context
 import com.sabornatural.tienda.datos.modelo.EstadoCuenta
 import com.sabornatural.tienda.datos.modelo.Rol
 import com.sabornatural.tienda.datos.modelo.Usuario
-import org.json.JSONObject
 import java.security.MessageDigest
 import java.time.LocalDate
 
 /**
- * Fuente de datos de usuarios para la demostración del frontend.
- *
- * En esta entrega la aplicación no se conecta a la API: los usuarios se leen de
- * assets/datos_demo/usuarios.json y se mantienen en memoria mientras la app está abierta.
+ * Usuarios de la tienda, en memoria mientras la app está abierta (datos de assets/datos_demo).
  * Cuando se integre el backend, solo cambia esta clase; las pantallas no se enteran.
  */
 object RepositorioUsuarios {
 
     private val usuarios = mutableListOf<Usuario>()
 
-    /** Carga los datos de prueba una sola vez (se llama desde el splash). */
-    fun inicializar(contexto: Context) {
-        if (usuarios.isNotEmpty()) return
-        val texto = contexto.assets.open("datos_demo/usuarios.json").bufferedReader().use { it.readText() }
-        val lista = JSONObject(texto).getJSONArray("usuarios")
-        for (i in 0 until lista.length()) {
-            val u = lista.getJSONObject(i)
-            usuarios += Usuario(
-                id = u.getInt("id"),
-                nombre = u.getString("nombre"),
-                apellido = u.getString("apellido"),
-                correo = u.getString("correo"),
-                telefono = u.getString("telefono"),
-                rol = Rol.valueOf(u.getString("rol")),
-                estado = EstadoCuenta.valueOf(u.getString("estado")),
-                claveHash = u.getString("claveHash"),
-                fechaRegistro = u.getString("fechaRegistro"),
-            )
-        }
+    fun reemplazarTodos(lista: List<Usuario>) {
+        usuarios.clear()
+        usuarios += lista
     }
+
+    fun todos(): List<Usuario> = usuarios.toList()
 
     fun buscarPorId(id: Int): Usuario? = usuarios.find { it.id == id }
 
-    fun existeCorreo(correo: String): Boolean = usuarios.any { it.correo.equals(correo.trim(), ignoreCase = true) }
+    fun existeCorreo(correo: String, exceptoId: Int? = null): Boolean =
+        usuarios.any { it.correo.equals(correo.trim(), ignoreCase = true) && it.id != exceptoId }
 
     /**
      * Verifica correo y contraseña comparando hashes. Devuelve null si alguno no coincide,
@@ -53,8 +35,19 @@ object RepositorioUsuarios {
         return usuarios.find { it.correo.equals(correo.trim(), ignoreCase = true) && it.claveHash == hash }
     }
 
-    /** Registra una cuenta nueva: el comprador queda activo y el vendedor pendiente de aprobación (RF-AUT-02). */
-    fun registrar(nombre: String, apellido: String, correo: String, telefono: String, clave: String, rol: Rol): Usuario {
+    /** Registro desde la app: el comprador queda activo y el vendedor pendiente de aprobación (RF-AUT-02). */
+    fun registrar(nombre: String, apellido: String, correo: String, telefono: String, clave: String, rol: Rol): Usuario =
+        crear(nombre, apellido, correo, telefono, rol,
+            if (rol == Rol.VENDEDOR) EstadoCuenta.PENDIENTE else EstadoCuenta.ACTIVO, hashClave(clave))
+
+    /**
+     * Alta hecha por el administrador (RF-ADU-02). El administrador no asigna contraseñas:
+     * el titular recibe un enlace para crearla, por eso la cuenta nace sin clave.
+     */
+    fun crearDesdeAdministracion(nombre: String, apellido: String, correo: String, telefono: String, rol: Rol, estado: EstadoCuenta): Usuario =
+        crear(nombre, apellido, correo, telefono, rol, estado, claveHash = "")
+
+    private fun crear(nombre: String, apellido: String, correo: String, telefono: String, rol: Rol, estado: EstadoCuenta, claveHash: String): Usuario {
         val nuevo = Usuario(
             id = (usuarios.maxOfOrNull { it.id } ?: 0) + 1,
             nombre = nombre.trim(),
@@ -62,12 +55,23 @@ object RepositorioUsuarios {
             correo = correo.trim().lowercase(),
             telefono = telefono.trim(),
             rol = rol,
-            estado = if (rol == Rol.VENDEDOR) EstadoCuenta.PENDIENTE else EstadoCuenta.ACTIVO,
-            claveHash = hashClave(clave),
+            estado = estado,
+            claveHash = claveHash,
             fechaRegistro = LocalDate.now().toString(),
         )
         usuarios += nuevo
         return nuevo
+    }
+
+    /** Reemplaza los datos de un usuario existente (editar perfil, editar usuario, aprobar vendedor). */
+    fun actualizar(usuario: Usuario) {
+        val i = usuarios.indexOfFirst { it.id == usuario.id }
+        if (i >= 0) usuarios[i] = usuario
+    }
+
+    /** Baja de la cuenta (RF-ADU-05). En el servidor será un borrado lógico con anonimización. */
+    fun eliminar(id: Int) {
+        usuarios.removeAll { it.id == id }
     }
 
     private fun hashClave(clave: String): String =
