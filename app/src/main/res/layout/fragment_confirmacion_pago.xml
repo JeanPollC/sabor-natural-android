@@ -62,10 +62,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/espacio_xl">
 
+            <!-- shrinkColumns: la columna de valores se ajusta al ancho y parte en varias líneas los
+                 textos largos (la referencia de Wompi), sin empujar los demás valores fuera de la vista -->
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/espacio_l"
+                android:shrinkColumns="1"
                 android:stretchColumns="1">
 
                 <TableRow>
@@ -90,6 +93,7 @@
 
                     <TextView
                         android:id="@+id/referencia"
+                        android:layout_marginStart="@dimen/espacio_m"
                         android:gravity="end"
                         android:textAppearance="@style/TextAppearance.SaborNatural.Cuerpo"
                         tools:text="WMP-120044" />
