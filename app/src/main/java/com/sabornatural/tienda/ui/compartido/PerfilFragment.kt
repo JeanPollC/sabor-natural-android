@@ -13,12 +13,15 @@ import com.sabornatural.tienda.databinding.FragmentPerfilBinding
 import com.sabornatural.tienda.ui.comprador.pedirIngreso
 import com.sabornatural.tienda.ui.comun.Biometria
 import com.sabornatural.tienda.ui.comun.ConMenuLateral
-import com.sabornatural.tienda.ui.comun.FotosPerfil
 import com.sabornatural.tienda.ui.comun.Formatos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.Navegador
 import com.sabornatural.tienda.ui.comun.PanelRolActivity
 import com.sabornatural.tienda.ui.comun.confirmar
+import com.sabornatural.tienda.ui.comun.ejecutar
+import com.sabornatural.tienda.ui.comun.mostrarFotoPerfil
+import com.sabornatural.tienda.datos.remoto.Errores
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.sabornatural.tienda.ui.comun.igualarAltoBarraDeEstado
 import com.sabornatural.tienda.ui.comun.navegar
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeEstado
@@ -26,6 +29,7 @@ import com.sabornatural.tienda.ui.comun.rellenarBarraDeEstado
 /**
  * Perfil (mockups B-10 y B-12), el mismo Fragment para los tres roles: lo que no aplica
  * a un rol se oculta (por ejemplo, "Mi tienda" solo la ve el vendedor).
+ * Se redibuja solo cuando el perfil cambia en Firestore.
  */
 class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBinding::inflate) {
 
@@ -45,6 +49,12 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
         }
 
         binding.filaEditar.setOnClickListener { navegar(R.id.editarPerfilFragment) }
+        // Acceso oculto: mantener presionado el avatar abre la configuración inicial
+        // (convertirse en el primer administrador y sembrar los datos de ejemplo)
+        binding.avatar.setOnLongClickListener {
+            startActivity(android.content.Intent(requireContext(), com.sabornatural.tienda.ui.admin.ConfiguracionInicialActivity::class.java))
+            true
+        }
         binding.filaPedidos.setOnClickListener { navegar(R.id.misPedidosFragment) }
         binding.filaDirecciones.setOnClickListener { avisar(R.string.perfil_proximamente) }
         binding.filaPolitica.setOnClickListener {
@@ -57,20 +67,16 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
         binding.filaEliminar.setOnClickListener { eliminarCuenta() }
         binding.botonCerrarSesion.setOnClickListener { (activity as? PanelRolActivity)?.confirmarCierreDeSesion() }
         configurarInterruptores()
+        // Al volver de "Editar perfil" (o si el perfil cambia en Firestore) se ven los cambios
+        observar(RepositorioUsuarios.actual) { mostrarUsuario() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mostrarUsuario() // Al volver de "Editar perfil" se ven los cambios
-    }
-
+    /** Datos del usuario y filas visibles según su rol. */
     private fun mostrarUsuario() {
         val usuario = sesion.usuarioActual ?: return
         with(binding) {
             avatar.text = usuario.iniciales
-            val foto = FotosPerfil[usuario.id]
-            fotoPerfil.setImageBitmap(foto)
-            fotoPerfil.visibility = if (foto != null) View.VISIBLE else View.GONE
+            mostrarFotoPerfil(fotoPerfil, usuario.fotoUrl)
             nombre.text = usuario.nombreCompleto
             correo.text = usuario.correo
             rol.text = getString(usuario.rol.nombre)
@@ -90,6 +96,7 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
         }
     }
 
+    /** Interruptores de huella y notificaciones, con su valor guardado. */
     private fun configurarInterruptores() = with(binding) {
         // Las tres filas reutilizan el mismo layout (mismo id "interruptor"): si Android guardara
         // su estado, al volver les pondría a todas el de la última. El valor real sale de las preferencias.
@@ -104,14 +111,16 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
         filaHuella.interruptor.isChecked = sesion.huellaHabilitada && disponible
         filaHuella.interruptor.setOnCheckedChangeListener { boton, activar ->
             if (!activar) {
-                sesion.huellaHabilitada = false
+                Biometria.desactivar(requireContext())
                 return@setOnCheckedChangeListener
             }
-            // Activar exige confirmar con la huella
-            Biometria.autenticar(
+            // Activar exige confirmar con la huella: crea la llave del Keystore y cifra el uid
+            val uid = sesion.usuarioActual?.id ?: return@setOnCheckedChangeListener
+            Biometria.activar(
                 actividad = requireActivity(),
-                alExito = { sesion.huellaHabilitada = true; avisar(R.string.ingreso_huella_activada) },
-                alUsarClave = { boton.isChecked = false },
+                uid = uid,
+                alExito = { avisar(R.string.ingreso_huella_activada) },
+                alCancelar = { boton.isChecked = false },
                 alError = { boton.isChecked = false; avisar(it.toString()) },
             )
         }
@@ -133,13 +142,29 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
     private fun eliminarCuenta() {
         val usuario = sesion.usuarioActual ?: return
         confirmar(getString(R.string.perfil_eliminar_cuenta), getString(R.string.perfil_eliminar_cuenta_confirmar), getString(R.string.accion_eliminar)) {
-            RepositorioUsuarios.eliminar(usuario.id)
-            sesion.cerrar()
-            Navegador.abrirBienvenida(requireActivity())
+            ejecutar(
+                mensaje = R.string.carga_eliminando,
+                alFallar = { e ->
+                    // El perfil ya se borró; si Firebase pide un ingreso reciente, se cierra la sesión igual
+                    val mensaje = if (e is FirebaseAuthRecentLoginRequiredException) R.string.perfil_eliminada_reingresar else Errores.mensaje(e)
+                    sesion.cerrar()
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setMessage(mensaje)
+                        .setPositiveButton(R.string.registro_entendido) { _, _ -> Navegador.abrirBienvenida(requireActivity()) }
+                        .setCancelable(false)
+                        .show()
+                },
+            ) {
+                RepositorioUsuarios.eliminarCuentaPropia()
+                sesion.cerrar()
+                Navegador.abrirBienvenida(requireActivity())
+            }
         }
     }
 
+    /** Mensaje corto en la parte inferior (texto de recursos). */
     private fun avisar(mensaje: Int) = avisar(getString(mensaje))
+    /** Mensaje corto en la parte inferior. */
     private fun avisar(mensaje: String) {
         view?.let { Snackbar.make(it, mensaje, Snackbar.LENGTH_SHORT).show() }
     }

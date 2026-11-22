@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.sabornatural.tienda.R
+import com.sabornatural.tienda.datos.RepositorioUsuarios
+import com.sabornatural.tienda.ui.comun.ejecutar
 import com.sabornatural.tienda.databinding.ActivityRecuperarClaveBinding
 import com.sabornatural.tienda.ui.comun.PantallaBase
 import com.sabornatural.tienda.ui.comun.Validaciones
@@ -15,7 +17,8 @@ import com.sabornatural.tienda.ui.comun.validar
 
 /**
  * Recuperación de la contraseña mediante un enlace al correo (RF-AUT-06).
- * En la versión conectada, el envío lo hace el proveedor de identidad; aquí se simula la respuesta.
+ * El correo lo envía Firebase Authentication (sendPasswordResetEmail) con un enlace para crear la
+ * nueva contraseña; la plantilla del correo se puede editar en la consola de Firebase.
  */
 class RecuperarClaveActivity : PantallaBase() {
 
@@ -40,10 +43,15 @@ class RecuperarClaveActivity : PantallaBase() {
         binding.botonEnviar.setOnClickListener { enviarEnlace() }
         binding.botonVolverIngreso.setOnClickListener { finish() }
         binding.botonReenviar.setOnClickListener {
-            Snackbar.make(binding.root, R.string.recuperar_reenviado, Snackbar.LENGTH_SHORT).show()
+            val correo = binding.campoCorreo.texto
+            ejecutar(R.string.recuperar_enviando) {
+                RepositorioUsuarios.enviarEnlaceRestablecer(correo)
+                Snackbar.make(binding.root, R.string.recuperar_reenviado, Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
+    /** Valida el correo y pide a Firebase que envíe el enlace de restablecimiento. */
     private fun enviarEnlace() {
         val correo = binding.campoCorreo.texto
         val valido = binding.campoCorreo.validar(
@@ -53,11 +61,14 @@ class RecuperarClaveActivity : PantallaBase() {
         if (!valido) return
         ocultarTeclado()
 
-        // Misma respuesta exista o no la cuenta (RF-AUT-06)
-        binding.textoConfirmacion.text = getString(R.string.recuperar_enviado_texto, correo)
-        binding.formulario.visibility = View.GONE
-        binding.confirmacion.visibility = View.VISIBLE
-        binding.encabezado.subtitulo.visibility = View.GONE
+        ejecutar(R.string.recuperar_enviando) {
+            RepositorioUsuarios.enviarEnlaceRestablecer(correo)
+            // Misma respuesta exista o no la cuenta (RF-AUT-06)
+            binding.textoConfirmacion.text = getString(R.string.recuperar_enviado_texto, correo)
+            binding.formulario.visibility = View.GONE
+            binding.confirmacion.visibility = View.VISIBLE
+            binding.encabezado.subtitulo.visibility = View.GONE
+        }
     }
 
     companion object {

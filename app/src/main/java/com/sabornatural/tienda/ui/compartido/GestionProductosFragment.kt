@@ -25,11 +25,12 @@ import com.sabornatural.tienda.databinding.HojaModeracionBinding
 import com.sabornatural.tienda.databinding.ItemProductoGestionBinding
 import com.sabornatural.tienda.ui.comprador.Argumentos
 import com.sabornatural.tienda.ui.comun.Formatos
-import com.sabornatural.tienda.ui.comun.FotosProductos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.Tono
 import com.sabornatural.tienda.ui.comun.configurar
 import com.sabornatural.tienda.ui.comun.confirmar
+import com.sabornatural.tienda.ui.comun.ejecutar
+import com.sabornatural.tienda.ui.comun.mostrarCarga
 import com.sabornatural.tienda.ui.comun.mostrarEtiqueta
 import com.sabornatural.tienda.ui.comun.mostrarImagenProducto
 import com.sabornatural.tienda.ui.comun.navegar
@@ -50,9 +51,12 @@ val Producto.rotuloCompleto: Boolean
  *    editar, pausar o reactivar y eliminar.
  *  - Administrador (A-05): moderación de las publicaciones de todos: aprobar, rechazar con
  *    motivo o suspender.
+ *
+ * Los productos llegan en vivo desde Firestore y cada acción se guarda allí (las fotos, en Storage).
  */
 class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(FragmentProductosGestionBinding::inflate) {
 
+    /** Filtro de la lista: nombre visible y condición sobre el producto. */
     private class Filtro(val nombre: Int, val cumple: (Producto) -> Boolean)
 
     private lateinit var modo: ModoProductos
@@ -102,13 +106,10 @@ class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(
         binding.botonNuevo.setText(R.string.productos_nuevo)
         binding.botonNuevo.extend() // muestra ícono y texto ("Nuevo producto")
         binding.botonNuevo.setOnClickListener { navegar(R.id.formularioProductoFragment) }
+        observar(RepositorioProductos.cambios) { mostrar() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mostrar()
-    }
-
+    /** Crea una ficha por filtro; la selección única la maneja el ChipGroup. */
     private fun crearFichas() {
         filtros.forEachIndexed { i, filtro ->
             binding.fichasEstado.addView(Chip(requireContext()).apply {
@@ -125,9 +126,14 @@ class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(
         }
     }
 
+    /** Aplica el filtro a la lista en vivo, con estados de carga y error. */
     private fun mostrar() {
+        if (!binding.estadoVacio.mostrarCarga(RepositorioProductos.estado.value, RepositorioProductos::reintentar)) {
+            adaptador.submitList(emptyList())
+            return
+        }
         val base = if (modo == ModoProductos.VENDEDOR) {
-            RepositorioProductos.delVendedor(Sesion(requireContext()).usuarioActual?.id ?: -1)
+            RepositorioProductos.delVendedor(Sesion(requireContext()).usuarioActual?.id.orEmpty())
         } else {
             RepositorioProductos.todos()
         }
@@ -142,6 +148,7 @@ class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(
         }
     }
 
+    /** Abre el formulario con el producto para editarlo. */
     private fun editar(producto: Producto) =
         navegar(R.id.formularioProductoFragment, bundleOf(Argumentos.PRODUCTO_ID to producto.id))
 
@@ -158,10 +165,10 @@ class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(
                 2 -> cambiarEstado(producto, EstadoPublicacion.SUSPENDIDO, R.string.producto_pausado)
                 3 -> cambiarEstado(producto, EstadoPublicacion.PUBLICADO, R.string.producto_reactivado)
                 4 -> confirmar(getString(R.string.accion_eliminar), getString(R.string.producto_eliminar_confirmar, producto.nombre), getString(R.string.accion_eliminar)) {
-                    RepositorioProductos.eliminar(producto.id)
-                    FotosProductos[producto.id] = null
-                    avisar(R.string.producto_eliminado)
-                    mostrar()
+                    ejecutar(R.string.carga_eliminando) {
+                        RepositorioProductos.eliminar(producto)
+                        avisar(R.string.producto_eliminado)
+                    }
                 }
             }
             true
@@ -174,7 +181,7 @@ class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(
         val hoja = BottomSheetDialog(requireContext())
         val vista = HojaModeracionBinding.inflate(layoutInflater)
         with(vista) {
-            mostrarImagenProducto(marcoImagen, foto, icono, producto.categoria, producto.id)
+            mostrarImagenProducto(marcoImagen, foto, icono, producto.categoria, producto.imagenUrl)
             nombre.text = producto.nombre
             resumen.text = getString(R.string.producto_resumen_admin, producto.vendedorNombre, Formatos.precio(producto.precio))
             val completo = producto.rotuloCompleto
@@ -229,18 +236,22 @@ class GestionProductosFragment : FragmentoBase<FragmentProductosGestionBinding>(
                 return@setOnClickListener
             }
             dialogo.dismiss()
-            RepositorioProductos.guardar(producto.copy(estado = EstadoPublicacion.RECHAZADO, motivoRechazo = motivo))
-            avisar(R.string.moderacion_rechazado)
-            mostrar()
+            ejecutar {
+                RepositorioProductos.cambiarEstado(producto, EstadoPublicacion.RECHAZADO, motivo)
+                avisar(R.string.moderacion_rechazado)
+            }
         }
     }
 
+    /** Guarda el nuevo estado de la publicación en Firestore. */
     private fun cambiarEstado(producto: Producto, estado: EstadoPublicacion, mensaje: Int) {
-        RepositorioProductos.guardar(producto.copy(estado = estado, motivoRechazo = if (estado == EstadoPublicacion.RECHAZADO) producto.motivoRechazo else ""))
-        avisar(mensaje)
-        mostrar()
+        ejecutar {
+            RepositorioProductos.cambiarEstado(producto, estado)
+            avisar(mensaje)
+        }
     }
 
+    /** Mensaje corto en la parte inferior. */
     private fun avisar(mensaje: Int) {
         Snackbar.make(binding.root, mensaje, Snackbar.LENGTH_SHORT).show()
     }
@@ -256,6 +267,7 @@ class AdaptadorGestionProductos(
     override fun areContentsTheSame(a: Producto, b: Producto) = a == b
 }) {
 
+    /** Vista de una fila de la lista. */
     class Fila(val binding: ItemProductoGestionBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(padre: ViewGroup, tipo: Int) =
@@ -264,7 +276,7 @@ class AdaptadorGestionProductos(
     override fun onBindViewHolder(fila: Fila, posicion: Int) = with(fila.binding) {
         val p = getItem(posicion)
         val contexto = root.context
-        mostrarImagenProducto(marcoImagen, foto, icono, p.categoria, p.id)
+        mostrarImagenProducto(marcoImagen, foto, icono, p.categoria, p.imagenUrl)
         nombre.text = p.nombre
         resumen.text = if (esVendedor) {
             contexto.getString(R.string.producto_resumen_vendedor, Formatos.precio(p.precio), p.existencias)

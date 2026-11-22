@@ -9,7 +9,6 @@ import com.sabornatural.tienda.datos.RepositorioProductos
 import com.sabornatural.tienda.datos.RepositorioUsuarios
 import com.sabornatural.tienda.datos.Sesion
 import com.sabornatural.tienda.datos.modelo.EstadoCuenta
-import com.sabornatural.tienda.datos.modelo.EstadoPedido
 import com.sabornatural.tienda.datos.modelo.EstadoPublicacion
 import com.sabornatural.tienda.datos.modelo.Rol
 import com.sabornatural.tienda.databinding.FragmentPanelAdminBinding
@@ -22,9 +21,14 @@ import com.sabornatural.tienda.ui.comun.igualarAltoBarraDeEstado
 import com.sabornatural.tienda.ui.comun.navegar
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeEstado
 import com.sabornatural.tienda.ui.vendedor.mostrar
+import kotlinx.coroutines.flow.merge
 import java.time.LocalDate
 
-/** Panel de administración (mockup A-01): indicadores, asuntos pendientes y usuarios por rol. */
+/**
+ * Panel de administración (mockup A-01): indicadores, asuntos pendientes y usuarios por rol.
+ * Se recalcula solo cada vez que cambian usuarios, productos o pedidos en Firestore.
+ * Mantener presionado el avatar abre la configuración inicial (sembrar datos de ejemplo).
+ */
 class PanelAdminFragment : FragmentoBase<FragmentPanelAdminBinding>(FragmentPanelAdminBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,10 +40,15 @@ class PanelAdminFragment : FragmentoBase<FragmentPanelAdminBinding>(FragmentPane
         binding.filaSolicitudes.setOnClickListener { navegar(R.id.usuariosFragment, bundleOf(Argumentos.ESTADO to EstadoCuenta.PENDIENTE.name)) }
         binding.filaRevision.setOnClickListener { navegar(R.id.productosAdminFragment) }
         binding.filaReporte.setOnClickListener { navegar(R.id.reporteVentasFragment) }
+        binding.encabezado.avatar.setOnLongClickListener {
+            startActivity(android.content.Intent(requireContext(), ConfiguracionInicialActivity::class.java))
+            true
+        }
+        observar(merge(RepositorioUsuarios.cambios, RepositorioProductos.cambios, RepositorioPedidos.cambios)) { mostrar() }
     }
 
-    override fun onResume() {
-        super.onResume()
+    /** Calcula los indicadores con los datos en vivo. */
+    private fun mostrar() {
         val admin = Sesion(requireContext()).usuarioActual ?: return
         binding.encabezado.saludo.text = getString(R.string.inicio_saludo, admin.nombre)
         binding.encabezado.avatar.text = admin.iniciales
@@ -48,7 +57,7 @@ class PanelAdminFragment : FragmentoBase<FragmentPanelAdminBinding>(FragmentPane
         val productos = RepositorioProductos.todos()
         val mes = LocalDate.now().toString().substring(0, 7)
         val pedidosMes = RepositorioPedidos.todos().filter { it.fecha.startsWith(mes) }
-        val ventasMes = pedidosMes.filter { it.estado != EstadoPedido.CANCELADO }.sumOf { it.total }
+        val ventasMes = pedidosMes.filter { it.cuentaComoVenta }.sumOf { it.total }
         val enRevision = productos.count { it.estado == EstadoPublicacion.EN_REVISION }
         val solicitudes = usuarios.count { it.rol == Rol.VENDEDOR && it.estado == EstadoCuenta.PENDIENTE }
 

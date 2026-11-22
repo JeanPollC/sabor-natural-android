@@ -14,6 +14,7 @@ import com.sabornatural.tienda.ui.comprador.Argumentos
 import com.sabornatural.tienda.ui.comun.AdaptadorPedidos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.configurar
+import com.sabornatural.tienda.ui.comun.mostrarCarga
 import com.sabornatural.tienda.ui.comun.navegar
 
 /** Cómo se usa la lista de pedidos: qué pedidos carga y qué filtros ofrece. */
@@ -22,6 +23,7 @@ enum class ModoPedidos { COMPRADOR, VENDEDOR, ADMINISTRADOR }
 /**
  * Lista de pedidos con filtros (B-07 comprador, V-05 vendedor). El modo llega como argumento
  * desde el grafo de navegación de cada rol (valor por defecto del <argument> "modo").
+ * Es el historial de pedidos guardado en Firestore, actualizado en vivo.
  */
 class ListaPedidosFragment : FragmentoBase<FragmentListaPedidosBinding>(FragmentListaPedidosBinding::inflate) {
 
@@ -63,13 +65,10 @@ class ListaPedidosFragment : FragmentoBase<FragmentListaPedidosBinding>(Fragment
             navegar(R.id.detallePedidoFragment, bundleOf(Argumentos.PEDIDO_ID to pedido.id, Argumentos.MODO to modo.name))
         }
         binding.listaPedidos.adapter = adaptador
+        observar(RepositorioPedidos.cambios) { mostrar() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mostrar()
-    }
-
+    /** Crea una ficha por filtro; la selección única la maneja el ChipGroup. */
     private fun crearFichas() {
         filtros.forEachIndexed { i, filtro ->
             binding.fichasEstado.addView(Chip(requireContext()).apply {
@@ -86,8 +85,13 @@ class ListaPedidosFragment : FragmentoBase<FragmentListaPedidosBinding>(Fragment
         }
     }
 
+    /** Aplica el filtro al historial en vivo, con estados de carga y error. */
     private fun mostrar() {
         val usuario = Sesion(requireContext()).usuarioActual ?: return
+        if (!binding.estadoVacio.mostrarCarga(RepositorioPedidos.estado.value, RepositorioPedidos::reintentar)) {
+            adaptador.submitList(emptyList())
+            return
+        }
         val todos = if (modo == ModoPedidos.VENDEDOR) RepositorioPedidos.delVendedor(usuario.id) else RepositorioPedidos.delComprador(usuario.id)
         val lista = todos.filter(filtros[filtroActual].cumple)
         adaptador.submitList(lista)

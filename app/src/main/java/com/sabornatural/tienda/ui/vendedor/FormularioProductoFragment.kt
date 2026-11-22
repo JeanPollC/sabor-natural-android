@@ -17,9 +17,9 @@ import com.sabornatural.tienda.datos.modelo.Producto
 import com.sabornatural.tienda.datos.modelo.TipoProducto
 import com.sabornatural.tienda.databinding.FragmentFormularioProductoBinding
 import com.sabornatural.tienda.ui.comprador.Argumentos
-import com.sabornatural.tienda.ui.comun.FotosProductos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.configurar
+import com.sabornatural.tienda.ui.comun.ejecutar
 import com.sabornatural.tienda.ui.comun.mostrarImagenProducto
 import com.sabornatural.tienda.ui.comun.ocultarTeclado
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeNavegacion
@@ -30,6 +30,9 @@ import com.sabornatural.tienda.ui.comun.validar
  * Crear o editar producto (mockups V-03 y V-04).
  * Reglas (RF-PRO-01 y RF-PRO-04): todo producto nuevo queda EN_REVISION; al editar, si cambian
  * el nombre, la categoría o el rótulo, vuelve a revisión; precio y existencias se cambian directo.
+ *
+ * Persistencia: el producto se guarda en Firestore (`productos/{id}`) y la foto tomada con la
+ * cámara o elegida de la galería se sube a Firebase Storage (`productos/{id}.jpg`).
  */
 class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBinding>(FragmentFormularioProductoBinding::inflate) {
 
@@ -48,7 +51,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        original = arguments?.getInt(Argumentos.PRODUCTO_ID, -1)?.takeIf { it > 0 }?.let { RepositorioProductos.buscarPorId(it) }
+        original = arguments?.getString(Argumentos.PRODUCTO_ID)?.let { RepositorioProductos.buscarPorId(it) }
         val editando = original != null
         binding.barra.configurar(
             this,
@@ -77,6 +80,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
         binding.botonGuardar.setOnClickListener { guardar() }
     }
 
+    /** Llena el formulario con los datos del producto que se edita. */
     private fun llenar(p: Producto) = with(binding) {
         categoria = p.categoria
         campoNombre.editText?.setText(p.nombre)
@@ -92,7 +96,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
 
     /** Foto nueva, foto guardada o ilustración de la categoría elegida. */
     private fun mostrarImagen() = with(binding) {
-        mostrarImagenProducto(marcoImagen, foto, icono, categoria, original?.id)
+        mostrarImagenProducto(marcoImagen, foto, icono, categoria, original?.imagenUrl)
         fotoNueva?.let {
             foto.setImageBitmap(it)
             foto.visibility = View.VISIBLE
@@ -100,6 +104,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
         }
     }
 
+    /** Lee la imagen elegida en la galería y la reduce a máximo 1024 px. */
     private fun leerDesdeGaleria(uri: android.net.Uri) {
         val resolver = requireContext().contentResolver
         val imagen = runCatching {
@@ -114,6 +119,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
         mostrarImagen()
     }
 
+    /** Valida, arma el producto y lo guarda en Firestore (con su foto en Storage). */
     private fun guardar() {
         val vendedor = Sesion(requireContext()).usuarioActual ?: return
         val obligatorio = getString(R.string.error_campo_obligatorio)
@@ -137,7 +143,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
 
         val anterior = original
         val datos = Producto(
-            id = anterior?.id ?: RepositorioProductos.siguienteId(),
+            id = anterior?.id ?: RepositorioProductos.nuevoId(),
             nombre = binding.campoNombre.texto,
             descripcion = binding.campoDescripcion.texto,
             precio = precio,
@@ -153,6 +159,7 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
             contenidoNeto = binding.campoContenido.texto,
             registroSanitario = binding.campoRegistro.texto,
             destacado = anterior?.destacado ?: false,
+            imagenUrl = anterior?.imagenUrl.orEmpty(),
         )
         // Cambios que exigen nueva revisión: nombre, categoría, tipo o rótulo
         val vuelveARevision = anterior == null ||
@@ -161,14 +168,27 @@ class FormularioProductoFragment : FragmentoBase<FragmentFormularioProductoBindi
             anterior.registroSanitario != datos.registroSanitario
         val final = if (vuelveARevision || anterior == null) datos else datos.copy(estado = anterior.estado, motivoRechazo = anterior.motivoRechazo)
 
-        RepositorioProductos.guardar(final)
-        fotoNueva?.let { FotosProductos[final.id] = it }
         requireActivity().ocultarTeclado()
-        Snackbar.make(
-            binding.root,
-            if (final.estado == EstadoPublicacion.EN_REVISION) R.string.formulario_enviado else R.string.formulario_guardado,
-            Snackbar.LENGTH_SHORT,
-        ).show()
-        findNavController().navigateUp()
+        val foto = fotoNueva
+        ejecutar(
+            mensaje = if (foto != null) R.string.carga_subiendo_foto else R.string.carga_guardando,
+            // Un diálogo (y no un Snackbar, que quedaba tapado por la barra inferior) para que el
+            // vendedor vea por qué no se guardó, por ejemplo un error de permisos de Storage
+            alFallar = { e ->
+                com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.formulario_error_guardar)
+                    .setMessage(com.sabornatural.tienda.datos.remoto.Errores.texto(requireContext(), e))
+                    .setPositiveButton(R.string.registro_entendido, null)
+                    .show()
+            },
+        ) {
+            RepositorioProductos.guardar(final, foto)
+            Snackbar.make(
+                requireActivity().findViewById(android.R.id.content),
+                if (final.estado == EstadoPublicacion.EN_REVISION) R.string.formulario_enviado else R.string.formulario_guardado,
+                Snackbar.LENGTH_SHORT,
+            ).show()
+            findNavController().navigateUp()
+        }
     }
 }

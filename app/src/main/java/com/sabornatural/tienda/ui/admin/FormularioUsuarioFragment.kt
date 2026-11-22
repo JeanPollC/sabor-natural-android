@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.sabornatural.tienda.R
 import com.sabornatural.tienda.datos.RepositorioUsuarios
 import com.sabornatural.tienda.datos.Sesion
@@ -17,6 +18,8 @@ import com.sabornatural.tienda.ui.comun.Formatos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.Validaciones
 import com.sabornatural.tienda.ui.comun.configurar
+import com.sabornatural.tienda.ui.comun.ejecutar
+import com.sabornatural.tienda.datos.remoto.Errores
 import com.sabornatural.tienda.ui.comun.confirmar
 import com.sabornatural.tienda.ui.comun.ocultarTeclado
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeNavegacion
@@ -27,6 +30,11 @@ import com.sabornatural.tienda.ui.comun.validar
  * Crear, consultar, editar y eliminar usuarios (mockups A-03 y A-04, RF-ADU-02 a RF-ADU-06).
  * Reglas: el administrador no asigna contraseñas; no puede cambiar su propio rol o estado ni
  * eliminarse; un vendedor pendiente se aprueba o se rechaza desde la tarjeta de solicitud.
+ *
+ * Persistencia: el perfil se guarda en Firestore (`usuarios/{uid}`). Al crear, la cuenta de
+ * Authentication se crea en una instancia secundaria de Firebase para no cerrar la sesión del
+ * administrador, y el titular recibe por correo el enlace para crear su contraseña
+ * (ver RepositorioUsuarios.crearDesdeAdministracion).
  */
 class FormularioUsuarioFragment : FragmentoBase<FragmentFormularioUsuarioBinding>(FragmentFormularioUsuarioBinding::inflate) {
 
@@ -34,7 +42,7 @@ class FormularioUsuarioFragment : FragmentoBase<FragmentFormularioUsuarioBinding
     private var rol = Rol.COMPRADOR
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        usuario = arguments?.getInt(Argumentos.USUARIO_ID, -1)?.takeIf { it > 0 }?.let { RepositorioUsuarios.buscarPorId(it) }
+        usuario = arguments?.getString(Argumentos.USUARIO_ID)?.let { RepositorioUsuarios.buscarPorId(it) }
         val editando = usuario != null
         val esPropio = usuario?.id == Sesion(requireContext()).usuarioActual?.id
         binding.barra.configurar(
@@ -82,6 +90,7 @@ class FormularioUsuarioFragment : FragmentoBase<FragmentFormularioUsuarioBinding
         binding.botonGuardar.setOnClickListener { guardar() }
     }
 
+    /** Botón del grupo de estado que corresponde a [estado]. */
     private fun idEstado(estado: EstadoCuenta) = when (estado) {
         EstadoCuenta.ACTIVO -> binding.opcionActiva.id
         EstadoCuenta.PENDIENTE -> binding.opcionPendiente.id
@@ -95,55 +104,66 @@ class FormularioUsuarioFragment : FragmentoBase<FragmentFormularioUsuarioBinding
             else -> EstadoCuenta.ACTIVO
         }
 
+    /** Valida y guarda: crea la cuenta nueva o actualiza la existente en Firestore. */
     private fun guardar() {
         val obligatorio = getString(R.string.error_campo_obligatorio)
         val correo = binding.campoCorreo.texto
         val validos = listOf(
             binding.campoNombre.validar(binding.campoNombre.texto.isNotEmpty(), obligatorio),
             binding.campoApellido.validar(binding.campoApellido.texto.isNotEmpty(), obligatorio),
-            binding.campoCorreo.validar(Validaciones.esCorreoValido(correo), getString(R.string.error_correo_invalido)) &&
-                binding.campoCorreo.validar(!RepositorioUsuarios.existeCorreo(correo, usuario?.id), getString(R.string.error_correo_registrado)),
+            binding.campoCorreo.validar(Validaciones.esCorreoValido(correo), getString(R.string.error_correo_invalido)),
             binding.campoTelefono.validar(Validaciones.esTelefonoValido(binding.campoTelefono.texto), getString(R.string.error_telefono_invalido)),
         ).all { it }
         if (!validos) return
 
         val existente = usuario
-        if (existente == null) {
-            RepositorioUsuarios.crearDesdeAdministracion(
-                binding.campoNombre.texto, binding.campoApellido.texto, correo, binding.campoTelefono.texto, rol, estadoElegido,
-            )
-        } else {
-            RepositorioUsuarios.actualizar(
-                existente.copy(
-                    nombre = binding.campoNombre.texto,
-                    apellido = binding.campoApellido.texto,
-                    telefono = binding.campoTelefono.texto,
-                    rol = rol,
-                    estado = estadoElegido,
-                ),
-            )
+        val nombre = binding.campoNombre.texto
+        val apellido = binding.campoApellido.texto
+        val telefono = binding.campoTelefono.texto
+        val estado = estadoElegido
+        ejecutar(
+            alFallar = { e ->
+                if (e is FirebaseAuthUserCollisionException) {
+                    binding.campoCorreo.validar(false, getString(R.string.error_correo_registrado))
+                } else {
+                    Snackbar.make(binding.root, Errores.mensaje(e), Snackbar.LENGTH_LONG).show()
+                }
+            },
+        ) {
+            if (existente == null) {
+                val nuevo = RepositorioUsuarios.crearDesdeAdministracion(requireContext(), nombre, apellido, correo, telefono, rol, estado)
+                terminar(getString(R.string.usuario_creado_enlace, nuevo.correo))
+            } else {
+                RepositorioUsuarios.actualizar(existente.copy(nombre = nombre, apellido = apellido, telefono = telefono, rol = rol, estado = estado))
+                terminar(getString(R.string.usuario_guardado))
+            }
         }
-        terminar(if (existente == null) R.string.usuario_creado else R.string.usuario_guardado)
     }
 
     /** Aprobar o rechazar la solicitud de un vendedor (RF-ADU-06). */
     private fun decidirSolicitud(aprobar: Boolean) {
         val u = usuario ?: return
-        RepositorioUsuarios.actualizar(u.copy(estado = if (aprobar) EstadoCuenta.ACTIVO else EstadoCuenta.SUSPENDIDO))
-        terminar(if (aprobar) R.string.usuario_aprobado else R.string.usuario_rechazado)
-    }
-
-    private fun eliminar() {
-        val u = usuario ?: return
-        confirmar(getString(R.string.usuario_eliminar), getString(R.string.usuario_eliminar_confirmar, u.nombreCompleto), getString(R.string.accion_eliminar)) {
-            RepositorioUsuarios.eliminar(u.id)
-            terminar(R.string.usuario_eliminado)
+        ejecutar {
+            RepositorioUsuarios.actualizar(u.copy(estado = if (aprobar) EstadoCuenta.ACTIVO else EstadoCuenta.SUSPENDIDO))
+            terminar(getString(if (aprobar) R.string.usuario_aprobado else R.string.usuario_rechazado))
         }
     }
 
-    private fun terminar(mensaje: Int) {
+    /** Elimina el perfil del usuario, previa confirmación (RF-ADU-05). */
+    private fun eliminar() {
+        val u = usuario ?: return
+        confirmar(getString(R.string.usuario_eliminar), getString(R.string.usuario_eliminar_confirmar, u.nombreCompleto), getString(R.string.accion_eliminar)) {
+            ejecutar(R.string.carga_eliminando) {
+                RepositorioUsuarios.eliminar(u.id)
+                terminar(getString(R.string.usuario_eliminado))
+            }
+        }
+    }
+
+    /** Cierra el formulario y muestra el resultado sobre la pantalla anterior. */
+    private fun terminar(mensaje: String) {
         requireActivity().ocultarTeclado()
-        Snackbar.make(binding.root, mensaje, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(requireActivity().findViewById(android.R.id.content), mensaje, Snackbar.LENGTH_LONG).show()
         findNavController().navigateUp()
     }
 }

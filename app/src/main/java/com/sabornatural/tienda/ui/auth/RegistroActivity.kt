@@ -8,9 +8,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sabornatural.tienda.R
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.sabornatural.tienda.datos.RepositorioUsuarios
 import com.sabornatural.tienda.datos.Sesion
 import com.sabornatural.tienda.datos.modelo.Rol
+import com.sabornatural.tienda.ui.comun.ejecutar
 import com.sabornatural.tienda.databinding.ActivityRegistroBinding
 import com.sabornatural.tienda.ui.comun.Navegador
 import com.sabornatural.tienda.ui.comun.PantallaBase
@@ -25,6 +27,7 @@ import com.sabornatural.tienda.ui.comun.validar
 /**
  * Crear cuenta (mockup C-04). El comprador queda activo de inmediato; el vendedor queda
  * pendiente hasta que un administrador apruebe su comercio (RF-AUT-01 y RF-AUT-02).
+ * La cuenta se crea en Firebase Authentication y el perfil (rol y estado) en Firestore.
  */
 class RegistroActivity : PantallaBase() {
 
@@ -85,6 +88,7 @@ class RegistroActivity : PantallaBase() {
         desplazable.smoothScrollTo(0, zona.top - resources.getDimensionPixelSize(R.dimen.espacio_xl))
     }
 
+    /** Valida todo el formulario y, si está completo, crea la cuenta en Firebase. */
     private fun crearCuenta() {
         val obligatorio = getString(R.string.error_campo_obligatorio)
         val nombre = binding.campoNombre.texto
@@ -98,8 +102,8 @@ class RegistroActivity : PantallaBase() {
         val validos = listOf(
             binding.campoNombre.validar(nombre.isNotEmpty(), obligatorio),
             binding.campoApellido.validar(apellido.isNotEmpty(), obligatorio),
-            binding.campoCorreo.validar(Validaciones.esCorreoValido(correo), getString(R.string.error_correo_invalido)) &&
-                binding.campoCorreo.validar(!RepositorioUsuarios.existeCorreo(correo), getString(R.string.error_correo_registrado)),
+            // Si el correo ya está registrado lo informa Firebase al crear la cuenta (ver más abajo)
+            binding.campoCorreo.validar(Validaciones.esCorreoValido(correo), getString(R.string.error_correo_invalido)),
             binding.campoTelefono.validar(Validaciones.esTelefonoValido(telefono), getString(R.string.error_telefono_invalido)),
             binding.campoClave.validar(Validaciones.esClaveValida(clave), getString(R.string.error_clave_debil)),
             binding.campoConfirmarClave.validar(clave == confirmacion && confirmacion.isNotEmpty(), getString(R.string.error_claves_distintas)),
@@ -117,18 +121,35 @@ class RegistroActivity : PantallaBase() {
         }
         ocultarTeclado()
 
-        val usuario = RepositorioUsuarios.registrar(nombre, apellido, correo, telefono, clave, rolElegido)
-        if (usuario.rol == Rol.VENDEDOR) {
-            MaterialAlertDialogBuilder(this)
-                .setIcon(R.drawable.ic_check_circulo)
-                .setTitle(R.string.registro_vendedor_enviado_titulo)
-                .setMessage(R.string.registro_vendedor_enviado_texto)
-                .setPositiveButton(R.string.registro_entendido) { _, _ -> finish() }
-                .setCancelable(false)
-                .show()
-        } else {
-            Sesion(this).iniciar(usuario)
-            Navegador.abrirPanel(this, usuario)
+        val rol = rolElegido
+        ejecutar(
+            mensaje = R.string.registro_creando,
+            alFallar = { e ->
+                if (e is FirebaseAuthUserCollisionException) {
+                    binding.campoCorreo.validar(false, getString(R.string.error_correo_registrado))
+                    desplazarAlPrimerError()
+                } else {
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle(R.string.carga_error_titulo)
+                        .setMessage(com.sabornatural.tienda.datos.remoto.Errores.mensaje(e))
+                        .setPositiveButton(R.string.registro_entendido, null)
+                        .show()
+                }
+            },
+        ) {
+            val usuario = RepositorioUsuarios.registrar(nombre, apellido, correo, telefono, clave, rol)
+            if (usuario.rol == Rol.VENDEDOR) {
+                MaterialAlertDialogBuilder(this)
+                    .setIcon(R.drawable.ic_check_circulo)
+                    .setTitle(R.string.registro_vendedor_enviado_titulo)
+                    .setMessage(R.string.registro_vendedor_enviado_texto)
+                    .setPositiveButton(R.string.registro_entendido) { _, _ -> finish() }
+                    .setCancelable(false)
+                    .show()
+            } else {
+                Sesion(this).iniciar(usuario)
+                Navegador.abrirPanel(this, usuario)
+            }
         }
     }
 }

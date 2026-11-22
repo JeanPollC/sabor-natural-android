@@ -22,6 +22,7 @@ import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.igualarAltoBarraDeEstado
 import com.sabornatural.tienda.ui.comun.navegar
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeEstado
+import kotlinx.coroutines.flow.merge
 import java.time.LocalDate
 
 /** Llena una tarjeta de indicador (include_indicador.xml). */
@@ -31,7 +32,10 @@ fun IncludeIndicadorBinding.mostrar(@DrawableRes icono: Int, valor: String, etiq
     this.etiqueta.text = etiqueta
 }
 
-/** Panel del vendedor (mockup V-01): indicadores, pedidos por atender y publicaciones con novedades. */
+/**
+ * Panel del vendedor (mockup V-01): indicadores, pedidos por atender y publicaciones con novedades.
+ * Se recalcula solo cuando cambian sus pedidos o productos en Firestore (por ejemplo, una compra nueva).
+ */
 class PanelVendedorFragment : FragmentoBase<FragmentPanelVendedorBinding>(FragmentPanelVendedorBinding::inflate) {
 
     private lateinit var pedidos: AdaptadorPedidos
@@ -54,10 +58,11 @@ class PanelVendedorFragment : FragmentoBase<FragmentPanelVendedorBinding>(Fragme
         binding.listaPedidos.adapter = pedidos
         binding.listaPublicaciones.adapter = publicaciones
         binding.botonVerPedidos.setOnClickListener { navegar(R.id.pedidosVendedorFragment) }
+        observar(merge(RepositorioPedidos.cambios, RepositorioProductos.cambios)) { mostrar() }
     }
 
-    override fun onResume() {
-        super.onResume()
+    /** Calcula indicadores y listas con los datos en vivo. */
+    private fun mostrar() {
         val vendedor = Sesion(requireContext()).usuarioActual ?: return
         binding.encabezado.saludo.text = getString(R.string.inicio_saludo, vendedor.nombre)
         binding.encabezado.avatar.text = vendedor.iniciales
@@ -65,7 +70,7 @@ class PanelVendedorFragment : FragmentoBase<FragmentPanelVendedorBinding>(Fragme
         val misPedidos = RepositorioPedidos.delVendedor(vendedor.id)
         val misProductos = RepositorioProductos.delVendedor(vendedor.id)
         val mes = LocalDate.now().toString().substring(0, 7) // "2026-11"
-        val ventasMes = misPedidos.filter { it.fecha.startsWith(mes) && it.estado != EstadoPedido.CANCELADO }.sumOf { it.total }
+        val ventasMes = misPedidos.filter { it.fecha.startsWith(mes) && it.cuentaComoVenta }.sumOf { it.total }
 
         binding.indicador1.mostrar(R.drawable.ic_dinero, Formatos.precio(ventasMes), getString(R.string.indicador_ventas_mes))
         binding.indicador2.mostrar(R.drawable.ic_pedidos, misPedidos.count { it.estado == EstadoPedido.CONFIRMADO }.toString(), getString(R.string.indicador_pedidos_nuevos))

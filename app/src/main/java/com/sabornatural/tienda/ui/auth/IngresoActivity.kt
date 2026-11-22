@@ -9,10 +9,15 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.sabornatural.tienda.R
+import androidx.lifecycle.lifecycleScope
 import com.sabornatural.tienda.datos.RepositorioUsuarios
 import com.sabornatural.tienda.datos.Sesion
-import com.sabornatural.tienda.datos.modelo.EstadoCuenta
 import com.sabornatural.tienda.datos.modelo.Usuario
+import com.sabornatural.tienda.datos.remoto.Errores
+import com.sabornatural.tienda.datos.remoto.Nube
+import com.sabornatural.tienda.ui.inicio.SplashActivity
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import com.sabornatural.tienda.databinding.ActivityIngresoBinding
 import com.sabornatural.tienda.ui.comun.Biometria
 import com.sabornatural.tienda.ui.comun.Navegador
@@ -31,6 +36,9 @@ import com.sabornatural.tienda.ui.comun.validar
  *  - el mensaje de error es genérico: no dice si falló el correo o la contraseña;
  *  - tras 5 intentos fallidos el ingreso se bloquea 30 segundos;
  *  - la huella solo desbloquea una sesión guardada y siempre se ofrece la contraseña como alternativa.
+ *
+ * La verificación de la contraseña la hace Firebase Authentication; luego se lee el perfil en
+ * Firestore para conocer el rol y el estado (pendiente o suspendida no pueden entrar).
  */
 class IngresoActivity : PantallaBase() {
 
@@ -77,6 +85,7 @@ class IngresoActivity : PantallaBase() {
         super.onDestroy()
     }
 
+    /** Título y botón volver; al desbloquear con huella no hay pantalla anterior. */
     private fun configurarEncabezado() = with(binding.encabezado) {
         root.rellenarBarraDeEstado()
         titulo.setText(R.string.ingreso_titulo)
@@ -95,15 +104,38 @@ class IngresoActivity : PantallaBase() {
         if (mostrar) binding.campoCorreo.editText?.setText(usuarioGuardado?.correo)
     }
 
+    /**
+     * Desbloqueo con huella: el sistema verifica la huella, la llave del Keystore descifra el uid
+     * guardado y, si coincide con la sesión de Firebase de este teléfono, se reabre esa sesión
+     * (se confirma el perfil en Firestore y se abre el panel del rol).
+     */
     private fun pedirHuella() {
-        Biometria.autenticar(
+        Biometria.desbloquear(
             actividad = this,
-            alExito = { sesion.usuarioActual?.let { Navegador.abrirPanel(this, it) } },
+            alExito = { uid ->
+                if (uid != Nube.uidActual) {
+                    mostrarAviso(getString(R.string.huella_sesion_vencida))
+                    return@desbloquear
+                }
+                lifecycleScope.launch {
+                    val usuario = SplashActivity.cargarPerfilVigente(this@IngresoActivity)
+                    if (usuario == null) {
+                        configurarHuella()
+                        mostrarAviso(getString(R.string.huella_sesion_vencida))
+                    } else {
+                        Navegador.abrirPanel(this@IngresoActivity, usuario)
+                    }
+                }
+            },
             alUsarClave = { binding.campoClave.requestFocus() },
-            alError = { mensaje -> mostrarAviso(mensaje.toString()) },
+            alError = { mensaje ->
+                configurarHuella()
+                mostrarAviso(mensaje.toString())
+            },
         )
     }
 
+    /** Valida el formulario e ingresa con Firebase Authentication. */
     private fun ingresarConClave() {
         ocultarAviso()
         val correo = binding.campoCorreo.texto
@@ -118,15 +150,31 @@ class IngresoActivity : PantallaBase() {
         if (!correoValido || !claveValida) return
 
         ocultarTeclado()
-        val usuario = RepositorioUsuarios.autenticar(correo, clave)
-        when {
-            usuario == null -> registrarIntentoFallido()
-            usuario.estado == EstadoCuenta.PENDIENTE -> mostrarAviso(getString(R.string.ingreso_cuenta_pendiente), pendiente = true)
-            usuario.estado == EstadoCuenta.SUSPENDIDO -> mostrarAviso(getString(R.string.ingreso_cuenta_suspendida))
-            else -> ingresoExitoso(usuario)
+        binding.botonIngresar.isEnabled = false
+        binding.botonIngresar.setText(R.string.ingreso_verificando)
+        lifecycleScope.launch {
+            try {
+                // Si había otra sesión guardada (por ejemplo, al desbloquear se eligió la contraseña), se cierra antes
+                if (Nube.uidActual != null) sesion.cerrar()
+                val usuario = RepositorioUsuarios.autenticar(correo, clave)
+                ingresoExitoso(usuario)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                when {
+                    Errores.esCredencialInvalida(e) -> registrarIntentoFallido()
+                    e is com.sabornatural.tienda.datos.ErrorNegocio && e.mensaje == R.string.ingreso_cuenta_pendiente ->
+                        mostrarAviso(getString(R.string.ingreso_cuenta_pendiente), pendiente = true)
+                    else -> mostrarAviso(getString(Errores.mensaje(e)))
+                }
+            } finally {
+                binding.botonIngresar.setText(R.string.ingreso_boton)
+                if (temporizadorBloqueo == null) binding.botonIngresar.isEnabled = true
+            }
         }
     }
 
+    /** Cuenta un intento fallido y bloquea el ingreso al llegar a 5. */
     private fun registrarIntentoFallido() {
         intentosFallidos++
         binding.campoClave.editText?.text?.clear()
@@ -143,6 +191,7 @@ class IngresoActivity : PantallaBase() {
             }
 
             override fun onFinish() {
+                temporizadorBloqueo = null
                 intentosFallidos = 0
                 binding.botonIngresar.isEnabled = true
                 ocultarAviso()
@@ -150,7 +199,10 @@ class IngresoActivity : PantallaBase() {
         }.start()
     }
 
-    /** Abre la sesión y, si el equipo tiene huella y aún no se activó, ofrece activarla. */
+    /**
+     * Abre la sesión y, si el equipo tiene huella y aún no se activó, ofrece activarla. Activarla
+     * pide la huella una vez para crear la llave del Keystore (ver Biometria.activar).
+     */
     private fun ingresoExitoso(usuario: Usuario) {
         sesion.iniciar(usuario)
         if (Biometria.disponible(this) && !sesion.huellaHabilitada) {
@@ -159,9 +211,16 @@ class IngresoActivity : PantallaBase() {
                 .setTitle(R.string.ingreso_activar_huella_titulo)
                 .setMessage(R.string.ingreso_activar_huella_texto)
                 .setPositiveButton(R.string.ingreso_activar_huella_si) { _, _ ->
-                    sesion.huellaHabilitada = true
-                    Snackbar.make(binding.root, R.string.ingreso_huella_activada, Snackbar.LENGTH_SHORT).show()
-                    binding.root.postDelayed({ Navegador.abrirPanel(this, usuario) }, 900)
+                    Biometria.activar(
+                        actividad = this,
+                        uid = usuario.id,
+                        alExito = {
+                            Snackbar.make(binding.root, R.string.ingreso_huella_activada, Snackbar.LENGTH_SHORT).show()
+                            binding.root.postDelayed({ Navegador.abrirPanel(this, usuario) }, 900)
+                        },
+                        alCancelar = { Navegador.abrirPanel(this, usuario) },
+                        alError = { Navegador.abrirPanel(this, usuario) },
+                    )
                 }
                 .setNegativeButton(R.string.ingreso_activar_huella_no) { _, _ -> Navegador.abrirPanel(this, usuario) }
                 .setCancelable(false)
@@ -184,6 +243,7 @@ class IngresoActivity : PantallaBase() {
         binding.aviso.visibility = View.VISIBLE
     }
 
+    /** Oculta el aviso de error o de estado. */
     private fun ocultarAviso() {
         binding.aviso.visibility = View.GONE
     }

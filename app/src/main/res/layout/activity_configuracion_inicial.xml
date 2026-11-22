@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Configuración inicial (pantalla oculta de desarrollo): convertir la cuenta actual en el primer
+    administrador y sembrar en Firestore las categorías, cuentas de prueba, productos y pedidos de
+    ejemplo. Se abre manteniendo presionado el avatar del perfil o del panel del administrador.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.admin.ConfiguracionInicialActivity">
+
+    <include
+        android:id="@+id/encabezado"
+        layout="@layout/include_encabezado_formulario" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/desplazable"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/margen_pantalla"
+            android:paddingTop="@dimen/espacio_xl"
+            android:paddingEnd="@dimen/margen_pantalla"
+            android:paddingBottom="@dimen/espacio_xl">
+
+            <TextView
+                android:id="@+id/cuenta"
+                style="@style/Widget.SaborNatural.Aviso.Info"
+                tools:text="Sesión: admin@correo.com · Comprador" />
+
+            <!-- Paso 1 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_xl"
+                android:text="@string/configuracion_paso1_titulo"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_xs"
+                android:text="@string/configuracion_paso1_texto"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonAdministrador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:text="@string/configuracion_paso1_boton"
+                app:icon="@drawable/ic_verificado" />
+
+            <!-- Paso 2 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_xxl"
+                android:text="@string/configuracion_paso2_titulo"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_xs"
+                android:text="@string/configuracion_paso2_texto"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Secundario" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/campoClaveDemo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:hint="@string/configuracion_clave_demo"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/ic_candado">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="newPassword"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/botonSembrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_m"
+                android:text="@string/configuracion_paso2_boton"
+                app:icon="@drawable/ic_inventario" />
+
+            <TextView
+                android:id="@+id/registro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/espacio_l"
+                android:textAppearance="@style/TextAppearance.SaborNatural.Secundario"
+                tools:text="✓ 6 categorías" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

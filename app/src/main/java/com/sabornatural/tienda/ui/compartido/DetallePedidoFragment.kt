@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sabornatural.tienda.R
 import com.sabornatural.tienda.datos.RepositorioPedidos
+import com.sabornatural.tienda.datos.modelo.EstadoPago
 import com.sabornatural.tienda.datos.modelo.EstadoPedido
 import com.sabornatural.tienda.datos.modelo.Pedido
 import com.sabornatural.tienda.datos.modelo.TipoEntrega
@@ -19,6 +20,7 @@ import com.sabornatural.tienda.ui.comun.Formatos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.configurar
 import com.sabornatural.tienda.ui.comun.confirmar
+import com.sabornatural.tienda.ui.comun.ejecutar
 import com.sabornatural.tienda.ui.comun.mostrarEtiqueta
 import com.sabornatural.tienda.ui.comun.rellenarBarraDeNavegacion
 import com.sabornatural.tienda.ui.comun.tono
@@ -26,20 +28,26 @@ import com.sabornatural.tienda.ui.comun.tono
 /**
  * Detalle del pedido. Comprador (B-08): seguimiento y cancelación antes del despacho (RF-PED-06).
  * Vendedor (V-06): avanza el estado en la secuencia permitida o rechaza un pedido nuevo (RF-PED-07).
+ *
+ * El pedido se lee de la copia en vivo de Firestore: si el vendedor cambia el estado, el comprador
+ * lo ve actualizarse sin recargar. Un pedido con el pago pendiente permite al comprador consultar
+ * de nuevo el estado de la transacción en Wompi (lo verifica la Cloud Function verificarPago).
  */
 class DetallePedidoFragment : FragmentoBase<FragmentDetallePedidoBinding>(FragmentDetallePedidoBinding::inflate) {
 
     private val modo: ModoPedidos
         get() = ModoPedidos.valueOf(requireArguments().getString(Argumentos.MODO) ?: ModoPedidos.COMPRADOR.name)
 
-    private val pedidoId: Int get() = requireArguments().getInt(Argumentos.PEDIDO_ID)
+    private val pedidoId: String get() = requireArguments().getString(Argumentos.PEDIDO_ID).orEmpty()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.barraAccion.rellenarBarraDeNavegacion()
-        mostrar()
+        observar(RepositorioPedidos.cambios) { mostrar() }
     }
 
+    /** Pinta el pedido; si ya no está en la lista (por ejemplo, otro rol), vuelve atrás. */
     private fun mostrar() {
+        if (RepositorioPedidos.estado.value == com.sabornatural.tienda.datos.EstadoCarga.Cargando) return
         val pedido = RepositorioPedidos.buscarPorId(pedidoId) ?: run {
             findNavController().navigateUp()
             return
@@ -77,7 +85,13 @@ class DetallePedidoFragment : FragmentoBase<FragmentDetallePedidoBinding>(Fragme
             }
             mostrarTotales(totales, pedido.subtotal, pedido.domicilio)
             medio.setText(pedido.medioPago.nombre)
-            referencia.text = pedido.referenciaPago
+            // Transacción de Wompi y resultado del pago
+            val idPago = pedido.transaccionId.ifBlank { pedido.referenciaPago }
+            referencia.text = if (idPago.isBlank()) {
+                getString(pedido.estadoPago.nombre)
+            } else {
+                getString(R.string.formato_pedido_resumen, idPago, getString(pedido.estadoPago.nombre))
+            }
         }
         if (modo == ModoPedidos.ADMINISTRADOR) {
             binding.barraAccion.visibility = View.GONE // el administrador solo consulta
@@ -108,29 +122,57 @@ class DetallePedidoFragment : FragmentoBase<FragmentDetallePedidoBinding>(Fragme
         }
     }
 
+    /** Botones según rol y estado: avanzar, consultar el pago, rechazar o cancelar. */
     private fun configurarAcciones(pedido: Pedido, esVendedor: Boolean) = with(binding) {
         val siguiente = pedido.estado.siguiente
-        botonAvanzar.visibility = if (esVendedor && siguiente != null) View.VISIBLE else View.GONE
-        siguiente?.let { botonAvanzar.text = getString(R.string.detalle_pedido_avanzar, getString(it.nombre).lowercase()) }
-        botonAvanzar.setOnClickListener { siguiente?.let { cambiarEstado(it) } }
+        // Comprador con pago pendiente y transacción conocida: puede volver a consultar el pago en Wompi
+        val consultarPago = !esVendedor && pedido.estado == EstadoPedido.PAGO_PENDIENTE && pedido.transaccionId.isNotBlank()
+        botonAvanzar.visibility = if ((esVendedor && siguiente != null) || consultarPago) View.VISIBLE else View.GONE
+        if (consultarPago) {
+            botonAvanzar.setText(R.string.detalle_pedido_consultar_pago)
+            botonAvanzar.setOnClickListener { consultarPago(pedido) }
+        } else {
+            siguiente?.let { botonAvanzar.text = getString(R.string.detalle_pedido_avanzar, getString(it.nombre).lowercase()) }
+            botonAvanzar.setOnClickListener { siguiente?.let { cambiarEstado(pedido, it) } }
+        }
 
         // Rechazar (vendedor) o cancelar (comprador): solo antes del despacho
-        val puedeCancelar = if (esVendedor) pedido.estado == EstadoPedido.CONFIRMADO else pedido.estado in setOf(EstadoPedido.CONFIRMADO, EstadoPedido.EN_PREPARACION)
+        val puedeCancelar = if (esVendedor) {
+            pedido.estado == EstadoPedido.CONFIRMADO
+        } else {
+            pedido.estado == EstadoPedido.CONFIRMADO || pedido.estado == EstadoPedido.EN_PREPARACION ||
+                (pedido.estado == EstadoPedido.PAGO_PENDIENTE && pedido.transaccionId.isBlank())
+        }
         botonCancelar.visibility = if (puedeCancelar) View.VISIBLE else View.GONE
         val textoBoton = if (esVendedor) R.string.detalle_pedido_rechazar else R.string.detalle_pedido_cancelar
         val textoConfirmar = if (esVendedor) R.string.detalle_pedido_rechazar_confirmar else R.string.detalle_pedido_cancelar_confirmar
         botonCancelar.setText(textoBoton)
         botonCancelar.setOnClickListener {
-            confirmar(getString(textoBoton), getString(textoConfirmar), getString(textoBoton)) { cambiarEstado(EstadoPedido.CANCELADO) }
+            confirmar(getString(textoBoton), getString(textoConfirmar), getString(textoBoton)) { cambiarEstado(pedido, EstadoPedido.CANCELADO) }
         }
         barraAccion.visibility = if (botonAvanzar.visibility == View.VISIBLE || puedeCancelar) View.VISIBLE else View.GONE
     }
 
-    private fun cambiarEstado(nuevo: EstadoPedido) {
-        RepositorioPedidos.cambiarEstado(pedidoId, nuevo)
-        Snackbar.make(binding.root, getString(R.string.detalle_pedido_actualizado, getString(nuevo.nombre)), Snackbar.LENGTH_SHORT)
-            .setAnchorView(binding.barraAccion.takeIf { it.visibility == View.VISIBLE })
-            .show()
-        mostrar()
+    /** Guarda el nuevo estado en Firestore; la pantalla se redibuja al llegar el cambio. */
+    private fun cambiarEstado(pedido: Pedido, nuevo: EstadoPedido) {
+        ejecutar {
+            RepositorioPedidos.cambiarEstado(pedido, nuevo)
+            Snackbar.make(binding.root, getString(R.string.detalle_pedido_actualizado, getString(nuevo.nombre)), Snackbar.LENGTH_SHORT)
+                .setAnchorView(binding.barraAccion.takeIf { it.visibility == View.VISIBLE })
+                .show()
+        }
+    }
+
+    /** Pide al servidor consultar otra vez en Wompi una transacción que quedó pendiente. */
+    private fun consultarPago(pedido: Pedido) {
+        ejecutar(R.string.pago_consultando) {
+            val actualizado = RepositorioPedidos.confirmarPago(pedido.id, pedido.transaccionId)
+            val mensaje = when (actualizado.estadoPago) {
+                EstadoPago.APROBADO -> R.string.pago_estado_aprobado
+                EstadoPago.PENDIENTE -> R.string.pago_sigue_pendiente
+                EstadoPago.RECHAZADO -> R.string.pago_estado_rechazado
+            }
+            Snackbar.make(binding.root, mensaje, Snackbar.LENGTH_LONG).show()
+        }
     }
 }

@@ -22,13 +22,18 @@ import com.sabornatural.tienda.ui.comprador.Argumentos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.Tono
 import com.sabornatural.tienda.ui.comun.configurar
+import com.sabornatural.tienda.ui.comun.mostrarCarga
 import com.sabornatural.tienda.ui.comun.mostrarEtiqueta
 import com.sabornatural.tienda.ui.comun.navegar
 import com.sabornatural.tienda.ui.comun.tono
 
-/** Administración de usuarios (mockup A-02): buscar, filtrar por rol o estado, crear y editar. */
+/**
+ * Administración de usuarios (mockup A-02): buscar, filtrar por rol o estado, crear y editar.
+ * La lista llega en vivo desde Firestore (colección `usuarios`).
+ */
 class UsuariosFragment : FragmentoBase<FragmentUsuariosBinding>(FragmentUsuariosBinding::inflate) {
 
+    /** Filtro de la lista: nombre visible y condición sobre el usuario. */
     private class Filtro(val nombre: Int, val cumple: (Usuario) -> Boolean)
 
     private val filtros = listOf(
@@ -62,14 +67,15 @@ class UsuariosFragment : FragmentoBase<FragmentUsuariosBinding>(FragmentUsuarios
         binding.textoBuscar.doAfterTextChanged { mostrar() }
         binding.listaUsuarios.adapter = adaptador
         binding.botonNuevo.setOnClickListener { navegar(R.id.formularioUsuarioFragment) }
+        observar(RepositorioUsuarios.cambios) { mostrar() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mostrar()
-    }
-
+    /** Aplica el filtro y la búsqueda a la lista en vivo, con estados de carga y error. */
     private fun mostrar() {
+        if (!binding.estadoVacio.mostrarCarga(RepositorioUsuarios.estado.value, RepositorioUsuarios::reintentar)) {
+            adaptador.submitList(emptyList())
+            return
+        }
         val consulta = binding.textoBuscar.text?.toString()?.trim()?.lowercase().orEmpty()
         val lista = RepositorioUsuarios.todos()
             .filter(filtros[filtroActual].cumple)
@@ -92,6 +98,7 @@ class AdaptadorUsuarios(private val alTocar: (Usuario) -> Unit) :
         override fun areContentsTheSame(a: Usuario, b: Usuario) = a == b
     }) {
 
+    /** Vista de una fila de la lista. */
     class Fila(val binding: ItemUsuarioBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(padre: ViewGroup, tipo: Int) =

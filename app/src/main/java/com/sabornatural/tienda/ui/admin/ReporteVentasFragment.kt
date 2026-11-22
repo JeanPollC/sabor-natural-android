@@ -27,10 +27,12 @@ import java.time.format.DateTimeFormatter
 
 /**
  * Reporte de ventas del administrador: totales del periodo, gráfico por categoría, ventas por
- * productor, productos más vendidos y últimos pedidos. Se calcula con los pedidos no cancelados.
+ * productor, productos más vendidos y últimos pedidos. Se calcula con los pedidos pagados y no
+ * cancelados, que llegan en vivo desde Firestore.
  */
 class ReporteVentasFragment : FragmentoBase<FragmentReporteVentasBinding>(FragmentReporteVentasBinding::inflate) {
 
+    /** Periodos que se pueden consultar en el reporte. */
     private enum class Periodo(val nombre: Int) { SIETE_DIAS(R.string.reporte_7_dias), MES(R.string.reporte_mes), TODO(R.string.reporte_todo) }
 
     private var periodo = Periodo.MES
@@ -54,13 +56,10 @@ class ReporteVentasFragment : FragmentoBase<FragmentReporteVentasBinding>(Fragme
             mostrar()
         }
         binding.listaPedidos.adapter = adaptador
+        observar(RepositorioPedidos.cambios) { mostrar() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mostrar()
-    }
-
+    /** true si la fecha del pedido cae dentro del periodo elegido. */
     private fun enPeriodo(pedido: Pedido): Boolean {
         val fecha = runCatching { LocalDateTime.parse(pedido.fecha, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) }.getOrNull() ?: return false
         val hoy = LocalDate.now()
@@ -71,9 +70,10 @@ class ReporteVentasFragment : FragmentoBase<FragmentReporteVentasBinding>(Fragme
         }
     }
 
+    /** Recalcula el reporte para el periodo elegido. */
     private fun mostrar() {
         val delPeriodo = RepositorioPedidos.todos().filter(::enPeriodo)
-        val validos = delPeriodo.filter { it.estado != EstadoPedido.CANCELADO }
+        val validos = delPeriodo.filter { it.cuentaComoVenta }
         val total = validos.sumOf { it.total }
         val ticket = if (validos.isEmpty()) 0 else total / validos.size
 
@@ -123,6 +123,7 @@ class ReporteVentasFragment : FragmentoBase<FragmentReporteVentasBinding>(Fragme
         adaptador.submitList(delPeriodo.take(5))
     }
 
+    /** Fila "Sin datos" para una sección vacía del reporte. */
     private fun agregarSinDatos(contenedor: android.widget.LinearLayout) {
         val fila = ItemLineaPedidoBinding.inflate(layoutInflater, contenedor, true)
         fila.descripcion.setText(R.string.reporte_sin_datos)
