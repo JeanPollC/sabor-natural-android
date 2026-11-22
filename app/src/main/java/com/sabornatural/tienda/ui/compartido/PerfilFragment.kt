@@ -71,6 +71,29 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
         observar(RepositorioUsuarios.actual) { mostrarUsuario() }
     }
 
+    /**
+     * Cada vez que el perfil se muestra, el interruptor de huella se vuelve a alinear con el estado
+     * real (preferencia + dato cifrado con la llave del Keystore). Así refleja una huella activada
+     * desde el diálogo de ingreso o desde otra pantalla, aunque Android restaure la vista con otro valor.
+     */
+    override fun onResume() {
+        super.onResume()
+        if (view != null && sesion.usuarioActual != null) sincronizarHuella()
+    }
+
+    /** true mientras el código cambia el interruptor, para que el listener no active ni borre la huella. */
+    private var sincronizandoHuella = false
+
+    /** Pone el interruptor de huella en el estado real sin disparar su listener. */
+    private fun sincronizarHuella() = with(binding.filaHuella.interruptor) {
+        val activa = sesion.huellaHabilitada && Biometria.disponible(requireContext())
+        if (isChecked != activa) {
+            sincronizandoHuella = true
+            isChecked = activa
+            sincronizandoHuella = false
+        }
+    }
+
     /** Datos del usuario y filas visibles según su rol. */
     private fun mostrarUsuario() {
         val usuario = sesion.usuarioActual ?: return
@@ -110,7 +133,9 @@ class PerfilFragment : FragmentoBase<FragmentPerfilBinding>(FragmentPerfilBindin
         filaHuella.interruptor.isEnabled = disponible
         filaHuella.interruptor.isChecked = sesion.huellaHabilitada && disponible
         filaHuella.interruptor.setOnCheckedChangeListener { boton, activar ->
+            if (sincronizandoHuella) return@setOnCheckedChangeListener
             if (!activar) {
+                // Apagar: borra la preferencia, el uid cifrado y la llave del Keystore
                 Biometria.desactivar(requireContext())
                 return@setOnCheckedChangeListener
             }
