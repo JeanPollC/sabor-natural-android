@@ -22,6 +22,14 @@ keystore.properties
 google-services.json
 .env
 .env.*
+!.env.example
+.secret.local
+
+# Cloud Functions y Firebase CLI
+functions/node_modules/
+functions/lib/
+.firebase/
+firebase-debug.log
 
 # APK y paquetes generados (el APK se entrega aparte)
 *.apk

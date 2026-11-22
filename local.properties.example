@@ -1,0 +1,5 @@
+# Copia estas líneas al final de TU local.properties (ese archivo no se sube a git).
+# No borres la línea sdk.dir que Android Studio ya puso ahí.
+
+# Llave PÚBLICA de Wompi (sandbox: empieza por pub_test_). Solo la pública va en la app.
+WOMPI_PUBLIC_KEY=pub_test_PEGA_AQUI_TU_LLAVE

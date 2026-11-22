@@ -4,6 +4,17 @@
     <!-- Lector de huella para el ingreso biométrico (RF-AUT-05) -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
+    <!-- Firebase (Auth, Firestore, Storage, Functions) y la pasarela Wompi necesitan internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--
+        Ubicación para llenar la dirección de entrega (RF-PED-02). Se pide en tiempo de ejecución
+        al pagar; el usuario puede conceder la precisa o solo la aproximada, o escribir la dirección.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name=".SaborNaturalApp"
         android:allowBackup="false"
@@ -55,6 +66,17 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.admin.AdminActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Web Checkout de Wompi en un WebView (sandbox) -->
+        <activity
+            android:name=".ui.comprador.PagoWompiActivity"
+            android:exported="false" />
+
+        <!-- Pantalla oculta: primer administrador y datos de ejemplo (mantener presionado el avatar del perfil) -->
+        <activity
+            android:name=".ui.admin.ConfiguracionInicialActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
