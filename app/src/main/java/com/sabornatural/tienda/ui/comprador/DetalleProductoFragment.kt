@@ -28,7 +28,7 @@ class DetalleProductoFragment : FragmentoBase<FragmentDetalleProductoBinding>(Fr
         binding.barraFlotante.rellenarBarraDeEstado()
         binding.barraAccion.rellenarBarraDeNavegacion()
 
-        val producto = RepositorioProductos.buscarPorId(requireArguments().getInt(Argumentos.PRODUCTO_ID))
+        val producto = RepositorioProductos.buscarPorId(requireArguments().getString(Argumentos.PRODUCTO_ID).orEmpty())
         if (producto == null) {
             findNavController().navigateUp()
             return
@@ -43,8 +43,9 @@ class DetalleProductoFragment : FragmentoBase<FragmentDetalleProductoBinding>(Fr
         cambiarCantidad(producto, 1)
     }
 
+    /** Llena la pantalla con los datos y el rótulo del producto. */
     private fun mostrar(p: Producto) = with(binding) {
-        mostrarImagenProducto(marcoImagen, foto, icono, p.categoria, p.id)
+        mostrarImagenProducto(marcoImagen, foto, icono, p.categoria, p.imagenUrl)
         // La imagen grande no lleva esquinas: el color se aplica directo al fondo
         marcoImagen.setBackgroundColor(ContextCompat.getColor(requireContext(), p.categoria.fondo))
 

@@ -14,9 +14,13 @@ import com.sabornatural.tienda.databinding.FragmentCatalogoBinding
 import com.sabornatural.tienda.ui.comun.AdaptadorProductos
 import com.sabornatural.tienda.ui.comun.FragmentoBase
 import com.sabornatural.tienda.ui.comun.configurar
+import com.sabornatural.tienda.ui.comun.mostrarCarga
 import com.sabornatural.tienda.ui.comun.navegar
 
-/** Catálogo con búsqueda por texto y filtro por categoría (RF-INI-03). */
+/**
+ * Catálogo con búsqueda por texto y filtro por categoría (RF-INI-03).
+ * Muestra los productos PUBLICADO de Firestore, actualizados en vivo.
+ */
 class CatalogoFragment : FragmentoBase<FragmentCatalogoBinding>(FragmentCatalogoBinding::inflate) {
 
     private lateinit var adaptador: AdaptadorProductos
@@ -34,8 +38,9 @@ class CatalogoFragment : FragmentoBase<FragmentCatalogoBinding>(FragmentCatalogo
         )
         binding.listaProductos.adapter = adaptador
 
-        // Se filtra mientras el usuario escribe
+        // Se filtra mientras el usuario escribe, y cada vez que cambian los productos en Firestore
         binding.textoBuscar.doAfterTextChanged { filtrar() }
+        observar(RepositorioProductos.cambios) { filtrar() }
 
         // Desde el buscador del inicio: el campo llega enfocado y con el teclado abierto
         if (arguments?.getBoolean(Argumentos.ENFOCAR_BUSQUEDA) == true && savedInstanceState == null) {
@@ -45,11 +50,6 @@ class CatalogoFragment : FragmentoBase<FragmentCatalogoBinding>(FragmentCatalogo
                     ?.showSoftInput(binding.textoBuscar, InputMethodManager.SHOW_IMPLICIT)
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        filtrar()
     }
 
     /** Una ficha "Todos" y una por categoría; la selección única la controla el ChipGroup. */
@@ -72,7 +72,13 @@ class CatalogoFragment : FragmentoBase<FragmentCatalogoBinding>(FragmentCatalogo
         }
     }
 
+    /** Aplica búsqueda y categoría a los productos en vivo, con estados de carga y error. */
     private fun filtrar() {
+        if (!binding.estadoVacio.mostrarCarga(RepositorioProductos.estado.value, RepositorioProductos::reintentar)) {
+            adaptador.submitList(emptyList())
+            binding.resultados.text = ""
+            return
+        }
         val lista = RepositorioProductos.buscar(binding.textoBuscar.text?.toString().orEmpty(), categoria)
         adaptador.submitList(lista)
         binding.resultados.text = resources.getQuantityString(R.plurals.formato_resultados, lista.size, lista.size)

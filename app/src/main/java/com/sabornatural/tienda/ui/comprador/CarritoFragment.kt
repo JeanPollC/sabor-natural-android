@@ -47,6 +47,7 @@ class CarritoFragment : FragmentoBase<FragmentCarritoBinding>(FragmentCarritoBin
         Carrito.lineas.observe(viewLifecycleOwner) { lineas -> mostrar(lineas) }
     }
 
+    /** Dibuja las líneas, el total y el estado vacío (o el aviso para invitados). */
     private fun mostrar(lineas: List<LineaCarrito>) {
         val invitado = Sesion(requireContext()).usuarioActual == null
         val vacio = lineas.isEmpty()
@@ -100,6 +101,7 @@ class AdaptadorCarrito(
     override fun areContentsTheSame(a: LineaCarrito, b: LineaCarrito) = a == b
 }) {
 
+    /** Vista de una línea del carrito. */
     class Fila(val binding: ItemLineaCarritoBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(padre: ViewGroup, tipo: Int) =
@@ -108,7 +110,7 @@ class AdaptadorCarrito(
     override fun onBindViewHolder(fila: Fila, posicion: Int) = with(fila.binding) {
         val linea = getItem(posicion)
         val p = linea.producto
-        mostrarImagenProducto(marcoImagen, foto, icono, p.categoria, p.id)
+        mostrarImagenProducto(marcoImagen, foto, icono, p.categoria, p.imagenUrl)
         nombre.text = p.nombre
         precioUnitario.text = root.context.getString(R.string.formato_pedido_resumen, Formatos.precio(p.precio), p.vendedorNombre)
         selector.cantidad.text = linea.cantidad.toString()

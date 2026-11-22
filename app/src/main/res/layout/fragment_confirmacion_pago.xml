@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Pago aprobado (mockup B-06, RF-PAG-03, RF-PED-03): comprobante con el código del pedido,
+    Resultado del pago (mockup B-06, RF-PAG-03, RF-PED-03): aprobado, pendiente o rechazado según Wompi.
+    Comprobante con el código del pedido,
     la referencia de pago, el medio, la fecha y el total, y el aviso del envío al correo.
 -->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +22,7 @@
 
         <FrameLayout
             android:layout_width="112dp"
+            android:id="@+id/circuloIcono"
             android:layout_height="112dp"
             android:layout_marginTop="@dimen/espacio_xxl"
             android:background="@drawable/bg_circulo_suave">
@@ -36,9 +38,11 @@
         </FrameLayout>
 
         <TextView
+            android:id="@+id/titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/espacio_l"
+            android:gravity="center"
             android:text="@string/confirmacion_titulo"
             android:textAppearance="@style/TextAppearance.SaborNatural.Marca"
             android:textSize="28sp" />

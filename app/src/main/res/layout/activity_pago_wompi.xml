@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Web Checkout de Wompi (RF-PAG-01): barra con la X para salir, barra de progreso de carga y el
+    WebView donde el comprador paga en la página segura de Wompi.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:orientation="vertical"
+    tools:context=".ui.comprador.PagoWompiActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/barra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/verde_bosque"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationContentDescription="@string/wompi_salir_titulo"
+        app:navigationIcon="@drawable/ic_cerrar"
+        app:navigationIconTint="@color/blanco"
+        app:subtitleTextColor="@color/blanco"
+        app:title="@string/wompi_titulo"
+        app:titleTextColor="@color/blanco" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progreso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indicatorColor="@color/verde_bosque"
+        app:trackColor="@color/verde_claro" />
+
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>
