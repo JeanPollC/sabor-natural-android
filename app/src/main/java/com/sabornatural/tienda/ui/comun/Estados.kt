@@ -1,10 +1,14 @@
 package com.sabornatural.tienda.ui.comun
 
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.sabornatural.tienda.R
+import com.sabornatural.tienda.databinding.IncludeEstadoVacioBinding
+import com.sabornatural.tienda.datos.EstadoCarga
 import com.sabornatural.tienda.datos.modelo.EstadoCuenta
+import com.sabornatural.tienda.datos.modelo.EstadoPago
 import com.sabornatural.tienda.datos.modelo.EstadoPedido
 import com.sabornatural.tienda.datos.modelo.EstadoPublicacion
 
@@ -30,7 +34,7 @@ fun TextView.mostrarEtiqueta(texto: CharSequence, tono: Tono) {
 val EstadoPedido.tono: Tono
     get() = when (this) {
         EstadoPedido.CONFIRMADO -> Tono.INFO
-        EstadoPedido.EN_PREPARACION, EstadoPedido.DESPACHADO -> Tono.PENDIENTE
+        EstadoPedido.PAGO_PENDIENTE, EstadoPedido.EN_PREPARACION, EstadoPedido.DESPACHADO -> Tono.PENDIENTE
         EstadoPedido.ENTREGADO -> Tono.EXITO
         EstadoPedido.CANCELADO -> Tono.ERROR
     }
@@ -49,3 +53,54 @@ val EstadoCuenta.tono: Tono
         EstadoCuenta.PENDIENTE -> Tono.PENDIENTE
         EstadoCuenta.SUSPENDIDO -> Tono.ERROR
     }
+
+/** Tono del resultado del pago (aprobado, pendiente o rechazado). */
+val EstadoPago.tono: Tono
+    get() = when (this) {
+        EstadoPago.APROBADO -> Tono.EXITO
+        EstadoPago.PENDIENTE -> Tono.PENDIENTE
+        EstadoPago.RECHAZADO -> Tono.ERROR
+    }
+
+/**
+ * Pinta el estado de carga de una lista que viene de Firestore sobre el bloque de estado vacío
+ * (include_estado_vacio.xml), para no dejar la pantalla en blanco:
+ *  - Cargando: indicador circular y "Cargando…";
+ *  - Error: ícono de alerta, el mensaje y el botón "Reintentar";
+ *  - Listo: oculta el indicador y devuelve true para que la pantalla muestre la lista
+ *    (y, si está vacía, su propio mensaje de estado vacío).
+ *
+ * @return true si los datos están listos para mostrarse.
+ */
+fun IncludeEstadoVacioBinding.mostrarCarga(estado: EstadoCarga, alReintentar: () -> Unit): Boolean {
+    val contexto = root.context
+    when (estado) {
+        EstadoCarga.Cargando -> {
+            root.visibility = View.VISIBLE
+            progreso.visibility = View.VISIBLE
+            icono.visibility = View.INVISIBLE
+            titulo.setText(R.string.carga_cargando)
+            texto.visibility = View.GONE
+            boton.visibility = View.GONE
+        }
+        is EstadoCarga.Error -> {
+            root.visibility = View.VISIBLE
+            progreso.visibility = View.GONE
+            icono.visibility = View.VISIBLE
+            icono.setImageResource(R.drawable.ic_alerta)
+            titulo.setText(R.string.carga_error_titulo)
+            texto.visibility = View.VISIBLE
+            texto.text = contexto.getString(estado.mensaje)
+            boton.visibility = View.VISIBLE
+            boton.setText(R.string.carga_reintentar)
+            boton.setOnClickListener { alReintentar() }
+        }
+        EstadoCarga.Listo -> {
+            progreso.visibility = View.GONE
+            icono.visibility = View.VISIBLE
+            texto.visibility = View.VISIBLE
+            boton.visibility = View.GONE
+        }
+    }
+    return estado == EstadoCarga.Listo
+}

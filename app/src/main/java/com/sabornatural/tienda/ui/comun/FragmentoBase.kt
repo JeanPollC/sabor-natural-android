@@ -5,7 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 /**
  * Base de todas las pantallas que son Fragments. Se encarga del ViewBinding: infla el layout
@@ -28,5 +33,18 @@ abstract class FragmentoBase<VB : ViewBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    /**
+     * Observa un Flow (por ejemplo, los cambios de un repositorio de Firestore) mientras la
+     * pantalla está visible: cada valor nuevo llama a [accion]. Al ocultarse la pantalla se deja
+     * de observar y al volver se retoma con el valor más reciente (repeatOnLifecycle).
+     */
+    protected fun <T> observar(flujo: Flow<T>, accion: (T) -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                flujo.collect { accion(it) }
+            }
+        }
     }
 }

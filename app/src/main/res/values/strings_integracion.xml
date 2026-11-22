@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Textos de la integración con servicios reales: Firebase (Authentication, Firestore, Storage),
+    ubicación del dispositivo, huella con Android Keystore y pasarela Wompi.
+-->
+<resources>
+
+    <!-- Acciones y estados de carga (ui/comun/Estados.kt y Carga.kt) -->
+    <string name="accion_cerrar">Cerrar</string>
+    <string name="carga_cargando">Cargando…</string>
+    <string name="carga_guardando">Guardando…</string>
+    <string name="carga_eliminando">Eliminando…</string>
+    <string name="carga_subiendo_foto">Subiendo la foto…</string>
+    <string name="carga_error_titulo">No pudimos cargar la información</string>
+    <string name="carga_reintentar">Reintentar</string>
+
+    <!-- Errores traducidos de Firebase (datos/remoto/Errores.kt) -->
+    <string name="error_generico">Ocurrió un error inesperado. Intenta de nuevo.</string>
+    <string name="error_sin_conexion">Sin conexión a internet. Revisa tu red e intenta de nuevo.</string>
+    <string name="error_permiso">No tienes permiso para hacer esta operación.</string>
+    <string name="error_imagen">No se pudo subir o borrar la foto. Intenta de nuevo.</string>
+    <string name="error_demasiados_intentos">Demasiados intentos. Espera unos minutos e intenta de nuevo.</string>
+    <string name="error_reautenticar">Por seguridad, cierra sesión e ingresa de nuevo para hacer esta operación.</string>
+
+    <!-- Firebase sin configurar (falta app/google-services.json) -->
+    <string name="firebase_sin_configurar_titulo">Falta configurar Firebase</string>
+    <string name="firebase_sin_configurar_texto">Esta copia de la app se compiló sin el archivo app/google-services.json, así que no puede conectarse a la base de datos. Descárgalo de la consola de Firebase, cópialo en la carpeta app/ del proyecto y vuelve a compilar.</string>
+
+    <!-- Sesión e ingreso -->
+    <string name="ingreso_verificando">Verificando…</string>
+    <string name="registro_creando">Creando tu cuenta…</string>
+    <string name="recuperar_enviando">Enviando el enlace…</string>
+    <string name="sesion_cerrada_titulo">Se cerró tu sesión</string>
+    <string name="sesion_cuenta_eliminada">Esta cuenta fue eliminada por el administrador.</string>
+    <string name="perfil_eliminada_reingresar">Tus datos se eliminaron. Para borrar también tu acceso, Firebase pide haber ingresado hace poco: ingresa de nuevo y repite la eliminación, o pide al administrador que la complete.</string>
+    <string name="usuario_creado_enlace">Usuario creado. Enviamos a %1$s un enlace para que cree su contraseña.</string>
+
+    <!-- Huella con llave del Android Keystore (ui/comun/Biometria.kt) -->
+    <string name="huella_error_llave">No se pudo usar el almacén seguro del teléfono. Ingresa con tu contraseña.</string>
+    <string name="huella_invalidada">Se registraron huellas nuevas en el teléfono o la huella se desactivó. Por seguridad, ingresa con tu contraseña y vuelve a activarla.</string>
+    <string name="huella_sesion_vencida">Tu sesión guardada ya no es válida. Ingresa con tu contraseña.</string>
+
+    <!-- Pedidos y pagos -->
+    <string name="pedido_pago_pendiente">Pago pendiente</string>
+    <string name="pago_estado_pendiente">Pago pendiente de confirmación</string>
+    <string name="pago_estado_aprobado">Pago aprobado</string>
+    <string name="pago_estado_rechazado">Pago rechazado</string>
+    <string name="pago_creando_pedido">Preparando tu pedido…</string>
+    <string name="pago_consultando">Confirmando el pago con Wompi…</string>
+    <string name="pago_sin_respuesta">Wompi todavía no confirma el pago; consulta el estado desde Mis pedidos.</string>
+    <string name="pago_sigue_pendiente">El pago sigue pendiente. Intenta consultar más tarde.</string>
+    <string name="pago_revisa_datos">Revisa los datos marcados en rojo para continuar.</string>
+    <string name="formulario_error_guardar">No se pudo guardar el producto</string>
+    <string name="pago_cancelado_usuario">Pago cancelado. Tu carrito sigue disponible.</string>
+    <string name="detalle_pedido_consultar_pago">Consultar estado del pago</string>
+    <string name="confirmacion_pendiente_titulo">Pago en verificación</string>
+    <string name="confirmacion_pendiente_texto">Wompi todavía está confirmando la transacción. Puedes consultar el resultado en Mis pedidos.</string>
+    <string name="confirmacion_rechazado_titulo">Pago rechazado</string>
+    <string name="confirmacion_rechazado_texto">La transacción no fue aprobada (%1$s). Tu carrito sigue disponible para intentarlo de nuevo.</string>
+    <string name="confirmacion_volver_carrito">Volver al carrito</string>
+
+    <!-- Web Checkout de Wompi (ui/comprador/PagoWompiActivity.kt) -->
+    <string name="wompi_titulo">Pago seguro con Wompi</string>
+    <string name="wompi_modo_pruebas">Sandbox: no se cobra dinero real</string>
+    <string name="wompi_salir_titulo">¿Salir del pago?</string>
+    <string name="wompi_salir_texto">Si sales ahora el pedido se cancela. Tu carrito se conserva.</string>
+    <string name="wompi_salir_si">Salir</string>
+    <string name="wompi_salir_no">Seguir pagando</string>
+    <string name="wompi_sin_configurar_titulo">Falta configurar Wompi</string>
+    <string name="wompi_sin_configurar_texto">Agrega la llave pública de sandbox en local.properties (WOMPI_PUBLIC_KEY=pub_test_…) y vuelve a compilar la app.</string>
+    <string name="error_pago_servicio">El servicio de pagos no respondió. Verifica que las Cloud Functions estén desplegadas e intenta de nuevo.</string>
+    <string name="pago_sin_transaccion">Wompi no devolvió la transacción. Si alcanzaste a pagar, el pedido aparecerá pendiente en Mis pedidos.</string>
+
+    <!-- Ubicación de entrega (datos/Ubicacion.kt y PasarelaFragment) -->
+    <string name="inicio_ubicacion_al_pagar">tu ubicación actual</string>
+    <string name="ubicacion_usar_mia">Usar mi ubicación</string>
+    <string name="ubicacion_ayuda">Toca el ícono para usar tu ubicación o escribe la dirección.</string>
+    <string name="ubicacion_buscando">Buscando tu ubicación…</string>
+    <string name="ubicacion_lista">Dirección tomada de tu ubicación. Puedes completarla (apto, torre…).</string>
+    <string name="ubicacion_sin_direccion">Guardamos tu ubicación, pero no encontramos la dirección escrita: escríbela.</string>
+    <string name="ubicacion_sin_permiso">Sin permiso de ubicación. Escribe la dirección a mano.</string>
+    <string name="ubicacion_apagada">No pudimos obtener tu ubicación. Activa la ubicación del teléfono o escribe la dirección.</string>
+    <string name="ubicacion_permiso_negado">Sin permiso de ubicación: escribe la dirección de entrega.</string>
+    <string name="ubicacion_permiso_titulo">Usar tu ubicación</string>
+    <string name="ubicacion_permiso_texto">Usamos tu ubicación solo para llenar la dirección de entrega y guardarla con el pedido. Si prefieres, escríbela a mano.</string>
+    <string name="ubicacion_permitir">Permitir</string>
+    <string name="ubicacion_escribir_mano">Escribir a mano</string>
+
+    <!-- Configuración inicial (ui/admin/ConfiguracionInicialActivity.kt) -->
+    <string name="configuracion_titulo">Configuración inicial</string>
+    <string name="configuracion_subtitulo">Herramienta para preparar un proyecto de Firebase nuevo</string>
+    <string name="configuracion_sin_sesion">Primero ingresa con la cuenta que será administradora.</string>
+    <string name="configuracion_cuenta">Sesión: %1$s · %2$s</string>
+    <string name="configuracion_paso1_titulo">1. Primer administrador</string>
+    <string name="configuracion_paso1_texto">Convierte la cuenta con la que ingresaste en administradora. Solo funciona una vez por proyecto: después, los administradores se crean desde Usuarios.</string>
+    <string name="configuracion_paso1_boton">Convertirme en el primer administrador</string>
+    <string name="configuracion_ya_hay_admin">No se pudo: este proyecto ya tiene un primer administrador.</string>
+    <string name="configuracion_admin_listo_titulo">Ya eres administrador</string>
+    <string name="configuracion_admin_listo_texto">Tu cuenta quedó como administradora. Ahora puedes sembrar los datos de ejemplo o abrir el panel.</string>
+    <string name="configuracion_abrir_panel">Abrir el panel</string>
+    <string name="configuracion_seguir_aqui">Seguir aquí</string>
+    <string name="configuracion_paso2_titulo">2. Datos de ejemplo</string>
+    <string name="configuracion_paso2_texto">Crea en Firestore las categorías, las cuentas de prueba (vendedores y compradores de assets/datos_demo), sus productos y pedidos de ejemplo. Todas las cuentas de prueba tendrán la contraseña que escribas aquí. Se puede repetir sin duplicar.</string>
+    <string name="configuracion_clave_demo">Contraseña para las cuentas de prueba</string>
+    <string name="configuracion_paso2_boton">Sembrar datos de ejemplo</string>
+    <string name="configuracion_sembrando">Sembrando datos…</string>
+    <string name="configuracion_sembrado_listo">Listo. Ya puedes ingresar con las cuentas de prueba.</string>
+    <string name="semilla_categorias">%1$d categorías</string>
+    <string name="semilla_cuentas">%1$d cuentas de prueba</string>
+    <string name="semilla_cuenta_omitida">%1$s ya existía con otra contraseña; se omitió</string>
+    <string name="semilla_productos">%1$d productos</string>
+    <string name="semilla_pedidos">%1$d pedidos de ejemplo</string>
+</resources>

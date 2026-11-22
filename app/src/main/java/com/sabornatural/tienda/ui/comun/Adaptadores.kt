@@ -43,6 +43,7 @@ class AdaptadorProductos(
     private val alAgregar: (Producto) -> Unit,
 ) : ListAdapter<Producto, AdaptadorProductos.Fila>(diferencias { it.id }) {
 
+    /** Vista de una tarjeta de producto. */
     class Fila(val binding: ItemProductoBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(padre: ViewGroup, tipo: Int): Fila {
@@ -56,7 +57,7 @@ class AdaptadorProductos(
     override fun onBindViewHolder(fila: Fila, posicion: Int) = with(fila.binding) {
         val producto = getItem(posicion)
         val contexto = root.context
-        mostrarImagenProducto(marcoImagen, foto, icono, producto.categoria, producto.id)
+        mostrarImagenProducto(marcoImagen, foto, icono, producto.categoria, producto.imagenUrl)
         nombre.text = producto.nombre
         vendedor.text = producto.vendedorNombre
         precio.text = Formatos.precio(producto.precio)
@@ -87,6 +88,7 @@ class AdaptadorCategorias(
 
     private val categorias = Categoria.entries
 
+    /** Vista de un círculo de categoría. */
     class Fila(val binding: ItemCategoriaBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(padre: ViewGroup, tipo: Int) =
@@ -115,6 +117,7 @@ class AdaptadorPedidos(
     private val alTocar: (Pedido) -> Unit,
 ) : ListAdapter<Pedido, AdaptadorPedidos.Fila>(diferencias { it.id }) {
 
+    /** Vista de una fila de pedido. */
     class Fila(val binding: ItemPedidoBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(padre: ViewGroup, tipo: Int) =

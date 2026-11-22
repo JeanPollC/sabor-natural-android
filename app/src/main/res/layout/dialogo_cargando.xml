@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Diálogo mientras se guarda o consulta algo en Firebase: indicador circular y un texto. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/espacio_xl">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indicatorColor="@color/verde_bosque"
+        app:indicatorSize="40dp"
+        app:trackColor="@color/verde_claro" />
+
+    <TextView
+        android:id="@+id/mensaje"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/espacio_l"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.SaborNatural.Subtitulo"
+        tools:text="@string/carga_guardando" />
+</LinearLayout>

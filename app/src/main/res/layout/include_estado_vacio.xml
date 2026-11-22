@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Estado vacío reutilizable: ícono en un círculo, título, explicación y una acción opcional. -->
+<!--
+    Estado vacío reutilizable: ícono en un círculo, título, explicación y una acción opcional.
+    También muestra la carga (indicador circular en lugar del ícono) y los errores con "Reintentar"
+    mientras los datos llegan de Firestore (ver mostrarCarga en ui/comun/Estados.kt).
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,6 +28,17 @@
             android:importantForAccessibility="no"
             app:tint="@color/verde_bosque"
             tools:src="@drawable/ic_carrito" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progreso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/verde_bosque"
+            app:indicatorSize="44dp"
+            app:trackColor="@color/verde_claro" />
     </FrameLayout>
 
     <TextView
