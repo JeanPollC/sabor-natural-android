@@ -3,7 +3,7 @@ package com.sabornatural.tienda.datos.modelo
 import androidx.annotation.StringRes
 import com.sabornatural.tienda.R
 
-/** Roles de la tienda (documento técnico, Tabla 1). */
+/** Roles de la tienda (documento técnico, Tabla 1). Se guardan en Firestore por su nombre. */
 enum class Rol(@param:StringRes val nombre: Int) {
     COMPRADOR(R.string.rol_comprador),
     VENDEDOR(R.string.rol_vendedor),
@@ -18,19 +18,26 @@ enum class EstadoCuenta(@param:StringRes val nombre: Int) {
 }
 
 /**
- * Usuario de la aplicación. La contraseña nunca se guarda en texto plano: solo su hash SHA-256.
+ * Perfil de un usuario, guardado en Firestore en `usuarios/{id}`.
+ *
+ * El [id] es el uid que asigna Firebase Authentication. La contraseña no forma parte del perfil:
+ * la custodia Firebase Authentication y la app nunca la guarda.
+ *
+ * @property fechaRegistro fecha de alta en formato ISO (yyyy-MM-dd).
+ * @property fotoUrl enlace de descarga de la foto de perfil en Firebase Storage, o vacío.
  */
 data class Usuario(
-    val id: Int,
+    val id: String,
     val nombre: String,
     val apellido: String,
     val correo: String,
     val telefono: String,
     val rol: Rol,
     val estado: EstadoCuenta,
-    val claveHash: String,
     val fechaRegistro: String,
+    val fotoUrl: String = "",
 ) {
+    /** Nombre y apellido juntos, como se muestran en las tarjetas y encabezados. */
     val nombreCompleto: String get() = "$nombre $apellido"
 
     /** Iniciales para el avatar, por ejemplo "LG" para Laura Gómez. */

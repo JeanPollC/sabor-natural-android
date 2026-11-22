@@ -1,5 +1,5 @@
 {
-  "_nota": "Datos de prueba ficticios para la demostración del frontend. La contraseña se guarda como hash SHA-256; las credenciales de prueba están en el README.",
+  "_nota": "Datos ficticios para sembrar Firestore desde la pantalla oculta de configuración inicial (Semilla.kt). Las contraseñas no están aquí: las cuentas de prueba se crean con la contraseña que escribe el administrador al sembrar.",
   "usuarios": [
     {
       "id": 1,
@@ -9,7 +9,6 @@
       "telefono": "3001234567",
       "rol": "ADMINISTRADOR",
       "estado": "ACTIVO",
-      "claveHash": "8d90ed647b948fa80c3c9bbf5316c78f151723f52fb9d6101f818af8afff69ec",
       "fechaRegistro": "2026-08-03"
     },
     {
@@ -20,7 +19,6 @@
       "telefono": "3109876543",
       "rol": "VENDEDOR",
       "estado": "ACTIVO",
-      "claveHash": "1e3fbd40df1fa0829813fdf5649755d8366ae49fb1dc1bd91efb79be2972605f",
       "fechaRegistro": "2026-08-15"
     },
     {
@@ -31,7 +29,6 @@
       "telefono": "3205551234",
       "rol": "COMPRADOR",
       "estado": "ACTIVO",
-      "claveHash": "c606af3b2455ad9c20531dc273962999befc466233533a885fd6f22653a89b6c",
       "fechaRegistro": "2026-09-02"
     },
     {
@@ -42,7 +39,6 @@
       "telefono": "3157778899",
       "rol": "VENDEDOR",
       "estado": "PENDIENTE",
-      "claveHash": "1e3fbd40df1fa0829813fdf5649755d8366ae49fb1dc1bd91efb79be2972605f",
       "fechaRegistro": "2026-10-28"
     },
     {
@@ -53,7 +49,6 @@
       "telefono": "3186543210",
       "rol": "VENDEDOR",
       "estado": "ACTIVO",
-      "claveHash": "1e3fbd40df1fa0829813fdf5649755d8366ae49fb1dc1bd91efb79be2972605f",
       "fechaRegistro": "2026-08-20"
     },
     {
@@ -64,7 +59,6 @@
       "telefono": "3142223344",
       "rol": "VENDEDOR",
       "estado": "ACTIVO",
-      "claveHash": "1e3fbd40df1fa0829813fdf5649755d8366ae49fb1dc1bd91efb79be2972605f",
       "fechaRegistro": "2026-08-28"
     },
     {
@@ -75,7 +69,6 @@
       "telefono": "3019998877",
       "rol": "COMPRADOR",
       "estado": "ACTIVO",
-      "claveHash": "c606af3b2455ad9c20531dc273962999befc466233533a885fd6f22653a89b6c",
       "fechaRegistro": "2026-09-10"
     },
     {
@@ -86,7 +79,6 @@
       "telefono": "3043332211",
       "rol": "COMPRADOR",
       "estado": "ACTIVO",
-      "claveHash": "c606af3b2455ad9c20531dc273962999befc466233533a885fd6f22653a89b6c",
       "fechaRegistro": "2026-09-18"
     },
     {
@@ -97,7 +89,6 @@
       "telefono": "3226667788",
       "rol": "COMPRADOR",
       "estado": "SUSPENDIDO",
-      "claveHash": "c606af3b2455ad9c20531dc273962999befc466233533a885fd6f22653a89b6c",
       "fechaRegistro": "2026-09-25"
     },
     {
@@ -108,7 +99,6 @@
       "telefono": "3051112233",
       "rol": "COMPRADOR",
       "estado": "ACTIVO",
-      "claveHash": "c606af3b2455ad9c20531dc273962999befc466233533a885fd6f22653a89b6c",
       "fechaRegistro": "2026-10-05"
     }
   ]

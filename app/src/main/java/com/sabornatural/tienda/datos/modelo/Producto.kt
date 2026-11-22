@@ -38,16 +38,23 @@ enum class TipoProducto(@param:StringRes val nombre: Int) {
     PREPARADO(R.string.tipo_preparado),
 }
 
-/** Producto del catálogo. El precio se guarda en pesos colombianos, sin decimales. */
+/**
+ * Producto del catálogo, guardado en Firestore en `productos/{id}`.
+ * El precio se guarda en pesos colombianos, sin decimales.
+ *
+ * @property vendedorId uid del vendedor dueño de la publicación.
+ * @property imagenUrl enlace de descarga de la foto en Firebase Storage; vacío si no tiene foto
+ *                     (entonces se dibuja la ilustración de la categoría).
+ */
 data class Producto(
-    val id: Int,
+    val id: String,
     val nombre: String,
     val descripcion: String,
     val precio: Long,
     val existencias: Int,
     val categoria: Categoria,
     val tipo: TipoProducto,
-    val vendedorId: Int,
+    val vendedorId: String,
     val vendedorNombre: String,
     val calificacion: Double,
     val resenas: Int,
@@ -57,8 +64,11 @@ data class Producto(
     val registroSanitario: String,
     val destacado: Boolean,
     val motivoRechazo: String = "",
+    val imagenUrl: String = "",
 ) {
+    /** true si no quedan unidades para vender. */
     val agotado: Boolean get() = existencias <= 0
+    /** true si quedan pocas unidades (alerta de existencias bajas). */
     val pocasUnidades: Boolean get() = existencias in 1..UMBRAL_EXISTENCIAS_BAJAS
 
     companion object {

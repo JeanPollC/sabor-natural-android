@@ -1,5 +1,5 @@
 {
-  "_nota": "Datos de prueba ficticios para la demostración del frontend. La contraseña se guarda como hash SHA-256; las credenciales de prueba están en el README.",
+  "_nota": "Datos ficticios para sembrar Firestore desde la pantalla oculta de configuración inicial (Semilla.kt).",
   "productos": [
     {
       "id": 1,
