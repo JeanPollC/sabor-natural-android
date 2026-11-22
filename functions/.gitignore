@@ -1,0 +1,10 @@
+# Dependencias y compilado
+node_modules/
+lib/
+
+# Secretos y variables locales: nunca al repositorio
+.env
+.env.*
+!.env.example
+.secret.local
+*.local
