@@ -1,0 +1,186 @@
+rules_version = '2';
+
+// Reglas de seguridad de Cloud Firestore para Sabor Natural.
+// Publicarlas: consola de Firebase > Firestore Database > Reglas > pegar este archivo > Publicar
+// (o, con Firebase CLI: firebase deploy --only firestore:rules).
+//
+// Idea general: cada usuario solo lee y escribe lo suyo; el rol y el estado de una cuenta viven
+// en usuarios/{uid} y solo el administrador los cambia. Las reglas repiten en el servidor las
+// reglas de negocio de la app, porque un cliente modificado podría saltarse las de la app.
+//
+// Pagos: el resultado del pago (estadoPago, transaccionId...), la referencia, el total cobrado y
+// el descuento de existencias solo los escriben las Cloud Functions (functions/src/index.ts), que
+// usan el SDK de administrador y no pasan por estas reglas. Ningún cliente puede escribirlos.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ------------------------------------------------------------ Funciones de apoyo
+
+    function autenticado() {
+      return request.auth != null;
+    }
+
+    function uid() {
+      return request.auth.uid;
+    }
+
+    function rutaPerfil(id) {
+      return /databases/$(database)/documents/usuarios/$(id);
+    }
+
+    function tienePerfil() {
+      return autenticado() && exists(rutaPerfil(uid()));
+    }
+
+    function perfil() {
+      return get(rutaPerfil(uid())).data;
+    }
+
+    function activoCon(rol) {
+      return tienePerfil() && perfil().rol == rol && perfil().estado == 'ACTIVO';
+    }
+
+    function esAdmin() {
+      return activoCon('ADMINISTRADOR');
+    }
+
+    // true si la escritura solo modifica los campos de la lista
+    function soloCambia(campos) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(campos);
+    }
+
+    // ------------------------------------------------------------ Usuarios
+
+    // El primer administrador: una sola vez por proyecto, en un batch que también crea
+    // configuracion/administrador con su uid (ver Semilla.reclamarAdministrador en la app).
+    function reclamaPrimerAdministrador(usuarioId) {
+      let config = /databases/$(database)/documents/configuracion/administrador;
+      return autenticado() && uid() == usuarioId
+        && !exists(config) && existsAfter(config)
+        && getAfter(config).data.uid == uid()
+        && soloCambia(['rol', 'estado'])
+        && request.resource.data.rol == 'ADMINISTRADOR'
+        && request.resource.data.estado == 'ACTIVO';
+    }
+
+    match /usuarios/{usuarioId} {
+      // Cada quien lee su perfil; el administrador lee todos
+      allow read: if autenticado() && (uid() == usuarioId || esAdmin());
+
+      // Registro desde la app: comprador activo o vendedor pendiente, nunca administrador.
+      // El administrador puede crear cualquier perfil (alta desde "Usuarios" y datos de ejemplo).
+      allow create: if esAdmin() || (
+        autenticado() && uid() == usuarioId && (
+          (request.resource.data.rol == 'COMPRADOR' && request.resource.data.estado == 'ACTIVO') ||
+          (request.resource.data.rol == 'VENDEDOR' && request.resource.data.estado == 'PENDIENTE')
+        )
+      );
+
+      // El titular cambia sus datos personales, nunca su rol ni su estado
+      allow update: if esAdmin()
+        || (autenticado() && uid() == usuarioId && soloCambia(['nombre', 'apellido', 'telefono', 'fotoUrl']))
+        || reclamaPrimerAdministrador(usuarioId);
+
+      // Baja: el administrador o el propio titular (eliminar mi cuenta)
+      allow delete: if esAdmin() || (autenticado() && uid() == usuarioId);
+    }
+
+    match /configuracion/administrador {
+      allow read: if autenticado();
+      // Solo se crea una vez, por quien se está haciendo administrador en el mismo batch
+      allow create: if autenticado()
+        && request.resource.data.uid == uid()
+        && getAfter(rutaPerfil(uid())).data.rol == 'ADMINISTRADOR';
+      allow update, delete: if false;
+    }
+
+    // ------------------------------------------------------------ Catálogo
+
+    match /categorias/{categoriaId} {
+      allow read: if true;
+      allow write: if esAdmin();
+    }
+
+    // Cambios de estado que puede hacer el vendedor sobre su publicación: enviar a revisión,
+    // pausar, dejarla igual, o reactivar una pausada. Publicar algo nuevo lo decide el administrador.
+    function estadoValidoParaVendedor() {
+      let antes = resource.data.estado;
+      let despues = request.resource.data.estado;
+      return despues == antes
+        || despues in ['EN_REVISION', 'SUSPENDIDO', 'BORRADOR']
+        || (despues == 'PUBLICADO' && antes == 'SUSPENDIDO');
+    }
+
+    match /productos/{productoId} {
+      // Catálogo público (incluso sin cuenta): solo lo publicado. El vendedor ve los suyos; el administrador, todos.
+      allow read: if resource.data.estado == 'PUBLICADO'
+        || (autenticado() && resource.data.vendedorId == uid())
+        || esAdmin();
+
+      // Todo producto nuevo de un vendedor nace en revisión (RF-PRO-01)
+      allow create: if esAdmin() || (
+        activoCon('VENDEDOR')
+        && request.resource.data.vendedorId == uid()
+        && request.resource.data.estado == 'EN_REVISION'
+      );
+
+      allow update: if esAdmin()
+        || (activoCon('VENDEDOR')
+            && resource.data.vendedorId == uid()
+            && request.resource.data.vendedorId == uid()
+            && estadoValidoParaVendedor());
+
+      allow delete: if esAdmin() || (activoCon('VENDEDOR') && resource.data.vendedorId == uid());
+    }
+
+    // ------------------------------------------------------------ Carrito
+
+    match /carritos/{usuarioId} {
+      allow read, write: if autenticado() && uid() == usuarioId;
+    }
+
+    // ------------------------------------------------------------ Pedidos
+
+    // Comprador: solo cancelar, antes del despacho (RF-PED-06) o si abandonó el pago. Nunca toca
+    // los campos del pago: esos los escribe la Cloud Function verificarPago.
+    function cambioDelComprador() {
+      let antes = resource.data.estado;
+      let despues = request.resource.data.estado;
+      return soloCambia(['estado', 'actualizado'])
+        && despues == 'CANCELADO'
+        && antes in ['PAGO_PENDIENTE', 'CONFIRMADO', 'EN_PREPARACION'];
+    }
+
+    // Vendedor: avanzar en la secuencia o rechazar un pedido nuevo (RF-PED-07)
+    function cambioDelVendedor() {
+      let antes = resource.data.estado;
+      let despues = request.resource.data.estado;
+      return soloCambia(['estado', 'actualizado'])
+        && ((antes == 'CONFIRMADO' && despues in ['EN_PREPARACION', 'CANCELADO'])
+            || (antes == 'EN_PREPARACION' && despues == 'DESPACHADO')
+            || (antes == 'DESPACHADO' && despues == 'ENTREGADO'));
+    }
+
+    match /pedidos/{pedidoId} {
+      allow read: if esAdmin()
+        || (autenticado() && (resource.data.compradorId == uid() || resource.data.vendedorId == uid()));
+
+      // El pedido nace sin pagar, a nombre de quien compra y sin datos de pago (los pone el servidor)
+      allow create: if esAdmin() || (
+        activoCon('COMPRADOR')
+        && request.resource.data.compradorId == uid()
+        && request.resource.data.estado == 'PAGO_PENDIENTE'
+        && request.resource.data.estadoPago == 'PENDIENTE'
+        && request.resource.data.referenciaPago == ''
+        && request.resource.data.transaccionId == ''
+        && !('montoEnCentavos' in request.resource.data)
+      );
+
+      allow update: if esAdmin()
+        || (autenticado() && resource.data.compradorId == uid() && cambioDelComprador())
+        || (autenticado() && resource.data.vendedorId == uid() && cambioDelVendedor());
+
+      allow delete: if esAdmin();
+    }
+  }
+}

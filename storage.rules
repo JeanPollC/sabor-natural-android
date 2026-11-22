@@ -1,0 +1,46 @@
+rules_version = '2';
+
+// Reglas de seguridad de Firebase Storage para Sabor Natural.
+// Publicarlas: consola de Firebase > Storage > Reglas > pegar este archivo > Publicar
+// (o, con Firebase CLI: firebase deploy --only storage).
+//
+// Estas reglas consultan el rol del usuario en Firestore (firestore.get). La primera vez que se
+// publican, la consola pide permiso para que Storage lea Firestore: hay que aceptarlo.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Solo imágenes de menos de 5 MB (la app las sube como JPEG de máximo 1024 px)
+    function esImagen() {
+      return request.resource.contentType.matches('image/.*')
+        && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    function perfil() {
+      return firestore.get(/databases/(default)/documents/usuarios/$(request.auth.uid)).data;
+    }
+
+    function activoCon(rol) {
+      return request.auth != null && perfil().rol == rol && perfil().estado == 'ACTIVO';
+    }
+
+    // Fotos de productos: las ve cualquiera (el catálogo es público); las suben o borran los
+    // vendedores activos y el administrador.
+    match /productos/{archivo} {
+      allow read: if true;
+      allow create, update: if (activoCon('VENDEDOR') || activoCon('ADMINISTRADOR')) && esImagen();
+      allow delete: if activoCon('VENDEDOR') || activoCon('ADMINISTRADOR');
+    }
+
+    // Foto de perfil: solo su dueño la sube o la borra; la ven los usuarios con sesión.
+    match /usuarios/{usuarioId}/{archivo} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == usuarioId && esImagen();
+      allow delete: if request.auth != null && (request.auth.uid == usuarioId || activoCon('ADMINISTRADOR'));
+    }
+
+    // Todo lo demás, cerrado
+    match /{todo=**} {
+      allow read, write: if false;
+    }
+  }
+}
